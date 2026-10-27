@@ -1545,6 +1545,16 @@ pub mod player_ground {
     /// Gatear hacia el lado contrario al que mira.
     pub const CRAWL_RIGHT_BACK: u32 = 0x03_8688;
     pub const CRAWL_LEFT_BACK: u32 = 0x03_86E2;
+    /// Gatear: guiones (adelante y hacia atrás), velocidad y bucles.
+    pub const CRAWL_SCRIPT: u32 = 0x27_9A82;
+    pub const CRAWL_BACK_SCRIPT: u32 = 0x27_9A78;
+    pub const CRAWL_MOVE_SPEED: u16 = 0x120;
+    pub const CRAWL_RIGHT_LOOP: u32 = 0x03_84BA;
+    pub const CRAWL_LEFT_LOOP: u32 = 0x03_85E8;
+    /// Lanzar agachado: guion, bucle y el agachado quieto C al acabar.
+    pub const CROUCH_THROW_SCRIPT: u32 = 0x27_9D1A;
+    pub const CROUCH_THROW_LOOP: u32 = 0x03_8976;
+    pub const CROUCH_IDLE_C: u32 = 0x03_820E;
     pub const CROUCH_MELEE: u32 = 0x03_8A28;
     pub const CROUCH_THROW: u32 = 0x03_88F0;
     pub const CROUCH_EMPTY: u32 = 0x03_8086;
@@ -1578,6 +1588,19 @@ pub mod player_ground {
     pub const THROW_SCRIPT: u32 = 0x27_9D2E;
     pub const THROW_LOOP: u32 = 0x03_6152;
     pub const BYTE_3B: u32 = 0x3B;
+    /// Cuchillo: estado, lista de ataques (`+$4C`), guiones (quieto, avance,
+    /// retroceso y el del otro cuchillo), caja de golpe, velocidad y bucles.
+    pub const STATE_MELEE: u8 = 0x33;
+    pub const ATTACKS: u32 = 0x4C;
+    pub const MELEE_ATTACKS: u32 = 0x03_2638;
+    pub const MELEE_SCRIPT: u32 = 0x27_9D56;
+    pub const MELEE_FWD_SCRIPT: u32 = 0x27_9D76;
+    pub const MELEE_BACK_SCRIPT: u32 = 0x27_9E30;
+    pub const MELEE_ALT_SCRIPT: u32 = 0x27_9EFE;
+    pub const HITBOX_MELEE: u32 = 0x03_2788;
+    pub const MELEE_SPEED: u16 = 0x300;
+    pub const MELEE_RUN: u32 = 0x03_5DE0;
+    pub const MELEE_ALT_LOOP: u32 = 0x03_5F40;
     /// Andar: estado, guiones (adelante y apuntando arriba), la pose que
     /// marca el cambio de apuntado, velocidad, bucles y los estados a los
     /// que se pasa (parar, disparar andando).

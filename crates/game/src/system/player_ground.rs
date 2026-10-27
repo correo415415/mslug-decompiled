@@ -22,7 +22,7 @@
 //! `$0267E6`, `Entity_ProbeRevertCcr_027a92` y
 //! `Entity_MoveAndCollide_A_026b56` (gemela de `$027036`).
 
-use super::{anim, collision, items, player, player_air, rng, slope, sound, tasks};
+use super::{anim, collision, items, player, player_air, rng, slope, slug, sound, tasks};
 use crate::entity::Entity;
 use crate::input::{self, Buttons, Edge};
 use crate::layout::{player_air as A, player_ground as L, task as T};
@@ -726,6 +726,120 @@ pub fn crouch_idle_loop(m: &mut impl Machine) -> Flow {
     Flow::Return
 }
 
+/// Gatear hacia la derecha (`left = false`) o la izquierda, hacia delante
+/// o hacia atrás (`back`, otro guion): pose de gatear, brazo libre, golpe
+/// y caja de golpe agachado, velocidad de gateo, mira hacia ese lado y el
+/// bucle. Original: `Player_CrawlRight_03842c` / `Player_CrawlLeft_03855a`
+/// (con sus `_Setup`), `Player_CrawlRight_Alt_038688` /
+/// `Player_CrawlLeft_Alt_0386e2` (las dos ramas de `$02ABCC` usan el mismo
+/// guion).
+pub fn crawl(m: &mut impl Machine, left: bool, back: bool) -> Flow {
+    let t = m.task_register();
+    let script = if back { L::CRAWL_BACK_SCRIPT } else { L::CRAWL_SCRIPT };
+    restart(m, t, L::STATE_CROUCH, script);
+    set_bits(m, t + L::STATUS, L::ARM_BUSY | L::ARM_FIRING | L::STATUS_BIT3, false);
+    m.write_u32(t + L::HIT_HANDLER, L::CROUCH_HIT_ROUTINE);
+    m.write_u16(t + L::VEL_X, crawl_velocity(left));
+    m.write_u16(t + L::ACC_X, 0);
+    m.write_u32(t + L::HITBOX_CB, L::HITBOX_CROUCH);
+    set_bits(m, t + L::FACING, L::FACING_LEFT, left);
+    set_handler(m, t, if left { L::CRAWL_LEFT_LOOP } else { L::CRAWL_RIGHT_LOOP });
+    crawl_loop(m, left)
+}
+
+fn crawl_velocity(left: bool) -> u16 {
+    if left { L::CRAWL_MOVE_SPEED.wrapping_neg() } else { L::CRAWL_MOVE_SPEED }
+}
+
+/// Bucle de gatear: avanza; al soltar el lado, agachado quieto; al soltar
+/// abajo, se levanta; la acción agachado, golpe sin suelo, salto y estado.
+/// Original: `Player_CrawlRight_03842c__L0384ba` /
+/// `Player_CrawlLeft_03855a__L0385e8`.
+pub fn crawl_loop(m: &mut impl Machine, left: bool) -> Flow {
+    let t = m.task_register();
+    set_bits(m, t + L::FLAGS_8D, L::CROUCHED, true);
+    player::frame_common(m, t);
+    if announce_weapon(m, t) {
+        set_handler(m, t, L::CROUCH_REENTER);
+    }
+    m.write_u16(t + L::VEL_X, crawl_velocity(left));
+    move_ground(m, t);
+    player::anim_done(m, t);
+    if !held(m, t, if left { Buttons::LEFT } else { Buttons::RIGHT }) {
+        set_handler(m, t, L::CROUCH_IDLE);
+    }
+    if !controls::down_held(m, Entity::from_raw(t)) {
+        set_handler(m, t, L::CROUCH_EXIT);
+    }
+    if let Some(a) = player_air::action_select(m, t) {
+        set_handler(m, t, crouch_action(a));
+    }
+    let r = m.regs();
+    if collision::probe_floor(m, t, (r.d[3] as u16, r.d[4] as u16)).in_air {
+        set_handler(m, t, L::KNOCKBACK_DELAY);
+    }
+    if controls::jump_held(m, Entity::from_raw(t)).is_some() {
+        set_handler(m, t, L::JUMP_START);
+    }
+    player_air::publish_state(m, t);
+    Flow::Return
+}
+
+/// Lanzar una granada agachado: el brazo no dispara, golpe agachado, sin
+/// movimiento, pose y guion de lanzar agachado (las dos ramas de `$02ABCC`
+/// usan el mismo), caja de golpe agachado y el bucle.
+/// Original: `Player_CrouchThrowGrenade_0388f0`.
+pub fn crouch_throw(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    // El original enciende y apaga el bit seguidos.
+    set_bits(m, t + L::STATUS, L::ARM_FIRING, false);
+    m.write_u32(t + L::HIT_HANDLER, L::CROUCH_HIT_ROUTINE);
+    clear_motion(m, t);
+    m.write_u16(t + L::VEL_X, 0);
+    m.write_u16(t + L::ACC_X, 0);
+    restart(m, t, L::STATE_CROUCH, L::CROUCH_THROW_SCRIPT);
+    m.write_u32(t + L::HITBOX_CB, L::HITBOX_CROUCH);
+    set_handler(m, t, L::CROUCH_THROW_LOOP);
+    crouch_throw_loop(m)
+}
+
+/// Bucle de lanzar agachado: al acabar, agachado quieto (guion C); con el
+/// brazo libre gatea hacia atrás y la acción; se levanta al soltar abajo,
+/// golpe sin suelo y estado.
+/// Original: `Player_CrouchThrowGrenade_0388f0__L038976` (con
+/// `JsrPcThunk_038a22`).
+pub fn crouch_throw_loop(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    set_bits(m, t + L::FLAGS_8D, L::CROUCHED, true);
+    player::frame_common(m, t);
+    announce_weapon(m, t);
+    move_ground(m, t);
+    if player::anim_done(m, t) {
+        set_handler(m, t, L::CROUCH_IDLE_C);
+    }
+    if m.read_u8(t + L::STATUS) & L::ARM_BUSY == 0 {
+        if m.read_u8(t + L::FACING) & L::FACING_LEFT == 0 {
+            if held(m, t, Buttons::LEFT) {
+                set_handler(m, t, L::CRAWL_LEFT_BACK);
+            }
+        } else if held(m, t, Buttons::RIGHT) {
+            set_handler(m, t, L::CRAWL_RIGHT_BACK);
+        }
+        if let Some(a) = player_air::action_select(m, t) {
+            set_handler(m, t, crouch_action(a));
+        }
+    }
+    if !controls::down_held(m, Entity::from_raw(t)) {
+        set_handler(m, t, L::CROUCH_EXIT);
+    }
+    let r = m.regs();
+    if collision::probe_floor(m, t, (r.d[3] as u16, r.d[4] as u16)).in_air {
+        set_handler(m, t, L::KNOCKBACK_DELAY);
+    }
+    player_air::publish_state(m, t);
+    Flow::Return
+}
+
 /// Caída al vacío con los márgenes de la escena.
 pub fn check_pit(m: &mut impl Memory, t: u32) {
     let pit = m.read_u8(A::SCENE) == A::PIT_SCENE;
@@ -912,6 +1026,112 @@ fn stand_tail(m: &mut impl Machine, t: u32) {
     }
     player_air::publish_state(m, t);
     check_pit(m, t);
+}
+
+/// Entrada común del cuchillo: desplazamiento, brazo libre, la lista de
+/// ataques del cuchillo y los bits 1-2 de `+$13` (las dos ramas de
+/// `$02ABCC` que siguen usan el mismo guion).
+fn melee_setup(m: &mut impl Machine, t: u32, offset_y: u16) {
+    m.write_u16(t + L::OFFSET_X, 0);
+    m.write_u16(t + L::OFFSET_Y, offset_y);
+    set_bits(m, t + L::STATUS, L::ARM_BUSY | L::ARM_FIRING | L::STATUS_BIT3, false);
+    m.write_u32(t + L::ATTACKS, L::MELEE_ATTACKS);
+    slug::clear_flags13(m, t);
+}
+
+/// Cuchillo de pie: sin movimiento, pose de cuchillo y sigue en el frame
+/// (el primer frame no mira el mando).
+/// Original: `Player_Melee_035d34`.
+pub fn melee(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    melee_setup(m, t, 0);
+    for f in [L::VEL_X, L::ACC_X, L::VEL_Y, L::ACC_Y] {
+        m.write_u16(t + f, 0);
+    }
+    m.write_u32(t + L::HIT_HANDLER, L::HIT_ROUTINE);
+    restart(m, t, L::STATE_MELEE, L::MELEE_SCRIPT);
+    m.write_u32(t + L::HITBOX_CB, L::HITBOX_MELEE);
+    set_handler(m, t, L::MELEE_RUN);
+    melee_frame(m, t)
+}
+
+/// Bucle del cuchillo: la velocidad sigue al mando (derecha, izquierda o
+/// quieto) y al cambiar arranca el guion de quieto, de avance o de
+/// retroceso. Original: `Player_Melee_Run_035de0`.
+pub fn melee_run(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    let mut vel = 0u16;
+    if held(m, t, Buttons::RIGHT) {
+        vel = L::MELEE_SPEED;
+    }
+    if held(m, t, Buttons::LEFT) {
+        vel = L::MELEE_SPEED.wrapping_neg();
+    }
+    let cur = m.read_u16(t + L::VEL_X);
+    if vel != cur {
+        let script = if vel == 0 {
+            L::MELEE_SCRIPT
+        } else if (vel as i16) > (cur as i16) {
+            L::MELEE_FWD_SCRIPT
+        } else {
+            L::MELEE_BACK_SCRIPT
+        };
+        anim::start(m, t, script);
+        set_bits(m, t + L::FLAGS_69, L::WANTS_POSE, false);
+    }
+    m.write_u16(t + L::VEL_X, vel);
+    melee_frame(m, t)
+}
+
+/// Frame del cuchillo: al acabar, de pie apuntando adelante (o la pose de
+/// espera o la espera sin munición); la acción y la cola de pie.
+/// Original: `Player_Melee_Frame_035e54` (con `Player_ActionDispatch_035cd8`).
+fn melee_frame(m: &mut impl Machine, t: u32) -> Flow {
+    player::frame_common(m, t);
+    announce_weapon(m, t);
+    move_ground(m, t);
+    if player::anim_done(m, t) {
+        set_handler(m, t, L::STAND);
+        stand_aim(m, t);
+        if wants_crouch(m, t) {
+            set_handler(m, t, L::CROUCH);
+        }
+        if m.read_u16(t + L::AMMO) == 0 {
+            set_handler(m, t, L::IDLE);
+        }
+    }
+    if let Some(a) = player_air::action_select(m, t) {
+        set_handler(m, t, action_state(a, false));
+    }
+    stand_tail(m, t);
+    Flow::Return
+}
+
+/// Cuchillo sin parar el movimiento: pose del otro cuchillo y el bucle.
+/// Original: `Player_MeleeAlt_035ea8`.
+pub fn melee_alt(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    melee_setup(m, t, 0);
+    m.write_u32(t + L::HIT_HANDLER, L::HIT_ROUTINE);
+    restart(m, t, L::STATE_MELEE, L::MELEE_ALT_SCRIPT);
+    m.write_u32(t + L::HITBOX_CB, L::HITBOX_MELEE);
+    set_handler(m, t, L::MELEE_ALT_LOOP);
+    melee_alt_loop(m)
+}
+
+/// Bucle del otro cuchillo: al acabar, de pie apuntando adelante; y la
+/// cola de andar. Original: `Player_MeleeAlt_035ea8__L035f40`.
+pub fn melee_alt_loop(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    player::frame_common(m, t);
+    announce_weapon(m, t);
+    move_ground(m, t);
+    if player::anim_done(m, t) {
+        set_handler(m, t, L::STAND);
+        stand_aim(m, t);
+    }
+    walk_tail(m, t);
+    Flow::Return
 }
 
 /// Lanzar una granada de pie: limpia el brazo, sin movimiento, pose y guion
