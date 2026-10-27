@@ -9,7 +9,7 @@
 
 use super::{anim, sound, tasks, turret};
 use crate::layout::player_fire as L;
-use crate::mem::Memory;
+use crate::mem::{Machine, Memory};
 
 /// Dirección de una bala respecto a quien dispara.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -86,6 +86,64 @@ pub fn pistol(m: &mut impl Memory, t: u32, aim: Aim) -> u32 {
     m.write_u8(b + L::BULLET_BURST, burst);
     m.write_u8(b + L::SPREAD, 0);
     b
+}
+
+/// Llamarada del lanzallamas desde `t`: reinicia la ráfaga y, si al
+/// jugador le queda munición, gasta una, suena y crea la llama en su
+/// posición, un poco más alta. `None` sin munición (el original abandona
+/// también la rutina que la llamó).
+/// Original: `PlayerFire_Flame_Spawn_03ccd2`.
+pub fn flame_spawn(m: &mut impl Machine, t: u32) -> Option<u32> {
+    let p = shooter_player(m, t);
+    m.write_u8(t + L::BURST, 0);
+    let ammo = m.read_u16(p + L::AMMO);
+    if ammo == 0 {
+        return None;
+    }
+    m.write_u16(p + L::AMMO, ammo - 1);
+    sound::play(m, L::FLAME_SOUND);
+    let (b, _) = tasks::spawn_last(m, L::FLAME, t);
+    for f in [L::X, L::Y, L::ATTR] {
+        let v = m.read_u16(p + f);
+        m.write_u16(b + f, v);
+    }
+    turret::copy_pilot(m, t, b);
+    let y = m.read_u16(b + L::Y).wrapping_add(L::FLAME_HEIGHT);
+    m.write_u16(b + L::Y, y);
+    Some(b)
+}
+
+/// Dirección de una llamarada: ángulo (en 1/32 de vuelta), desviación,
+/// si sale desplazada hacia delante (las diagonales) y si sale baja
+/// (agachado).
+#[derive(Clone, Copy)]
+pub struct Flame {
+    pub angle: u8,
+    pub spread: i8,
+    pub ahead: bool,
+    pub low: bool,
+}
+
+/// Llamarada de `t` en la dirección `f`. Devuelve la llama, o `None` sin
+/// munición. Original: `PlayerFire_Flame_FwdNeg_03cd3e` … `_DownPos_03d074`
+/// (y las variantes `…Low`).
+pub fn flame(m: &mut impl Machine, t: u32, f: Flame) -> Option<u32> {
+    let b = flame_spawn(m, t)?;
+    if f.ahead {
+        let left = m.read_u8(t + L::FACING) & L::FACING_LEFT != 0;
+        let x = m.read_u16(b + L::X);
+        let x = if left { x.wrapping_add(L::FLAME_AHEAD) } else { x.wrapping_sub(L::FLAME_AHEAD) };
+        m.write_u16(b + L::X, x);
+    }
+    m.write_u8(b + L::ANGLE, f.angle << 3);
+    let burst = m.read_u8(t + L::BURST);
+    m.write_u8(b + L::BULLET_BURST, burst);
+    m.write_u8(b + L::SPREAD, f.spread as u8);
+    if f.low {
+        let y = m.read_u16(b + L::Y).wrapping_sub(L::LOW_DROP);
+        m.write_u16(b + L::Y, y);
+    }
+    Some(b)
 }
 
 /// Jugador que lanza la granada. El original compara `t` con el *contenido*

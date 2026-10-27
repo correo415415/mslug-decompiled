@@ -3779,6 +3779,13 @@ pub mod player_fire {
     pub const GRENADE_PARENT: u32 = 0x10_08A0;
     pub const GRENADE: u32 = 0x03_3346;
     pub const GRENADE_DX: u16 = 0x10;
+    /// Llamarada: sonido, plantilla, altura sobre el jugador y lo que se
+    /// adelanta en las diagonales (hacia atrás de donde mira).
+    pub const FLAME_SOUND: u16 = 0x10F4;
+    pub const FLAME: u32 = 0x03_08C2;
+    pub const FLAME_HEIGHT: u16 = 0x14;
+    pub const FLAME_AHEAD: u16 = 0x10;
+    pub const ANGLE_DIAGONAL: u8 = 0x17;
     pub const STATUS: u32 = 0x8C;
     pub const ARM_BUSY: u8 = 1 << 2;
 }

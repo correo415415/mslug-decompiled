@@ -360,6 +360,26 @@ fn fire_regs(m: &mut CpuMachine, t: u32, b: u32) {
     m.cpu.a[2] = player_fire::shooter_player(m, t);
 }
 
+/// Llamarada desde la variante en `entry` (que llama a la de `base`):
+/// a0 = llama y a2 = jugador, d0/d1 = ángulo y sentido. Sin munición el
+/// original saca la dirección de vuelta a a0 y vuelve de la variante.
+fn flame(m: &mut CpuMachine, base: u32, f: player_fire::Flame) -> Flow {
+    let t = m.cpu.a[6];
+    match player_fire::flame(m, t, f) {
+        Some(b) => {
+            fire_regs(m, t, b);
+            let left = m.read_u8(t + mslug_game::layout::player_fire::FACING) & 1 != 0;
+            m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_FF00) | u32::from(f.angle << 3);
+            m.cpu.d[1] = (m.cpu.d[1] & 0xFFFF_FF00) | if left { 2 } else { 0 };
+        }
+        None => {
+            m.cpu.a[0] = base + 4;
+            m.cpu.a[2] = player_fire::shooter_player(m, t);
+        }
+    }
+    Flow::Return
+}
+
 fn pistol(m: &mut CpuMachine, aim: player_fire::Aim) -> Flow {
     let t = m.cpu.a[6];
     let b = player_fire::pistol(m, t, aim);
@@ -1883,6 +1903,7 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                  run: |m| { let t = m.cpu.a[6]; m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; let c = player_ground::move_ground(m, t); set_carry(m, c); Flow::Return } },
     SystemPort { entry: 0x02_6B56, original: "Entity_MoveAndCollide_A_026b56", rust: "system::slope::move_b",
                  run: |m| { let t = m.cpu.a[6]; let at = (m.cpu.d[3] as u16, m.cpu.d[4] as u16); let c = slope::move_b(m, t, at); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x03_45B8, original: "Player_ReenterByInput_0345b8", rust: "system::player_ground::reenter", run: |m| player_ground::reenter(m) },
     SystemPort { entry: 0x03_45FA, original: "Player_StandFromWalk_0345fa", rust: "system::player_ground::stand_from_walk", run: |m| player_ground::stand_from_walk(m) },
     SystemPort { entry: 0x03_463E, original: "Player_StandFromWalk_0345fa__L03463e", rust: "system::player_ground::stand_from_walk_loop", run: |m| player_ground::stand_from_walk_loop(m) },
     SystemPort { entry: 0x03_4704, original: "Player_Stand_034704", rust: "system::player_ground::stand", run: |m| player_ground::stand(m) },
@@ -1923,6 +1944,42 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                             m.cpu.d[1] = x as u32; m.cpu.d[2] = y as u32;
                             m.cpu.a[2] = mslug_game::layout::trig::SIN; Flow::Return } },
     // --- disparo del jugador
+    SystemPort { entry: 0x03_CD3E, original: "PlayerFire_Flame_FwdNeg_03cd3e", rust: "system::player_fire::flame",
+                 run: |m| flame(m, 0x03_CD3E, player_fire::Flame { angle: 0x00, spread: -2, ahead: false, low: false }) },
+    SystemPort { entry: 0x03_CD70, original: "PlayerFire_Flame_Fwd0_03cd70", rust: "system::player_fire::flame",
+                 run: |m| flame(m, 0x03_CD70, player_fire::Flame { angle: 0x00, spread: 0, ahead: false, low: false }) },
+    SystemPort { entry: 0x03_CDA2, original: "PlayerFire_Flame_FwdPos_03cda2", rust: "system::player_fire::flame",
+                 run: |m| flame(m, 0x03_CDA2, player_fire::Flame { angle: 0x00, spread: 2, ahead: false, low: false }) },
+    SystemPort { entry: 0x03_CDD4, original: "PlayerFire_Flame_FwdNegLow_03cdd4", rust: "system::player_fire::flame",
+                 run: |m| flame(m, 0x03_CD3E, player_fire::Flame { angle: 0x00, spread: -2, ahead: false, low: true }) },
+    SystemPort { entry: 0x03_CDEE, original: "PlayerFire_Flame_Fwd0Low_03cdee", rust: "system::player_fire::flame",
+                 run: |m| flame(m, 0x03_CD70, player_fire::Flame { angle: 0x00, spread: 0, ahead: false, low: true }) },
+    SystemPort { entry: 0x03_CE08, original: "PlayerFire_Flame_FwdPosLow_03ce08", rust: "system::player_fire::flame",
+                 run: |m| flame(m, 0x03_CDA2, player_fire::Flame { angle: 0x00, spread: 2, ahead: false, low: true }) },
+    SystemPort { entry: 0x03_CE22, original: "PlayerFire_Flame_UpNeg_03ce22", rust: "system::player_fire::flame",
+                 run: |m| flame(m, 0x03_CE22, player_fire::Flame { angle: 0x08, spread: -2, ahead: false, low: false }) },
+    SystemPort { entry: 0x03_CE54, original: "PlayerFire_Flame_Up0_03ce54", rust: "system::player_fire::flame",
+                 run: |m| flame(m, 0x03_CE54, player_fire::Flame { angle: 0x08, spread: 0, ahead: false, low: false }) },
+    SystemPort { entry: 0x03_CE86, original: "PlayerFire_Flame_UpPos_03ce86", rust: "system::player_fire::flame",
+                 run: |m| flame(m, 0x03_CE86, player_fire::Flame { angle: 0x08, spread: 2, ahead: false, low: false }) },
+    SystemPort { entry: 0x03_CEB8, original: "PlayerFire_Flame_BackNeg_03ceb8", rust: "system::player_fire::flame",
+                 run: |m| flame(m, 0x03_CEB8, player_fire::Flame { angle: 0x10, spread: -2, ahead: false, low: false }) },
+    SystemPort { entry: 0x03_CEEA, original: "PlayerFire_Flame_Back0_03ceea", rust: "system::player_fire::flame",
+                 run: |m| flame(m, 0x03_CEEA, player_fire::Flame { angle: 0x10, spread: 0, ahead: false, low: false }) },
+    SystemPort { entry: 0x03_CF24, original: "PlayerFire_Flame_BackPos_03cf24", rust: "system::player_fire::flame",
+                 run: |m| flame(m, 0x03_CF24, player_fire::Flame { angle: 0x10, spread: 2, ahead: false, low: false }) },
+    SystemPort { entry: 0x03_CF56, original: "PlayerFire_Flame_Ang17Neg_03cf56", rust: "system::player_fire::flame",
+                 run: |m| flame(m, 0x03_CF56, player_fire::Flame { angle: 0x17, spread: -2, ahead: true, low: false }) },
+    SystemPort { entry: 0x03_CF94, original: "PlayerFire_Flame_Ang17_0_03cf94", rust: "system::player_fire::flame",
+                 run: |m| flame(m, 0x03_CF94, player_fire::Flame { angle: 0x17, spread: 0, ahead: true, low: false }) },
+    SystemPort { entry: 0x03_CFD2, original: "PlayerFire_Flame_Ang17Pos_03cfd2", rust: "system::player_fire::flame",
+                 run: |m| flame(m, 0x03_CFD2, player_fire::Flame { angle: 0x17, spread: 2, ahead: true, low: false }) },
+    SystemPort { entry: 0x03_D010, original: "PlayerFire_Flame_DownNeg_03d010", rust: "system::player_fire::flame",
+                 run: |m| flame(m, 0x03_D010, player_fire::Flame { angle: 0x18, spread: -2, ahead: false, low: false }) },
+    SystemPort { entry: 0x03_D042, original: "PlayerFire_Flame_Down0_03d042", rust: "system::player_fire::flame",
+                 run: |m| flame(m, 0x03_D042, player_fire::Flame { angle: 0x18, spread: 0, ahead: false, low: false }) },
+    SystemPort { entry: 0x03_D074, original: "PlayerFire_Flame_DownPos_03d074", rust: "system::player_fire::flame",
+                 run: |m| flame(m, 0x03_D074, player_fire::Flame { angle: 0x18, spread: 2, ahead: false, low: false }) },
     SystemPort { entry: 0x03_C710, original: "PlayerFire_Pistol_Spawn_03c710", rust: "system::player_fire::pistol_bullet",
                  run: |m| { let t = m.cpu.a[6]; let b = player_fire::pistol_bullet(m, t); fire_regs(m, t, b); Flow::Return } },
     SystemPort { entry: 0x03_C776, original: "PlayerFire_Pistol_Fwd_03c776", rust: "system::player_fire::pistol", run: |m| pistol(m, player_fire::Aim::Forward) },
