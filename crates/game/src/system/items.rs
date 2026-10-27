@@ -4,7 +4,9 @@
 //!
 //! Original: `Item_GroundTail_09a75a`, `$05DD56` / `$05DD5C`.
 
-use super::{anim, contact, fort, platforms, sound, tasks};
+use super::{anim, collision, contact, fort, pickup, platforms, sound, tasks};
+use crate::entity::PlayerId;
+use crate::player::weapons;
 use crate::layout::{items as L, task as T};
 use crate::mem::{Flow, Machine, Memory};
 
@@ -171,4 +173,96 @@ pub fn respawn_below(m: &mut impl Memory, t: u32) {
         let y = m.read_u16(o + L::Y).wrapping_add(L::RESPAWN_DY);
         m.write_u16(o + L::Y, y);
     }
+}
+
+/// Caja de munición (plantillas 284–287, `k` 0–3 da el arma 4, 3, 1 o 2):
+/// sprite, unos frames sin poder recogerse, prioridad, guion y el bucle.
+/// Original: `Item_Tmpl284_Ammo4_09a918`, `Item_Tmpl285_Ammo3_09a976`,
+/// `Item_Tmpl286_Ammo1_09a9d4`, `Item_Tmpl287_Ammo2_09aa32`.
+pub fn ammo(m: &mut impl Machine, k: usize) -> Flow {
+    let t = m.task_register();
+    anim::alloc_entry(m, t, L::AMMO_GFX);
+    m.write_u8(t + L::NO_PICKUP, L::AMMO_NO_PICKUP);
+    anim::set_attr(m, t, L::POW_ATTR);
+    let a = m.read_u16(t + L::ATTR);
+    m.write_u16(t + L::ATTR, a & L::ATTR_KEEP);
+    anim::start(m, t, L::AMMO_SCRIPTS[k]);
+    m.write_u32(t + T::HANDLER, L::AMMO_LOOPS[k]);
+    ammo_loop(m, k)
+}
+
+/// Bucle de la caja de munición: cae, anima y, si la toca un jugador, le
+/// da el arma con la cantidad del objeto y pasa a recogido.
+/// Original: `Item_Tmpl284_Ammo4_09a918+$38` (y las otras tres).
+pub fn ammo_loop(m: &mut impl Machine, k: usize) -> Flow {
+    let t = m.task_register();
+    collision::fall(m, t);
+    anim::step(m, t);
+    if let Some((p, _)) = pickup::item_toucher(m, t, L::PICKBOX_A) {
+        let amount = m.read_u8(t + L::P_KIND);
+        give_weapon(m, PlayerId::from_index(p), L::AMMO_WEAPONS[k], amount);
+        m.write_u32(t + T::HANDLER, L::TAKEN[0]);
+    }
+    ground_tail(m)
+}
+
+/// Da al jugador el arma `weapon` con `amount`; si está en el estado 2
+/// suena el aviso; y marca el arma nueva con su parpadeo.
+/// Original: `Item_GiveAmmo_09a858` (con `$032CBA`).
+pub fn give_weapon(m: &mut impl Memory, p: PlayerId, weapon: u8, amount: u8) {
+    weapons::set_weapon_and_ammo(m, p, weapon, amount);
+    let e = L::PLAYERS[p.index()];
+    if m.read_u8(e + L::PLAYER_STATE) == L::PLAYER_STATE_ALERT {
+        sound::play(m, L::SND_WEAPON);
+    }
+    m.write_u8(e + L::PLAYER_FLASH, L::WEAPON_FLASH);
+    let s = m.read_u8(e + L::PLAYER_STATUS);
+    m.write_u8(e + L::PLAYER_STATUS, s | L::NEW_WEAPON);
+}
+
+/// Recogido (`k` 0–3, otro sprite cada uno): un par de frames con la
+/// prioridad alta y luego sube. Original: `Item_Taken_SndA_09ae26` …
+/// `Item_Taken_SndD_09ae3e` (con `Item_Taken_Common_09ae42`).
+pub fn taken(m: &mut impl Machine, k: usize) -> Flow {
+    let t = m.task_register();
+    anim::alloc_entry(m, t, L::TAKEN_GFX + k as u16);
+    m.write_u16(t + L::TAKEN_TIMER, L::TAKEN_FRAMES);
+    anim::set_attr(m, t, L::TAKEN_ATTR);
+    let a = m.read_u16(t + L::ATTR);
+    m.write_u16(t + L::ATTR, a & L::ATTR_KEEP);
+    m.write_u32(t + T::HANDLER, L::TAKEN_LOOP);
+    taken_loop(m)
+}
+
+/// Original: `Item_Taken_Common_09ae42+$28`.
+pub fn taken_loop(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    platforms::move_with_scene(m, t);
+    anim::step(m, t);
+    let n = m.read_u16(t + L::TAKEN_TIMER).wrapping_sub(1);
+    m.write_u16(t + L::TAKEN_TIMER, n);
+    if (n as i16) <= 0 {
+        m.write_u32(t + T::HANDLER, L::TAKEN_RISE);
+    }
+    cull(m)
+}
+
+/// Sube con su animación y termina al acabarla.
+/// Original: `Item_Taken_Rise_09ae8e`.
+pub fn taken_rise(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    anim::alloc_entry(m, t, L::RISE_GFX);
+    anim::start(m, t, L::S_RISE);
+    m.write_u32(t + T::HANDLER, L::RISE_LOOP);
+    taken_rise_loop(m)
+}
+
+/// Original: `Item_Taken_Rise_09ae8e+$1C`.
+pub fn taken_rise_loop(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    platforms::move_with_scene(m, t);
+    if anim::step(m, t) {
+        return tasks::finish(m);
+    }
+    cull(m)
 }

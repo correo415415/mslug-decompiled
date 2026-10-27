@@ -2621,6 +2621,40 @@ pub mod items {
     pub const P_KIND: u32 = 0x98;
     pub const P_ARG: u32 = 0x99;
     pub const RESPAWN_DY: u16 = 4;
+    /// Cajas de munición (plantillas 284–287): sprite, frames sin poder
+    /// recogerse, guiones, bucles, el arma que da cada una y la caja de
+    /// recogida.
+    pub const AMMO_GFX: u16 = 0x17D;
+    /// `+$45`: frames que faltan para poder recogerlo.
+    pub const NO_PICKUP: u32 = 0x45;
+    pub const AMMO_NO_PICKUP: u8 = 8;
+    pub const AMMO_SCRIPTS: [u32; 4] = [0x2F_67DC, 0x2F_67E8, 0x2F_67F4, 0x2F_6800];
+    pub const AMMO_LOOPS: [u32; 4] = [0x09_A950, 0x09_A9AE, 0x09_AA0C, 0x09_AA6A];
+    pub const AMMO_WEAPONS: [u8; 4] = [4, 3, 1, 2];
+    pub const PICKBOX_A: u32 = 0x09_A6CE;
+    /// Jugador que recoge: entidades, estado (2 = con aviso al recoger),
+    /// sonido, parpadeo del arma nueva y `+$8C` bit 4 (arma nueva).
+    pub const PLAYERS: [u32; 2] = [0x10_0440, 0x10_04E0];
+    pub const PLAYER_STATE: u32 = 0x70;
+    pub const PLAYER_STATE_ALERT: u8 = 2;
+    pub const SND_WEAPON: u16 = 0x10FD;
+    pub const PLAYER_FLASH: u32 = 0x87;
+    pub const WEAPON_FLASH: u8 = 5;
+    pub const PLAYER_STATUS: u32 = 0x8C;
+    pub const NEW_WEAPON: u8 = 1 << 4;
+    /// Recogido: estados de entrada (A–D), sprite del A (los demás siguen),
+    /// frames y su contador, prioridad, bucle y la subida (sprite, guion y
+    /// bucle).
+    pub const TAKEN: [u32; 4] = [0x09_AE26, 0x09_AE2E, 0x09_AE36, 0x09_AE3E];
+    pub const TAKEN_GFX: u16 = 0x1A6;
+    pub const TAKEN_TIMER: u32 = 0x70;
+    pub const TAKEN_FRAMES: u16 = 2;
+    pub const TAKEN_ATTR: u16 = 0xC000;
+    pub const TAKEN_LOOP: u32 = 0x09_AE6A;
+    pub const TAKEN_RISE: u32 = 0x09_AE8E;
+    pub const RISE_GFX: u16 = 0x180;
+    pub const S_RISE: u32 = 0x2F_674C;
+    pub const RISE_LOOP: u32 = 0x09_AEAA;
 }
 
 /// Recogida de objetos (`system::pickup`).
