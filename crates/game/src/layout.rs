@@ -2419,6 +2419,97 @@ pub mod critters {
 }
 
 /// Objetos del suelo y test de fuera de la vista (`system::items`).
+/// Soldado de guardia que embiste (Charger) y escaramuzador
+/// (`asm/enemies/soldiers/charger_states_04290c.s`).
+pub mod charger {
+    pub const X: u32 = 0x22;
+    pub const VEL_X: u32 = 0x28;
+    pub const ATTR: u32 = 0x38;
+    pub const FACING: u32 = 0x3A;
+    pub const ON_HIT: u32 = 0x4C;
+    pub const ANIM_SLOT: u32 = 0x5C;
+    /// Columna de casa y radio (en el mundo), temporizador del ataque,
+    /// marca de apoyado, enfado, continuación diferida y objetivo.
+    pub const HOME: u32 = 0x70;
+    pub const RADIUS: u32 = 0x72;
+    pub const TIMER: u32 = 0x74;
+    pub const GROUNDED: u32 = 0x75;
+    pub const ANGRY: u32 = 0x76;
+    pub const RESUME: u32 = 0x78;
+    pub const TARGET: u32 = 0x7C;
+    /// Parámetros de la plantilla: radio (columnas de 8), golpes que le
+    /// quedan, base del temporizador, recarga, tipo de golpe y marcha.
+    pub const P_RADIUS: u32 = 0x98;
+    pub const STRIKES: u32 = 0x99;
+    pub const P_TIMER: u32 = 0x9A;
+    pub const P_RELOAD: u32 = 0x9B;
+    pub const STRIKE_KIND: u32 = 0x9C;
+    pub const GAIT: u32 = 0x9D;
+    /// El escaramuzador guarda la marca de apoyado aquí.
+    pub const SK_GROUNDED: u32 = 0x70;
+    pub const GFX: u16 = 0xE;
+    pub const PRIORITY: u16 = 0x8000;
+    pub const ATTR_KEEP: u16 = 0xFFE3;
+    pub const ATTR_SET: u16 = 0x18;
+    pub const SHADOW: u32 = 0x07_76E2;
+    pub const TIMER_TABLE: u32 = 0x2B_74EC;
+    pub const RELOAD_TABLE: u32 = 0x2B_746A;
+    pub const SPEED_TABLE: u32 = 0x2B_75D0;
+    pub const SK_SPEED_TABLE: u32 = 0x2B_76B4;
+    pub const SCREEN_MID: i16 = 0xA0;
+    pub const WALK_SPEED: u16 = 0x100;
+    pub const WINDUP_KIND: u8 = 4;
+    pub const HURT_HANDLER: u32 = 0x05_7494;
+    pub const MARGINS: u32 = 0x28_838C;
+    /// Guiones de sprite.
+    pub const S_WALK_A: u32 = 0x04_27FA;
+    pub const S_WALK_B: u32 = 0x04_287E;
+    pub const S_WALK_FAST: u32 = 0x29_B744;
+    pub const S_IDLE: u32 = 0x29_B816;
+    pub const S_IDLE_ANGRY: u32 = 0x2B_5C10;
+    pub const S_HURT: u32 = 0x2B_70D2;
+    pub const S_STRIKES: [u32; 5] = [0x29_BA70, 0x29_B9CE, 0x29_BBEC, 0x29_BC64, 0x29_BB4C];
+    pub const STRIKE0_SLOT: u8 = 5;
+    pub const S_WINDUP_A: u32 = 0x29_BD84;
+    pub const S_WINDUP_B: u32 = 0x29_B956;
+    /// Estados.
+    pub const IDLE: u32 = 0x04_2ACC;
+    pub const IDLE_LOOP: u32 = 0x04_2B00;
+    pub const WALK_A: u32 = 0x04_2A44;
+    pub const WALK_B: u32 = 0x04_2A56;
+    pub const WALK_FAST: u32 = 0x04_2A6E;
+    pub const WALK_LOOP: u32 = 0x04_2A9C;
+    pub const HURT: u32 = 0x04_2B5C;
+    pub const HURT_LOOP: u32 = 0x04_2B88;
+    pub const ATTACK: u32 = 0x04_2BA6;
+    pub const ATTACK_ANIM: u32 = 0x04_2BE6;
+    pub const ATTACK_LOOP: u32 = 0x04_2C6C;
+    pub const ATTACK_EXIT: u32 = 0x04_2CB0;
+    pub const WINDUP_A: u32 = 0x04_2CCA;
+    pub const WINDUP_A_LOOP: u32 = 0x04_2CE0;
+    pub const WINDUP_B: u32 = 0x04_2D02;
+    pub const WINDUP_B_LOOP: u32 = 0x04_2D18;
+    /// Salida al terminar los golpes (el soldado normal).
+    pub const LEAVE: u32 = 0x05_9042;
+    pub const SK_RUN: u32 = 0x04_2D5C;
+    pub const SK_MAIN: u32 = 0x04_2D90;
+    pub const SK_HURT: u32 = 0x04_2DFA;
+    pub const SK_HURT_LOOP: u32 = 0x04_2E26;
+}
+
+/// Decorados de la escena del fuerte (`asm/props/fortress_04e580.s`).
+pub mod props {
+    pub const ATTR: u32 = 0x38;
+    /// Carteles A y B: gráficos, guion de sprite, celdas de colisión que
+    /// estampan y estado de cada frame.
+    pub const SIGN_GFX: [u16; 2] = [0x186, 0x1B6];
+    pub const S_SIGN: [u32; 2] = [0x29_49AE, 0x29_49BE];
+    pub const SIGN_CELLS: [u32; 2] = [0x29_5F6E, 0x29_5F94];
+    pub const SIGN_LOOP: [u32; 2] = [0x04_F742, 0x04_F7A0];
+    /// Márgenes de la vista con los que se dan de baja.
+    pub const MARGINS: u32 = 0x29_625E;
+}
+
 /// Contacto entre cajas de entidades (`$028998` / `$028A96` / `$028B14`).
 pub mod contact {
     pub const X: u32 = 0x22;
@@ -3344,6 +3435,10 @@ pub mod scroll {
     /// Mapa de colisión de la primera cámara.
     pub const COLL_CAMERA: u32 = 0x10_6F6C;
     pub const COLL_ORIGIN: [u32; 2] = [0x04, 0x08];
+    /// Posición de la entidad que estampa celdas y X (con signo) entre las
+    /// que se estampan.
+    pub const ENTITY_POS: [u32; 2] = [0x22, 0x24];
+    pub const CELL_CLIP: (i16, i16) = (-0x50, 0x188);
     /// Límite X de la cámara (lo pone un jefe cada frame) y la tarea fija
     /// que lo borra.
     pub const CAMERA_LOCK_X: u32 = 0x10_6F42;

@@ -57,6 +57,13 @@ pub fn copy_sprite_pos(m: &mut impl Memory, from: u32, to: u32) {
     }
 }
 
+/// De la pantalla al mundo. Original: `$0440BC`.
+pub fn screen_to_world(m: &mut impl Memory, x: u16, y: u16) -> (u16, u16) {
+    let wx = x.wrapping_add(m.read_u16(A::CAMERA_X));
+    let wy = A::SCREEN_Y_BASE.wrapping_sub(y).wrapping_add(m.read_u16(A::CAMERA_Y));
+    (wx, wy)
+}
+
 /// Del mundo a la pantalla. Original: `$0440D0`.
 pub fn world_to_screen(m: &mut impl Memory, x: u16, y: u16) -> (u16, u16) {
     let sx = x.wrapping_sub(m.read_u16(A::CAMERA_X));

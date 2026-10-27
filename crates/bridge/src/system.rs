@@ -11,7 +11,7 @@
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
 use mslug_game::system::soldier::Trait;
-use mslug_game::system::{anim, autopilot, banner, boot, bullet, burst, collision, contact, critters, debris, events, food, fort, frame, game_over, go_arrow, grenade, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, memcard, mission, msg_select, motion, pads, pickup, platforms, player, player_air, player_arm, player_fire, player_ground, player_hud, player_ride, palette, parachute, rank, render, rng, scene, script, scroll, slope, slug, slug_arm, slug_drive, slug_fire, slug_hit, human_death, slug_attack, slug_death, spawner, slug_shell, explosion, slug_hunker, slug_idle, slug_jump, soldier, sound, sprite, tasks, title, trig, turret, video, wheels};
+use mslug_game::system::{anim, autopilot, banner, boot, bullet, burst, charger, collision, contact, critters, debris, events, food, fort, frame, game_over, go_arrow, grenade, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, memcard, mission, msg_select, motion, pads, pickup, platforms, player, player_air, player_arm, player_fire, player_ground, player_hud, player_ride, palette, props, parachute, rank, render, rng, scene, script, scroll, slope, slug, slug_arm, slug_drive, slug_fire, slug_hit, human_death, slug_attack, slug_death, spawner, slug_shell, explosion, slug_hunker, slug_idle, slug_jump, soldier, sound, sprite, tasks, title, trig, turret, video, wheels};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use mslug_game::input::{Buttons, Edge};
 use neogeo_hw::cpu::m68k::exec::write_sr;
@@ -2760,6 +2760,35 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
     SystemPort { entry: 0x09_B400, original: "Item_Tmpl293_Pow_09b3c6+$3A", rust: "system::items::pow_loop", run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; items::pow_loop(m) } },
     SystemPort { entry: 0x09_B43E, original: "Item_Pow_Die_09b43e", rust: "system::items::pow_freed", run: |m| items::pow_freed(m) },
     SystemPort { entry: 0x09_B45A, original: "Item_Pow_Die_09b43e+$1C", rust: "system::items::pow_freed_loop", run: |m| items::pow_freed_loop(m) },
+    SystemPort { entry: 0x04_3F5E, original: "Sub_00043F5E", rust: "system::scroll::set_cell", run: |m| { let (x, y, v) = (m.cpu.d[0] as u16, m.cpu.d[1] as u16, m.cpu.d[7] as u8); scroll::set_cell(m, x, y, v); Flow::Return } },
+    SystemPort { entry: 0x04_3FAC, original: "Sprite_MultiBlitClippedX", rust: "system::scroll::blit_cells", run: |m| { let (t, l) = (m.cpu.a[6], m.cpu.a[1]); scroll::blit_cells(m, t, l); Flow::Return } },
+    SystemPort { entry: 0x04_F70E, original: "Prop_SignA_04f70e", rust: "system::props::sign(0)", run: |m| props::sign(m, 0) },
+    SystemPort { entry: 0x04_F742, original: "Prop_SignA_04f70e+$34", rust: "system::props::sign_loop", run: |m| props::sign_loop(m) },
+    SystemPort { entry: 0x04_F76C, original: "Prop_SignB_04f76c", rust: "system::props::sign(1)", run: |m| props::sign(m, 1) },
+    SystemPort { entry: 0x04_F7A0, original: "Prop_SignB_04f76c+$34", rust: "system::props::sign_loop", run: |m| props::sign_loop(m) },
+    SystemPort { entry: 0x04_290C, original: "Charger_Init_04290C", rust: "system::charger::init", run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; charger::init(m) } },
+    SystemPort { entry: 0x04_2A44, original: "Charger_WalkA_042A44", rust: "system::charger::walk_a", run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; charger::walk_a(m) } },
+    SystemPort { entry: 0x04_2A56, original: "Charger_WalkB_042A56", rust: "system::charger::walk_b", run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; charger::walk_b(m) } },
+    SystemPort { entry: 0x04_2A6E, original: "Charger_WalkFast_042A6E", rust: "system::charger::walk_fast", run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; charger::walk_fast(m) } },
+    SystemPort { entry: 0x04_2A9C, original: "Charger_WalkFast_042A6E+$2E", rust: "system::charger::walk_loop", run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; charger::walk_loop(m) } },
+    SystemPort { entry: 0x04_2ACC, original: "Charger_IdleState_042ACC", rust: "system::charger::idle", run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; charger::idle(m) } },
+    SystemPort { entry: 0x04_2B00, original: "Charger_IdleState_042ACC+$34", rust: "system::charger::idle_loop", run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; charger::idle_loop(m) } },
+    SystemPort { entry: 0x04_2B5C, original: "Charger_HurtState_042B5C", rust: "system::charger::hurt", run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; charger::hurt(m) } },
+    SystemPort { entry: 0x04_2B88, original: "Charger_HurtState_042B5C+$2C", rust: "system::charger::hurt_loop", run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; charger::hurt_loop(m) } },
+    SystemPort { entry: 0x04_2BA6, original: "Charger_AttackState_042BA6", rust: "system::charger::attack", run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; charger::attack(m) } },
+    SystemPort { entry: 0x04_2BE6, original: "Charger_AttackState_042BA6+$40", rust: "system::charger::attack_anim", run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; charger::attack_anim(m) } },
+    SystemPort { entry: 0x04_2C6C, original: "Charger_AttackState_042BA6+$C6", rust: "system::charger::attack_loop", run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; charger::attack_loop(m) } },
+    SystemPort { entry: 0x04_2CB0, original: "Charger_AttackState_042BA6+$10A", rust: "system::charger::attack_exit", run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; charger::attack_exit(m) } },
+    SystemPort { entry: 0x04_2CCA, original: "Charger_WindupA_042CCA", rust: "system::charger::windup_a", run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; charger::windup_a(m) } },
+    SystemPort { entry: 0x04_2CE0, original: "Charger_WindupA_042CCA+$16", rust: "system::charger::windup_a_loop", run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; charger::windup_a_loop(m) } },
+    SystemPort { entry: 0x04_2D02, original: "Charger_WindupB_042D02", rust: "system::charger::windup_b", run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; charger::windup_b(m) } },
+    SystemPort { entry: 0x04_2D18, original: "Charger_WindupB_042D02+$16", rust: "system::charger::windup_b_loop", run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; charger::windup_b_loop(m) } },
+    SystemPort { entry: 0x04_2D3C, original: "Skirmisher_Init_042D3C", rust: "system::charger::skirmisher", run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; charger::skirmisher(m) } },
+    SystemPort { entry: 0x04_2D5C, original: "Skirmisher_Run_042D5C", rust: "system::charger::skirmisher_run", run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; charger::skirmisher_run(m) } },
+    SystemPort { entry: 0x04_2D90, original: "Skirmisher_Main_042D90", rust: "system::charger::skirmisher_main", run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; charger::skirmisher_main(m) } },
+    SystemPort { entry: 0x04_2DFA, original: "Skirmisher_Hurt_042DFA", rust: "system::charger::skirmisher_hurt", run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; charger::skirmisher_hurt(m) } },
+    SystemPort { entry: 0x04_2E26, original: "Skirmisher_Hurt_042DFA+$2C", rust: "system::charger::skirmisher_hurt_loop", run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; charger::skirmisher_hurt_loop(m) } },
+    SystemPort { entry: 0x04_2576, original: "MeleeGuard_TailDespawn_042576", rust: "system::charger::tail_despawn", run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; charger::tail_despawn(m) } },
     SystemPort { entry: 0x02_A664, original: "Slug_TryStartDestroyed_02a664", rust: "system::slug_idle::try_destroy",
                  run: |m| { let t = m.cpu.a[6]; let c = slug_idle::try_destroy(m, t); set_carry(m, c); Flow::Return } },
     // --- foco de la cámara
