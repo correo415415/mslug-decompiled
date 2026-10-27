@@ -127,3 +127,48 @@ pub fn pow_freed_loop(m: &mut impl Machine) -> Flow {
     }
     cull(m)
 }
+
+/// Suelta el objeto de tipo `kind` (el byte de `t` en `field` y el
+/// siguiente pasan a sus parámetros) delante de `t`. `None` si `kind` = 0.
+/// Original: `Item_SpawnFromParent_09a7cc` (C = 0 si lo crea).
+pub fn spawn_from(m: &mut impl Memory, t: u32, kind: u8, field: u16) -> Option<u32> {
+    if kind == 0 {
+        return None;
+    }
+    let mut k = kind & L::SPAWN_MASK;
+    if k >= L::SPAWN_KINDS {
+        k = L::SPAWN_DEFAULT;
+    }
+    let handler = m.read_u32(L::SPAWN_HANDLERS + u32::from(k) * 4);
+    let o = tasks::spawn(m, handler, L::SPAWN_PARENT);
+    let y = m.read_u16(t + L::Y);
+    m.write_u16(o + L::Y, y);
+    let dx = if m.read_u8(t + L::FACING) & 1 != 0 { L::SPAWN_DX } else { L::SPAWN_DX.wrapping_neg() };
+    let x = m.read_u16(t + L::X).wrapping_add(dx);
+    m.write_u16(o + L::X, x);
+    let f = t + u32::from(field);
+    let (a, b) = (m.read_u8(f), m.read_u8(f + 1));
+    m.write_u8(o + L::P_KIND, a);
+    m.write_u8(o + L::P_ARG, b);
+    Some(o)
+}
+
+/// Como [`spawn_from`] pero el objeto sale en la X de `t`.
+/// Original: `Entity_ProbeMoveX_09A7AA`.
+pub fn spawn_here(m: &mut impl Memory, t: u32, kind: u8, field: u16) -> Option<u32> {
+    let o = spawn_from(m, t, kind, field)?;
+    let dx = if m.read_u8(t + L::FACING) & 1 != 0 { L::SPAWN_DX.wrapping_neg() } else { L::SPAWN_DX };
+    let x = m.read_u16(o + L::X).wrapping_add(dx);
+    m.write_u16(o + L::X, x);
+    Some(o)
+}
+
+/// Al desaparecer, deja el objeto que lleva (un poco más abajo).
+/// Original: `Item_RespawnBelow_09b90a`.
+pub fn respawn_below(m: &mut impl Memory, t: u32) {
+    let kind = m.read_u8(t + L::P_KIND);
+    if let Some(o) = spawn_here(m, t, kind, L::P_ARG as u16) {
+        let y = m.read_u16(o + L::Y).wrapping_add(L::RESPAWN_DY);
+        m.write_u16(o + L::Y, y);
+    }
+}

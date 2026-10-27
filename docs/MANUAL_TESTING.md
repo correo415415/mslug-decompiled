@@ -108,10 +108,10 @@ del contrato de la rutina y están en el adaptador (`Ret::D0L`, `Ret::A1`).
 
 Con `--hands-off` (en `play` y `verify-system`) se mete moneda y START una
 sola vez y no se toca el mando: así se recorre el tutorial del Slug entero
-hasta la primera misión. Estado actual: con `--hands-off` se para en el
-frame 3713 en `Soldier_SpawnFaceTarget_059062`, ya dentro de la misión 1 (el
-tutorial del Slug se completa: destrucción, ataque suicida y polvaredas); con moneda y mando automático en el frame 2153
-(`Item_RespawnBelow_09b90a`); sin moneda en el frame 1636
+hasta la primera misión. Estado actual: con `--hands-off` corre los 9000
+frames sin pararse, ya dentro de la misión 1 (el
+tutorial del Slug se completa: destrucción, ataque suicida y polvaredas); con moneda y mando automático en el frame 2155
+(`Item_Tmpl284_Ammo4_09a918`); sin moneda en el frame 1636
 (`Pillbox_Init_Right_0868a6`).
 
 Al pararse, `mslug-sdl` guarda siempre una captura en `build/shots/halt-NNNNNN.png`, también con la ventana abierta. `mslug play` la guarda en el fichero que se le indique con `--halt-shot`.
