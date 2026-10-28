@@ -2556,6 +2556,12 @@ pub mod props {
     pub const SENSOR_LOOP: u32 = 0x04_F480;
     pub const SENSOR_TRIP: u32 = 0x04_F4B6;
     pub const SENSOR_TRIP_LOOP: u32 = 0x04_F4C8;
+    /// Entrada alta fija que cambian los guiones (`FixTile_*`): índice,
+    /// gráficos ($C2 / $C1), duración (sin fin) y modo.
+    pub const FIX_TILE_ENTRY: u16 = 0x11;
+    pub const FIX_TILE_GFX: [u16; 2] = [0xC2, 0xC1];
+    pub const FIX_TILE_LEN: u16 = 0xFFFF;
+    pub const FIX_TILE_MODE: u8 = 1;
 }
 
 /// Contacto entre cajas de entidades (`$028998` / `$028A96` / `$028B14`).

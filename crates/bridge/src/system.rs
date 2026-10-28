@@ -256,6 +256,20 @@ fn toucher_regs(m: &mut CpuMachine, r: Option<(u8, u32)>) {
     set_carry(m, r.is_some());
 }
 
+/// Registros que dejan `FixTile_*` (los argumentos de `$002C26` y lo que
+/// deja ella: `d1` desplazado, `d2` la dirección de datos, `a1` la tabla).
+fn fix_tile_regs(m: &mut CpuMachine, k: usize) {
+    use mslug_game::layout::props as P;
+    let i = u32::from(P::FIX_TILE_ENTRY) << 5;
+    let data = u32::from(P::FIX_TILE_GFX[k]) * 64 + mslug_game::layout::sprites::HIGH_LIST_DATA;
+    m.cpu.d[1] = (m.cpu.d[1] & 0xFFFF_0000) | i;
+    m.cpu.d[2] = data;
+    m.cpu.d[3] = (m.cpu.d[3] & 0xFFFF_0000) | u32::from(P::FIX_TILE_LEN);
+    m.cpu.d[4] = (m.cpu.d[4] & 0xFFFF_0000) | u32::from(P::FIX_TILE_MODE);
+    m.cpu.a[1] = mslug_game::layout::sprites::TABLE;
+    m.cpu.a[2] = mslug_game::layout::sprites::HIGH_LIST_DATA;
+}
+
 /// `$05DD5C` deja en a0 los márgenes usados.
 fn out_regs(m: &mut CpuMachine, a: u32) {
     if a == 0xFFFF_FFFF {
@@ -2928,6 +2942,10 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
     SystemPort { entry: 0x04_F480, original: "Prop_Sensor_04f46a+$16", rust: "system::props::sensor_loop", run: |m| props::sensor_loop(m) },
     SystemPort { entry: 0x04_F4B6, original: "Prop_Sensor_04f46a+$4C", rust: "system::props::sensor_trip", run: |m| props::sensor_trip(m) },
     SystemPort { entry: 0x04_F4C8, original: "Prop_Sensor_04f46a+$5E", rust: "system::props::sensor_trip_loop", run: |m| props::sensor_trip_loop(m) },
+    SystemPort { entry: 0x04_FA40, original: "FixTile_Set11C2_04fa40", rust: "system::props::fix_tile(0)",
+                 run: |m| { let r = props::fix_tile(m, 0); fix_tile_regs(m, 0); r } },
+    SystemPort { entry: 0x04_FA58, original: "FixTile_Set11C1_04fa58", rust: "system::props::fix_tile(1)",
+                 run: |m| { let r = props::fix_tile(m, 1); fix_tile_regs(m, 1); r } },
     SystemPort { entry: 0x04_F70E, original: "Prop_SignA_04f70e", rust: "system::props::sign(0)", run: |m| props::sign(m, 0) },
     SystemPort { entry: 0x04_F742, original: "Prop_SignA_04f70e+$34", rust: "system::props::sign_loop", run: |m| props::sign_loop(m) },
     SystemPort { entry: 0x04_F76C, original: "Prop_SignB_04f76c", rust: "system::props::sign(1)", run: |m| props::sign(m, 1) },
