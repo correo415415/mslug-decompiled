@@ -74,6 +74,62 @@ pub fn seated_loop(m: &mut impl Machine) -> Flow {
     offworld(m, t)
 }
 
+/// De pie (suelto desde el principio): preparación; la espera empieza el
+/// frame siguiente. Original: `Pow_Entry_03fe5a`.
+pub fn entry(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    setup(m, t);
+    set_handler(m, t, L::IDLE);
+    Flow::Return
+}
+
+/// Como [`entry`] pero echa a andar enseguida. Original: `Pow_EntryB_03fec6`.
+pub fn entry_walk(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    setup(m, t);
+    walk_off(m)
+}
+
+/// Espera de pie, quieto. Original: `Pow_Idle_03fe66`.
+pub fn idle(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    anim::start(m, t, L::S_IDLE);
+    m.write_u16(t + L::VEL_X, 0);
+    m.write_u16(t + L::VEL_Y, 0);
+    set_handler(m, t, L::IDLE_LOOP);
+    idle_loop(m)
+}
+
+/// Física y animación; si le dan, saluda. Original: `Pow_Idle_03fe66+$18`.
+pub fn idle_loop(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    physics(m, t);
+    anim::step(m, t);
+    if fort::hit_side(m, t).is_some() {
+        set_handler(m, t, L::IDLE_WAVE);
+    }
+    offworld(m, t)
+}
+
+/// Saluda (cayendo si está en el aire) y al acabar se va andando.
+/// Original: `Pow_IdleWave_03fe9c`.
+pub fn idle_wave(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    anim::start(m, t, L::S_IDLE_WAVE);
+    set_handler(m, t, L::IDLE_WAVE_LOOP);
+    idle_wave_loop(m)
+}
+
+/// Original: `Pow_IdleWave_03fe9c+$10`.
+pub fn idle_wave_loop(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    soldier::fall(m, t);
+    if anim::step(m, t) {
+        set_handler(m, t, L::WALK_OFF);
+    }
+    offworld(m, t)
+}
+
 /// Liberado: animación de soltarse y el bucle.
 /// Original: `Pow_Freed_03fc6a`.
 pub fn freed(m: &mut impl Machine) -> Flow {
