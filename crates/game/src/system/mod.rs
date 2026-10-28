@@ -59,6 +59,7 @@ pub mod render;
 pub mod rng;
 pub mod scene;
 pub mod script;
+pub mod score;
 pub mod scroll;
 pub mod slope;
 pub mod slug;
