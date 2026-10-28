@@ -3552,6 +3552,68 @@ pub mod pow {
     pub const CHEER: u32 = 0x03_FCA4;
     pub const S_CHEER: u32 = 0x03_F3C2;
     pub const CHEER_LOOP: u32 = 0x03_FCC0;
+    /// Andar: gráficos, base de animaciones (`+$48`), `+$13` bits 0 y 3
+    /// que se limpian, `+$98` hacia dónde (0 = como mira), `+$5C` frames
+    /// hasta pararse, velocidad, `+$5A` bit 5 = pared y `+$72` columna del
+    /// borde cruzado.
+    pub const GFX_WALK: u16 = 0x181;
+    pub const ANIM_BASE: u32 = 0x48;
+    pub const ANIM_BASE_WALK: u32 = 0x03_F01C;
+    pub const FLAGS_13: u32 = 0x13;
+    pub const FLAGS_13_CLEAR: u8 = (1 << 3) | (1 << 0);
+    pub const KIND: u32 = 0x98;
+    pub const WALK_TIMER: u32 = 0x5C;
+    pub const WALK_FRAMES: u16 = 0xF;
+    pub const WALK_AGAIN_FRAMES: u16 = 0x1E;
+    pub const X: u32 = 0x22;
+    pub const VEL_X: u32 = 0x28;
+    pub const VEL_Y: u32 = 0x2A;
+    pub const WALK_SPEED: u16 = 0x180;
+    pub const STATE: u32 = 0x5A;
+    pub const HIT_WALL: u8 = 1 << 5;
+    pub const EDGE: u32 = 0x72;
+    /// Estados de andar y sus guiones (salto y caída: aún originales).
+    pub const PICK_WALK: u32 = 0x03_FF24;
+    pub const WALK: u32 = 0x03_FF62;
+    pub const WALK_LOOP: u32 = 0x03_FF86;
+    pub const WALK_TURN: u32 = 0x04_0014;
+    pub const WALK_TURN_LOOP: u32 = 0x04_0034;
+    pub const WALK_STOP: u32 = 0x04_0054;
+    pub const WALK_STOP_LOOP: u32 = 0x04_0068;
+    pub const JUMP: u32 = 0x04_008C;
+    pub const FALL: u32 = 0x04_01A8;
+    pub const S_WALK: u32 = 0x03_F40A;
+    pub const S_WALK_TURN: u32 = 0x03_F194;
+    pub const S_WALK_STOP: u32 = 0x03_F488;
+    /// Rescate: caja que tocan los jugadores (`$03EF9A`, datos), jugador
+    /// que lo rescata (`+$71`), contadores de rescatados por jugador, voz,
+    /// pasos rápidos hacia el centro (`+$30`), `+$9B` ≠ 0 = hace la
+    /// reverencia, carrera final y parpadeo de salida (`+$78`).
+    pub const RESCUE_BOX: u32 = 0x03_EF9A;
+    pub const RESCUER: u32 = 0x71;
+    pub const RESCUED_COUNT: [u32; 2] = [0x10_6F4C, 0x10_6F4E];
+    pub const THANKS_SOUND: u16 = 0x113A;
+    pub const SCREEN_MID: u16 = 0xC0;
+    pub const RESCUED_SPEED: u16 = 0x700;
+    pub const STEPS: u32 = 0x30;
+    pub const RESCUED_STEPS: u16 = 4;
+    pub const BOWS: u32 = 0x9B;
+    pub const DASH_SPEED: u16 = 0xFC00;
+    pub const EXIT_TIMER: u32 = 0x78;
+    pub const EXIT_FRAMES: u8 = 0x1E;
+    pub const RESCUED: u32 = 0x04_0268;
+    pub const RESCUED_LOOP: u32 = 0x04_02C0;
+    pub const RESCUED_BOW: u32 = 0x04_0304;
+    pub const RESCUED_BOW_LOOP: u32 = 0x04_0318;
+    pub const RESCUED_RUN: u32 = 0x04_032E;
+    pub const RESCUED_RUN_LOOP: u32 = 0x04_0342;
+    pub const RESCUED_DASH: u32 = 0x04_0358;
+    pub const RESCUED_DASH_LOOP: u32 = 0x04_0374;
+    pub const RESCUED_EXIT: u32 = 0x04_0392;
+    pub const RESCUED_EXIT_LOOP: u32 = 0x04_039E;
+    pub const S_BOW: u32 = 0x03_F49E;
+    pub const S_RUN_START: u32 = 0x03_F8F4;
+    pub const S_DASH: u32 = 0x03_F89E;
 }
 
 /// Marcador de puntos flotante y sus cifras (`system::score`).
