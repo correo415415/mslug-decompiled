@@ -2536,6 +2536,14 @@ pub mod props {
     pub const SIGN_LOOP: [u32; 2] = [0x04_F742, 0x04_F7A0];
     /// Márgenes de la vista con los que se dan de baja.
     pub const MARGINS: u32 = 0x29_625E;
+    /// Decorado fijo: registro de aparición, atributos por defecto, escala
+    /// (`$FF` = sin encoger), espejo y el estado de cada frame.
+    pub const SPAWN_RECORD: u32 = 0x3C;
+    pub const FIXED_ATTR: u16 = 0x8000;
+    pub const SHRINK_Y: u32 = 0x32;
+    pub const SHRINK_X: u32 = 0x33;
+    pub const FLIP: u32 = 0x3A;
+    pub const FIXED_LOOP: u32 = 0x04_D72E;
 }
 
 /// Contacto entre cajas de entidades (`$028998` / `$028A96` / `$028B14`).
