@@ -1424,6 +1424,9 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
     SystemPort { entry: 0x02_83D8, original: "Hitbox_RunAttackList_0283d8", rust: "system::hits::run_attack_list",
                  run: |m| { let t = m.cpu.a[6]; let (o, a, d1) = hits::run_attack_list_d1(m, t, m.cpu.d[1] as u8);
                             m.cpu.d[7] = o as i32 as u32; m.cpu.a[0] = a; m.cpu.d[1] = (m.cpu.d[1] & 0xFFFF_FF00) | u32::from(d1); Flow::Return } },
+    SystemPort { entry: 0x05_E8DA, original: "Attack_ApplyThenSound10FA_05e8da", rust: "system::hits::run_attack_list_sound",
+                 run: |m| { let t = m.cpu.a[6]; let (o, a, d1) = hits::run_attack_list_sound(m, t, m.cpu.d[1] as u8);
+                            m.cpu.d[7] = o as i32 as u32; m.cpu.a[0] = a; m.cpu.d[1] = (m.cpu.d[1] & 0xFFFF_FF00) | u32::from(d1); Flow::Return } },
     SystemPort { entry: 0x02_8576, original: "Hitbox_TestVictim_028576", rust: "system::hits::test_victim",
                  run: |m| { let (t, a, v) = (m.cpu.a[6], m.cpu.a[0], m.cpu.a[1]); let c = hits::test_victim(m, t, a, v); set_carry(m, c); Flow::Return } },
     SystemPort { entry: 0x02_8594, original: "Hitbox_TestShape_028594", rust: "system::hits::test_shape",
