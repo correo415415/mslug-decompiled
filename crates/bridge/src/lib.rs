@@ -400,3 +400,54 @@ pub fn halt_report(pc: u32, frame: u32, cpu: &Cpu) -> String {
     s += &format!("  a6=${:06X} a7=${:06X}", cpu.a[6] & 0xFF_FFFF, cpu.a[7] & 0xFF_FFFF);
     s
 }
+
+/// Informe del modo seguir (`--keep-going`): rutinas sin portar que se
+/// ejecutaron con el juego recompilado, agrupadas por rutina (las vueltas de
+/// un `jsr` a código portado cuentan para la rutina que lo contiene) y por
+/// orden de primera aparición. `hits`: PC de entrada -> (primer frame,
+/// entradas, instrucciones); `native` / `fallback`: instrucciones del port y
+/// del relleno.
+pub fn keep_going_report(
+    hits: &std::collections::BTreeMap<u32, (u32, u64, u64)>,
+    native: u64,
+    fallback: u64,
+    top: usize,
+) -> String {
+    use std::collections::BTreeMap;
+    use std::fmt::Write;
+    let mut by: BTreeMap<u32, (u32, u64, u64)> = BTreeMap::new();
+    for (&pc, &(f, n, ins)) in hits {
+        let r = symbols::containing(pc).map_or(pc, |(a, _)| a);
+        let e = by.entry(r).or_insert((f, 0, 0));
+        e.0 = e.0.min(f);
+        e.1 += n;
+        e.2 += ins;
+    }
+    let mut v: Vec<(u32, (u32, u64, u64))> = by.into_iter().collect();
+    v.sort_by_key(|&(pc, (f, _, _))| (f, pc));
+    let total = native + fallback;
+    let pct = if total == 0 { 100.0 } else { 100.0 * native as f64 / total as f64 };
+    let mut s = String::new();
+    let _ = writeln!(
+        s,
+        "--keep-going: {} rutinas sin portar usadas; instrucciones por el port {pct:.2} % ({native} de {total})",
+        v.len()
+    );
+    if !v.is_empty() {
+        let _ = writeln!(s, "  primer frame   entradas  instrucciones  PC       rutina");
+    }
+    for (pc, (f, n, ins)) in v.iter().take(top) {
+        let _ = writeln!(s, "  {f:>12}  {n:>9}  {ins:>13}  ${pc:06X}  {}", symbols::describe(*pc));
+    }
+    if v.len() > top {
+        let _ = writeln!(s, "  ... y {} más (--keep-top N)", v.len() - top);
+    }
+    let nested = system::nested_fallback();
+    if !nested.is_empty() {
+        let _ = writeln!(s, "  llamadas anidadas desde el port a código sin portar: {}", nested.len());
+        for (pc, n) in nested.iter().take(top) {
+            let _ = writeln!(s, "                 {n:>9}  ${pc:06X}  {}", symbols::describe(*pc));
+        }
+    }
+    s
+}
