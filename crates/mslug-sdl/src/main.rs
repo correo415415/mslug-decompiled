@@ -70,6 +70,14 @@ struct Cli {
     /// instrucción del juego que no tiene función Rust y dice cuál es.
     #[arg(long)]
     only_manual: bool,
+    /// Como --only-manual, pero sin pararse en el código sin portar: lo
+    /// ejecuta el juego recompilado y el título dice cuántas rutinas sin
+    /// portar se han usado; al cerrar se listan todas.
+    #[arg(long)]
+    keep_going: bool,
+    /// Con --keep-going: cuántas rutinas listar al cerrar.
+    #[arg(long, default_value_t = 60)]
+    keep_top: usize,
     /// Con --only-manual: tampoco usar la BIOS recompilada.
     #[arg(long)]
     no_bios_code: bool,
@@ -141,12 +149,20 @@ fn key(sys: &mut System, k: Keycode, down: bool) {
 
 fn main() -> Result<()> {
     env_logger::Builder::from_env(env_logger::Env::default().default_filter_or("warn")).init();
-    let cli = Cli::parse();
+    let mut cli = Cli::parse();
+    cli.only_manual |= cli.keep_going;
     let mut sys = load(&cli.rom, !cli.mute)?;
-    let mut prog = if cli.only_manual { Program::manual_only(!cli.no_bios_code) } else { Program::new() };
+    let mut prog = if cli.keep_going {
+        Program::keep_going(!cli.no_bios_code)
+    } else if cli.only_manual {
+        Program::manual_only(!cli.no_bios_code)
+    } else {
+        Program::new()
+    };
     if cli.manual || cli.only_manual {
         let n = if cli.only_manual {
             mslug_bridge::system::set_mode(true, !cli.no_bios_code);
+            mslug_bridge::system::set_keep_going(cli.keep_going);
             mslug_bridge::install_all(|a, f| prog.set_override(a, f))
         } else {
             mslug_bridge::install(|a, f| prog.set_override(a, f))
@@ -174,7 +190,7 @@ fn main() -> Result<()> {
     let crop: u32 = if cli.no_crop { 0 } else { 8 };
     let (vw, vh) = (SCREEN_W as u32 - 2 * crop, SCREEN_H as u32);
     let window = video
-        .window("Metal Slug — port Rust", vw * cli.scale, vh * cli.scale)
+        .window("Metal Slug - port Rust", vw * cli.scale, vh * cli.scale)
         .position_centered()
         .resizable()
         .build()
@@ -289,12 +305,28 @@ fn main() -> Result<()> {
 
         if fps_t.elapsed() >= Duration::from_secs(1) {
             let fps = fps_n as f64 / fps_t.elapsed().as_secs_f64();
-            let mode = if cli.interp { "intérprete" } else if cli.only_manual { "sólo port manual" } else { "recompilado" };
+            let mode = if cli.interp {
+                "interprete"
+            } else if cli.keep_going {
+                "port manual + recompilado"
+            } else if cli.only_manual {
+                "solo port manual"
+            } else {
+                "recompilado"
+            };
             let miss = prog.misses.len();
+            // Título sólo en ASCII: con algunos gestores de ventanas el
+            // título UTF-8 (raya, tildes, punto medio) salía como mojibake.
             let title = match prog.halted_at {
-                Some(pc) => format!("Metal Slug — sólo port manual · PARADO en {} (frame {frame})",
+                Some(pc) => format!("Metal Slug - solo port manual | PARADO en {} (frame {frame})",
                                     mslug_bridge::symbols::describe(pc)),
-                None => format!("Metal Slug — port Rust ({mode}) · {fps:.1} fps · frame {frame} · sin traducir {miss}"),
+                None if cli.keep_going => {
+                    let total = prog.native + prog.fallback_ins;
+                    let pct = if total == 0 { 100.0 } else { 100.0 * prog.native as f64 / total as f64 };
+                    format!("Metal Slug - port Rust ({mode}) | {fps:.1} fps | frame {frame} | sin portar {} | port {pct:.2} %",
+                            prog.fallback_hits.len())
+                }
+                None => format!("Metal Slug - port Rust ({mode}) | {fps:.1} fps | frame {frame} | sin traducir {miss}"),
             };
             let _ = canvas.window_mut().set_title(&title);
             fps_n = 0;
@@ -317,6 +349,9 @@ fn main() -> Result<()> {
                 deadline = now + frame_time;
             }
         }
+    }
+    if cli.keep_going {
+        eprint!("{}", mslug_bridge::keep_going_report(&prog.fallback_hits, prog.native, prog.fallback_ins, cli.keep_top));
     }
     if !prog.misses.is_empty() && !cli.only_manual {
         eprintln!("direcciones ejecutadas sin traducir: {}", prog.misses.len());

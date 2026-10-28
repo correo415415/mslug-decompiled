@@ -460,41 +460,7 @@ fn main() -> Result<()> {
     Ok(())
 }
 
-/// Informe de `play --keep-going`: rutinas sin portar que se ejecutaron con
-/// el juego recompilado, agrupadas por rutina (las vueltas de un `jsr` a
-/// código portado cuentan para la rutina que lo contiene) y por orden de
-/// primera aparición.
+/// Informe de `play --keep-going` (ver [`mslug_bridge::keep_going_report`]).
 fn keep_going_report(prog: &mslug_code::Program, top: usize) {
-    use std::collections::BTreeMap;
-    // rutina -> (primer frame, entradas, instrucciones)
-    let mut by: BTreeMap<u32, (u32, u64, u64)> = BTreeMap::new();
-    for (&pc, &(f, n, ins)) in &prog.fallback_hits {
-        let r = mslug_bridge::symbols::containing(pc).map_or(pc, |(a, _)| a);
-        let e = by.entry(r).or_insert((f, 0, 0));
-        e.0 = e.0.min(f);
-        e.1 += n;
-        e.2 += ins;
-    }
-    let mut v: Vec<(u32, (u32, u64, u64))> = by.into_iter().collect();
-    v.sort_by_key(|&(pc, (f, _, _))| (f, pc));
-    let total = prog.native + prog.fallback_ins;
-    let pct = if total == 0 { 0.0 } else { 100.0 * prog.native as f64 / total as f64 };
-    println!(
-        "--keep-going: {} rutinas sin portar usadas; instrucciones por el port {:.2} % ({} de {})",
-        v.len(), pct, prog.native, total
-    );
-    println!("  primer frame   entradas  instrucciones  PC       rutina");
-    for (pc, (f, n, ins)) in v.iter().take(top) {
-        println!("  {f:>12}  {n:>9}  {ins:>13}  ${pc:06X}  {}", mslug_bridge::symbols::describe(*pc));
-    }
-    if v.len() > top {
-        println!("  ... y {} más (--keep-top N)", v.len() - top);
-    }
-    let nested = mslug_bridge::system::nested_fallback();
-    if !nested.is_empty() {
-        println!("  llamadas anidadas desde el port a código sin portar: {}", nested.len());
-        for (pc, n) in nested.iter().take(top) {
-            println!("                 {n:>9}  ${pc:06X}  {}", mslug_bridge::symbols::describe(*pc));
-        }
-    }
+    print!("{}", mslug_bridge::keep_going_report(&prog.fallback_hits, prog.native, prog.fallback_ins, top));
 }
