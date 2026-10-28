@@ -1,10 +1,12 @@
-//! Decorados de la escena del fuerte: carteles que estampan su silueta en
-//! el mapa de colisión.
+//! Decorados: carteles de la escena del fuerte que estampan su silueta en
+//! el mapa de colisión y decorados fijos colocados por su registro de
+//! aparición.
 //!
 //! Original: `asm/props/fortress_04e580.s` (`Prop_SignA_04f70e`,
-//! `Prop_SignB_04f76c`).
+//! `Prop_SignB_04f76c`) y `Prop_Static_04d6ec`
+//! (`asm/enemies/vehicles/turret_car_props_04cbd4.s`).
 
-use super::{anim, items, platforms, scroll, tasks};
+use super::{anim, fort, items, manual_icons, motion, platforms, scroll, tasks};
 use crate::layout::{props as L, task as T};
 use crate::mem::{Flow, Machine};
 
@@ -28,6 +30,51 @@ pub fn sign_loop(m: &mut impl Machine) -> Flow {
     platforms::move_with_scene(m, t);
     anim::step(m, t);
     if items::out_of_view(m, t, Some(L::MARGINS)) {
+        return tasks::finish(m);
+    }
+    Flow::Return
+}
+
+/// Decorado fijo: se coloca según su registro de aparición (`+$3C`),
+/// atributos por defecto, quieto y un paso con colisión para asentarlo.
+/// Original: `Prop_Static_04d6ec`.
+pub fn fixed(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    let rec = m.read_u32(t + L::SPAWN_RECORD);
+    fort::place_from_record(m, t, rec);
+    m.write_u16(t + L::ATTR, L::FIXED_ATTR);
+    manual_icons::stop_motion(m, t);
+    // `$027CEE`: el resultado no se mira.
+    let r = m.regs();
+    let at = (r.d[3] as u16, r.d[4] as u16);
+    motion::on_entity_pos(m, t, |m| motion::move_e_probe(m, t, at));
+    fixed_start(m, t)
+}
+
+/// Como [`fixed`] pero sólo se coloca (conserva sus atributos y su
+/// movimiento). Original: `Prop_Static_04d6ec+$20`.
+pub fn fixed_placed(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    let rec = m.read_u32(t + L::SPAWN_RECORD);
+    fort::place_from_record(m, t, rec);
+    fixed_start(m, t)
+}
+
+fn fixed_start(m: &mut impl Machine, t: u32) -> Flow {
+    m.write_u8(t + L::SHRINK_Y, 0xFF);
+    m.write_u8(t + L::SHRINK_X, 0xFF);
+    m.write_u8(t + L::FLIP, 0);
+    m.write_u32(t + T::HANDLER, L::FIXED_LOOP);
+    fixed_loop(m)
+}
+
+/// Se mueve con la escena, anima y se da de baja al salir por la
+/// izquierda. Original: `Prop_Static_04d6ec+$42`.
+pub fn fixed_loop(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    platforms::move_with_scene(m, t);
+    anim::step(m, t);
+    if fort::off_left(m, t) {
         return tasks::finish(m);
     }
     Flow::Return
