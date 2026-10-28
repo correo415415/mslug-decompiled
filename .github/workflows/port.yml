@@ -13,7 +13,15 @@
 name: port
 
 on:
-  # Sólo a mano (Actions → port → Run workflow).
+  # Sólo activación manual, desde cualquier rama:
+  #  * Actions → port → Run workflow → elegir la rama (workflow_dispatch).
+  #    GitHub sólo muestra el botón si este fichero existe también en la rama
+  #    por defecto (main); por eso hay una copia idéntica allí.
+  #  * API: POST /repos/{owner}/{repo}/dispatches con
+  #    {"event_type":"port","client_payload":{"ref":"<rama>"}}
+  #    (repository_dispatch; sólo requiere permiso contents:write).
+  repository_dispatch:
+    types: [port]
   workflow_dispatch:
     inputs:
       frames:
@@ -32,7 +40,7 @@ on:
         default: true
 
 concurrency:
-  group: port-${{ github.ref }}
+  group: port-${{ github.event.client_payload.ref || github.ref }}
   cancel-in-progress: true
 
 permissions:
@@ -45,14 +53,17 @@ jobs:
     timeout-minutes: 120
     env:
       CARGO_TARGET_DIR: ${{ github.workspace }}/../.mslug-port-target
-      FRAMES: ${{ inputs.frames || '6000' }}
-      PLAY_FRAMES: ${{ inputs.play_frames || '30000' }}
+      FRAMES: ${{ inputs.frames || github.event.client_payload.frames || '6000' }}
+      PLAY_FRAMES: ${{ inputs.play_frames || github.event.client_payload.play_frames || '30000' }}
+      # Rama a compilar: la elegida en Run workflow o la del client_payload.
+      PORT_REF: ${{ github.event.client_payload.ref || github.ref_name }}
       SDL_VIDEODRIVER: dummy
       SDL_AUDIODRIVER: dummy
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
+          ref: ${{ github.event.client_payload.ref || github.ref }}
           fetch-depth: 1
 
       - name: Toolchain (Rust + SDL2)
@@ -89,7 +100,7 @@ jobs:
           ls -la "$CARGO_TARGET_DIR/release/mslug" "$CARGO_TARGET_DIR/release/mslug-sdl"
 
       - name: Regenerar el programa traducido y comparar
-        if: inputs.regen
+        if: inputs.regen || github.event.client_payload.regen
         shell: bash
         run: |
           set -euo pipefail
@@ -197,18 +208,19 @@ jobs:
         if: >-
           always() &&
           github.event_name != 'pull_request' &&
-          (github.event_name != 'workflow_dispatch' || inputs.publish_release)
+          (github.event_name != 'workflow_dispatch' || inputs.publish_release) &&
+          (github.event_name != 'repository_dispatch' || github.event.client_payload.publish_release != false)
         shell: bash
         env:
           GH_TOKEN: ${{ secrets.RELEASE_PAT != '' && secrets.RELEASE_PAT || github.token }}
         run: |
           set -euo pipefail
           SHA7=$(git rev-parse --short=7 HEAD)
-          BR="${GITHUB_REF_NAME//\//-}"
+          BR="${PORT_REF//\//-}"
           TAG="port-${BR}-${{ github.run_number }}-${SHA7}"
           [ "${{ steps.lockstep.outcome }}" = "success" ] && STATE=OK || STATE=FAIL
           {
-            echo "## port ${STATE} — \`${GITHUB_REF_NAME}\` @ ${SHA7}"
+            echo "## port ${STATE} — \`${PORT_REF}\` @ ${SHA7}"
             echo
             echo "- build: $(grep -E 'Finished|^error' ci_out/build.txt | tail -1)"
             echo "- lockstep: $(tail -1 ci_out/lockstep.txt 2>/dev/null)"
@@ -219,6 +231,6 @@ jobs:
             echo "Assets: binarios Linux x64 (\`mslug\`, \`mslug-sdl\`; la ROM se carga en tiempo de ejecución con \`--rom\`), logs de build/lockstep/play/SDL, capturas PNG, misses.txt."
           } > /tmp/notes.md
           python3 tools/ci_release.py --repo "${{ github.repository }}" --tag "$TAG" \
-            --target "$GITHUB_SHA" --title "port ${STATE} ${GITHUB_REF_NAME} #${{ github.run_number }} (${SHA7})" \
+            --target "$(git rev-parse HEAD)" --title "port ${STATE} ${PORT_REF} #${{ github.run_number }} (${SHA7})" \
             --notes-file /tmp/notes.md --prerelease --delete-old 10 --prefix port- ci_out/*
           echo "release: $TAG" >> "$GITHUB_STEP_SUMMARY"
