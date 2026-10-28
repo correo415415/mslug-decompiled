@@ -3522,6 +3522,38 @@ pub mod scroll {
 
 /// Foco de la cámara: los dos jugadores y la ventana en la que la cámara
 /// los mantiene.
+/// Prisionero suelto por el escenario (`system::pow`).
+pub mod pow {
+    /// Hacia dónde mira (bit 0 = izquierda) y `+$9A` ≠ 0 = salir mirando
+    /// a la izquierda.
+    pub const FACING: u32 = 0x3A;
+    pub const FACING_LEFT: u8 = 1 << 0;
+    pub const SPAWN_LEFT: u32 = 0x9A;
+    /// Gráficos, prioridad, velocidades y aceleraciones, y `+$70` apoyado.
+    pub const GFX: u16 = 0x182;
+    pub const ATTR: u32 = 0x38;
+    pub const ATTR_BASE: u16 = 0x8000;
+    pub const ATTR_KEEP: u16 = 0xFFE3;
+    pub const PRIORITY: u16 = 0x18;
+    pub const MOTION: [u32; 4] = [0x28, 0x2A, 0x2C, 0x2E];
+    pub const GROUNDED: u32 = 0x70;
+    /// Sombra (tarea hija) y márgenes con los que se va de la vista.
+    pub const SHADOW: u32 = 0x07_76E2;
+    pub const MARGINS: u32 = 0x03_EFE4;
+    /// Sentado: guion y bucle.
+    pub const S_SEATED: u32 = 0x03_F292;
+    pub const SEATED_LOOP: u32 = 0x03_FC4C;
+    /// Liberado: estado, guion, bucle, el estado de irse andando y el
+    /// vitoreo (estado, guion y bucle).
+    pub const FREED: u32 = 0x03_FC6A;
+    pub const S_FREED: u32 = 0x03_F39E;
+    pub const FREED_LOOP: u32 = 0x03_FC7A;
+    pub const WALK_OFF: u32 = 0x03_FF14;
+    pub const CHEER: u32 = 0x03_FCA4;
+    pub const S_CHEER: u32 = 0x03_F3C2;
+    pub const CHEER_LOOP: u32 = 0x03_FCC0;
+}
+
 /// Marcador de puntos flotante y sus cifras (`system::score`).
 pub mod score {
     pub const X: u32 = 0x22;

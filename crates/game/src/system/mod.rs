@@ -44,6 +44,7 @@ pub mod motion;
 pub mod pads;
 pub mod pickup;
 pub mod platforms;
+pub mod pow;
 pub mod player;
 pub mod player_air;
 pub mod player_fire;

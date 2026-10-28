@@ -1,0 +1,236 @@
+# =============================================================================
+#  Metal Slug — port Rust: build + verificación en el runner local + release
+# -----------------------------------------------------------------------------
+#  * Corre en el runner self-hosted del propietario (igual que matcher.yml).
+#  * NO usa la cache de Actions: el directorio de compilación de cargo vive en
+#    el disco del runner (../.mslug-port-target, junto al checkout),
+#    así que las recompilaciones son incrementales sin depender de Actions.
+#  * Toda la salida (binarios, logs, capturas, misses) se publica como assets
+#    de una Release (prerelease `port-<rama>-<run>-<sha>`; se conservan 10).
+#  * Token de la release: secreto RELEASE_PAT si existe; si no, GITHUB_TOKEN.
+#  * La ROM es `internal/mslug.zip` (rama privada). No se sube a la release.
+# =============================================================================
+name: port
+
+on:
+  # Sólo activación manual, desde cualquier rama:
+  #  * Actions → port → Run workflow → elegir la rama (workflow_dispatch).
+  #    GitHub sólo muestra el botón si este fichero existe también en la rama
+  #    por defecto (main); por eso hay una copia idéntica allí.
+  #  * API: POST /repos/{owner}/{repo}/dispatches con
+  #    {"event_type":"port","client_payload":{"ref":"<rama>"}}
+  #    (repository_dispatch; sólo requiere permiso contents:write).
+  repository_dispatch:
+    types: [port]
+  workflow_dispatch:
+    inputs:
+      frames:
+        description: 'Frames de lockstep y SDL'
+        default: '6000'
+      play_frames:
+        description: 'Frames de cada partida de play (sólo recompilado)'
+        default: '30000'
+      regen:
+        description: 'Regenerar el programa traducido (dump-roms + recomp --static) y comprobar que coincide con el commit'
+        type: boolean
+        default: false
+      publish_release:
+        description: 'Publicar release'
+        type: boolean
+        default: true
+
+concurrency:
+  group: port-${{ github.event.client_payload.ref || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  port:
+    name: build + lockstep + SDL (self-hosted)
+    runs-on: [self-hosted, Linux, X64]
+    timeout-minutes: 120
+    env:
+      CARGO_TARGET_DIR: ${{ github.workspace }}/../.mslug-port-target
+      FRAMES: ${{ inputs.frames || github.event.client_payload.frames || '6000' }}
+      PLAY_FRAMES: ${{ inputs.play_frames || github.event.client_payload.play_frames || '30000' }}
+      # Rama a compilar: la elegida en Run workflow o la del client_payload.
+      PORT_REF: ${{ github.event.client_payload.ref || github.ref_name }}
+      SDL_VIDEODRIVER: dummy
+      SDL_AUDIODRIVER: dummy
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.client_payload.ref || github.ref }}
+          fetch-depth: 1
+
+      - name: Toolchain (Rust + SDL2)
+        shell: bash
+        run: |
+          set -euo pipefail
+          SUDO=""; [ "$(id -u)" -ne 0 ] && SUDO="sudo -n"
+          if ! pkg-config --exists sdl2 2>/dev/null; then
+            echo "::group::apt install libsdl2-dev"
+            $SUDO apt-get update -qq || true
+            $SUDO apt-get install -y -qq libsdl2-dev pkg-config python3
+            echo "::endgroup::"
+          fi
+          if ! command -v cargo >/dev/null 2>&1 && [ ! -x "$HOME/.cargo/bin/cargo" ]; then
+            echo "::group::rustup"
+            curl -sSf https://sh.rustup.rs | sh -s -- -y -q --profile minimal
+            echo "::endgroup::"
+          fi
+          echo "$HOME/.cargo/bin" >> "$GITHUB_PATH"
+          export PATH="$HOME/.cargo/bin:$PATH"
+          rustc --version; cargo --version
+          mkdir -p "$CARGO_TARGET_DIR" ci_out
+          { echo "rustc: $(rustc --version)"; echo "cpus: $(nproc)"; free -m | sed -n 2p; } | tee ci_out/env.txt
+
+      - name: cargo build --release (todo el workspace)
+        shell: bash
+        run: |
+          set -o pipefail
+          # Pocos MB de RAM por crate generado (~300 MB); -j según memoria.
+          MEM=$(awk '/MemAvailable/{print int($2/1024)}' /proc/meminfo)
+          J=$(( MEM / 700 )); [ $J -lt 1 ] && J=1; [ $J -gt $(nproc) ] && J=$(nproc)
+          echo "jobs=$J (MemAvailable ${MEM} MB)"
+          cargo build --release --workspace -j "$J" 2>&1 | tee ci_out/build.txt
+          ls -la "$CARGO_TARGET_DIR/release/mslug" "$CARGO_TARGET_DIR/release/mslug-sdl"
+
+      - name: Regenerar el programa traducido y comparar
+        if: inputs.regen || github.event.client_payload.regen
+        shell: bash
+        run: |
+          set -euo pipefail
+          B="$CARGO_TARGET_DIR/release/mslug"
+          "$B" dump-roms
+          python3 tools/recomp/m68k_recomp.py --static | tee ci_out/recomp.txt
+          git status --short | tee ci_out/regen_diff.txt
+          git diff --stat | tail -1 | tee -a ci_out/regen_diff.txt
+
+      - name: lockstep (intérprete vs recompilado, cada instrucción)
+        id: lockstep
+        shell: bash
+        run: |
+          set -o pipefail
+          "$CARGO_TARGET_DIR/release/mslug" lockstep --frames "$FRAMES" 2>&1 | tee ci_out/lockstep.txt
+          rc=${PIPESTATUS[0]}
+          tail -1 ci_out/lockstep.txt >> "$GITHUB_STEP_SUMMARY"
+          exit $rc
+
+      - name: play (sólo recompilado) + misses
+        if: always() && steps.lockstep.outcome != 'skipped'
+        shell: bash
+        run: |
+          set -o pipefail
+          : > ci_out/misses.txt
+          for c in 400 650 900 1300 2000; do
+            "$CARGO_TARGET_DIR/release/mslug" play --frames "$PLAY_FRAMES" --coin $c \
+              --misses-out ci_out/misses.txt 2>&1 | tee -a ci_out/play.txt
+          done
+          for z in 1 2 3 4 5 6; do
+            "$CARGO_TARGET_DIR/release/mslug" play --frames "$PLAY_FRAMES" --fuzz $z \
+              --misses-out ci_out/misses.txt 2>&1 | tee -a ci_out/play.txt
+          done
+          grep "^frames=" ci_out/play.txt >> "$GITHUB_STEP_SUMMARY" || true
+          echo "misses nuevos: $(grep -c . ci_out/misses.txt || true)" | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: port manual (mslug-game) vs ROM
+        if: always() && steps.lockstep.outcome != 'skipped'
+        shell: bash
+        run: |
+          set -o pipefail
+          cargo test -q -p mslug-game 2>&1 | tee ci_out/game_tests.txt
+          rc=0
+          for z in 1 2 3; do
+            "$CARGO_TARGET_DIR/release/mslug" verify-manual --frames 15000 --fuzz $z 2>&1 | tee -a ci_out/verify_manual.txt || rc=1
+          done
+          grep "^total" ci_out/verify_manual.txt >> "$GITHUB_STEP_SUMMARY" || true
+          # Jugar con el port manual sustituido: mismo estado que el recompilado
+          export MSLUG_MANUAL_EXACT_CYCLES=1
+          for z in 1 2 3; do
+            "$CARGO_TARGET_DIR/release/mslug" lockstep-manual --atomic-ref --frames 15000 --fuzz $z 2>&1 | tee -a ci_out/lockstep_manual.txt || rc=1
+          done
+          grep "^manual OK\|^Error" ci_out/lockstep_manual.txt >> "$GITHUB_STEP_SUMMARY" || true
+          unset MSLUG_MANUAL_EXACT_CYCLES
+          # Rutinas de sistema (arranque, vblank, tareas...) con el estado completo
+          for z in 1 2; do
+            "$CARGO_TARGET_DIR/release/mslug" verify-system --frames 6000 --fuzz $z 2>&1 | tee -a ci_out/verify_system.txt || rc=1
+          done
+          grep "^total" ci_out/verify_system.txt >> "$GITHUB_STEP_SUMMARY" || true
+          # Hasta dónde llega el juego sólo con lo portado a mano
+          "$CARGO_TARGET_DIR/release/mslug" play --only-manual --frames 6000 2>&1 | tee ci_out/only_manual.txt || true
+          grep "parado en" ci_out/only_manual.txt >> "$GITHUB_STEP_SUMMARY" || true
+          # Progreso: funciones totales, portadas, porcentaje y hasta dónde llega
+          "$CARGO_TARGET_DIR/release/mslug" progress 2>&1 | tee ci_out/progress.txt || true
+          { echo '```'; cat ci_out/progress.txt; echo '```'; } >> "$GITHUB_STEP_SUMMARY" || true
+          "$CARGO_TARGET_DIR/release/mslug" roadmap --frames 6000 --out ci_out/roadmap.txt 2>&1 | head -60 > ci_out/roadmap_summary.txt || true
+          exit $rc
+
+      - name: mslug-sdl headless (capturas)
+        if: always() && steps.lockstep.outcome != 'skipped'
+        shell: bash
+        run: |
+          set -o pipefail
+          "$CARGO_TARGET_DIR/release/mslug-sdl" --frames "$FRAMES" --auto-coin 400 --mute \
+            --shot-at 300,1500,3000,$((FRAMES-100)) --shots ci_out/shots \
+            --misses-out ci_out/misses.txt 2>&1 | tee ci_out/sdl.txt
+          # Con el port escrito a mano sustituido
+          "$CARGO_TARGET_DIR/release/mslug-sdl" --manual --frames "$FRAMES" --auto-coin 400 --mute \
+            --shot-at 1500,$((FRAMES-100)) --shots ci_out/shots_manual 2>&1 | tee ci_out/sdl_manual.txt
+
+      - name: Empaquetar
+        if: always()
+        shell: bash
+        run: |
+          set -uo pipefail
+          mkdir -p ci_out
+          SHA7=$(git rev-parse --short=7 HEAD)
+          git log -1 --format='%H%n%s%n%ci' > ci_out/commit.txt
+          P="mslug-port-linux-x64-${SHA7}"
+          mkdir -p "/tmp/$P"
+          if cp "$CARGO_TARGET_DIR/release/mslug" "$CARGO_TARGET_DIR/release/mslug-sdl" README.md PORT_STATUS.md "/tmp/$P/"; then
+            tar -C /tmp -czf "ci_out/$P.tar.gz" "$P"
+          fi
+          rm -rf "/tmp/$P"
+          (cd ci_out/shots 2>/dev/null && tar -czf ../shots.tar.gz *.png) || true
+          cp ci_out/shots/*.png ci_out/ 2>/dev/null || true
+          (cd ci_out/shots_manual 2>/dev/null && tar -czf ../shots_manual.tar.gz *.png) || true
+          for f in ci_out/shots_manual/*.png; do [ -e "$f" ] && cp "$f" "ci_out/manual-$(basename "$f")"; done
+          rm -rf ci_out/shots ci_out/shots_manual
+          # Sólo ficheros sueltos en la release
+          find ci_out -mindepth 1 -type d -exec rm -rf {} +
+          cd ci_out && sha256sum * > SHA256SUMS.txt && ls -la
+
+      - name: Release
+        if: >-
+          always() &&
+          github.event_name != 'pull_request' &&
+          (github.event_name != 'workflow_dispatch' || inputs.publish_release) &&
+          (github.event_name != 'repository_dispatch' || github.event.client_payload.publish_release != false)
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.RELEASE_PAT != '' && secrets.RELEASE_PAT || github.token }}
+        run: |
+          set -euo pipefail
+          SHA7=$(git rev-parse --short=7 HEAD)
+          BR="${PORT_REF//\//-}"
+          TAG="port-${BR}-${{ github.run_number }}-${SHA7}"
+          [ "${{ steps.lockstep.outcome }}" = "success" ] && STATE=OK || STATE=FAIL
+          {
+            echo "## port ${STATE} — \`${PORT_REF}\` @ ${SHA7}"
+            echo
+            echo "- build: $(grep -E 'Finished|^error' ci_out/build.txt | tail -1)"
+            echo "- lockstep: $(tail -1 ci_out/lockstep.txt 2>/dev/null)"
+            grep "^frames=" ci_out/play.txt 2>/dev/null | sed 's/^/- play: /' || true
+            echo "- misses nuevos (añadir a tools/recomp/seeds.txt): $(grep -c . ci_out/misses.txt 2>/dev/null || echo 0)"
+            echo "- run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            echo
+            echo "Assets: binarios Linux x64 (\`mslug\`, \`mslug-sdl\`; la ROM se carga en tiempo de ejecución con \`--rom\`), logs de build/lockstep/play/SDL, capturas PNG, misses.txt."
+          } > /tmp/notes.md
+          python3 tools/ci_release.py --repo "${{ github.repository }}" --tag "$TAG" \
+            --target "$(git rev-parse HEAD)" --title "port ${STATE} ${PORT_REF} #${{ github.run_number }} (${SHA7})" \
+            --notes-file /tmp/notes.md --prerelease --delete-old 10 --prefix port- ci_out/*
+          echo "release: $TAG" >> "$GITHUB_STEP_SUMMARY"
