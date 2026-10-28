@@ -11,7 +11,7 @@
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
 use mslug_game::system::soldier::Trait;
-use mslug_game::system::{anim, autopilot, banner, boot, bullet, burst, charger, collision, contact, critters, debris, events, food, fort, frame, game_over, go_arrow, grenade, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, memcard, mission, msg_select, motion, pads, pickup, platforms, player, player_air, player_arm, player_fire, player_ground, player_hud, player_ride, palette, props, parachute, rank, render, rng, scene, score, script, scroll, slope, slug, slug_arm, slug_drive, slug_fire, slug_hit, human_death, slug_attack, slug_death, spawner, slug_shell, explosion, slug_hunker, slug_idle, slug_jump, soldier, sound, sprite, tasks, title, trig, turret, video, wheels};
+use mslug_game::system::{anim, autopilot, banner, boot, bullet, burst, charger, collision, contact, critters, debris, events, food, fort, frame, game_over, go_arrow, grenade, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, memcard, mission, msg_select, motion, pads, pickup, platforms, player, pow, player_air, player_arm, player_fire, player_ground, player_hud, player_ride, palette, props, parachute, rank, render, rng, scene, score, script, scroll, slope, slug, slug_arm, slug_drive, slug_fire, slug_hit, human_death, slug_attack, slug_death, spawner, slug_shell, explosion, slug_hunker, slug_idle, slug_jump, soldier, sound, sprite, tasks, title, trig, turret, video, wheels};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use mslug_game::input::{Buttons, Edge};
 use neogeo_hw::cpu::m68k::exec::write_sr;
@@ -2872,6 +2872,14 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
     SystemPort { entry: 0x09_B7C2, original: "$09B7C2", rust: "system::score::hold_loop", run: |m| { score::hold_loop(m) } },
     SystemPort { entry: 0x09_B7F8, original: "$09B7F8", rust: "system::score::blink", run: |m| { score::blink(m) } },
     SystemPort { entry: 0x09_B7FE, original: "$09B7FE", rust: "system::score::blink_loop", run: |m| { score::blink_loop(m) } },
+    // --- prisionero suelto
+    SystemPort { entry: 0x03_F9B8, original: "Pow_AnimTblB_03f636__L03f9b8", rust: "system::pow::setup", run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; let t = m.cpu.a[6]; pow::setup(m, t); Flow::Return } },
+    SystemPort { entry: 0x03_FC38, original: "Pow_AnimTblC_03fa0e+0x22A", rust: "system::pow::seated", run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; pow::seated(m) } },
+    SystemPort { entry: 0x03_FC4C, original: "Pow_AnimTblC_03fa0e+0x23E", rust: "system::pow::seated_loop", run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; pow::seated_loop(m) } },
+    SystemPort { entry: 0x03_FC6A, original: "Pow_Freed_03fc6a", rust: "system::pow::freed", run: |m| pow::freed(m) },
+    SystemPort { entry: 0x03_FC7A, original: "Pow_Freed_03fc6a+$10", rust: "system::pow::freed_loop", run: |m| pow::freed_loop(m) },
+    SystemPort { entry: 0x03_FCA4, original: "Pow_FreedCheer_03fca4", rust: "system::pow::cheer", run: |m| pow::cheer(m) },
+    SystemPort { entry: 0x03_FCC0, original: "Pow_FreedWait_03fcc0", rust: "system::pow::cheer_loop", run: |m| pow::cheer_loop(m) },
     SystemPort { entry: 0x09_B3C6, original: "Item_Tmpl293_Pow_09b3c6", rust: "system::items::pow", run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; items::pow(m) } },
     SystemPort { entry: 0x09_B400, original: "Item_Tmpl293_Pow_09b3c6+$3A", rust: "system::items::pow_loop", run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; items::pow_loop(m) } },
     SystemPort { entry: 0x09_B43E, original: "Item_Pow_Die_09b43e", rust: "system::items::pow_freed", run: |m| items::pow_freed(m) },
