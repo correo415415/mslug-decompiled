@@ -31,6 +31,23 @@ static ONLY_MANUAL: AtomicBool = AtomicBool::new(false);
 static ALLOW_BIOS: AtomicBool = AtomicBool::new(true);
 /// Rutina sin portar en la que se paró una llamada anidada (0 = ninguna).
 static HALTED_AT: AtomicU32 = AtomicU32::new(0);
+/// Modo seguir: las llamadas anidadas a código sin portar lo ejecutan con
+/// el intérprete en vez de pararse, y se anotan en [`NESTED_FALLBACK`].
+static KEEP_GOING: AtomicBool = AtomicBool::new(false);
+/// Rutinas sin portar alcanzadas desde llamadas anidadas en modo seguir
+/// (PC de entrada -> veces).
+static NESTED_FALLBACK: std::sync::Mutex<std::collections::BTreeMap<u32, u64>> =
+    std::sync::Mutex::new(std::collections::BTreeMap::new());
+
+/// Activa el modo seguir (ver `Program::keep_going`).
+pub fn set_keep_going(on: bool) {
+    KEEP_GOING.store(on, Ordering::Relaxed);
+}
+
+/// Rutinas sin portar ejecutadas por llamadas anidadas en modo seguir.
+pub fn nested_fallback() -> std::collections::BTreeMap<u32, u64> {
+    NESTED_FALLBACK.lock().map(|m| m.clone()).unwrap_or_default()
+}
 
 /// Modo sólo manual: no se ejecuta ningún código del juego original (sólo
 /// la BIOS, si `allow_bios`).
@@ -133,8 +150,10 @@ fn nested_call(cpu: &mut Cpu, bus: &mut NeoGeoBus, routine: u32) -> Result<u32, 
     cpu.pc = routine & 0xFF_FFFF;
     let only = ONLY_MANUAL.load(Ordering::Relaxed);
     let bios_ok = ALLOW_BIOS.load(Ordering::Relaxed);
+    let keep = KEEP_GOING.load(Ordering::Relaxed);
     let mut cycles = 0u32;
     let mut steps = 0u32;
+    let mut in_fallback = false;
     let result = loop {
         let pc = cpu.pc & 0xFF_FFFF;
         if pc == RETURN_SENTINEL && cpu.a[7] == ret_sp {
@@ -146,13 +165,25 @@ fn nested_call(cpu: &mut Cpu, bus: &mut NeoGeoBus, routine: u32) -> Result<u32, 
         }
         if let Some(f) = system_index().get(&pc) {
             cycles += run_system(f, cpu, bus);
+            in_fallback = false;
             continue;
         }
         if index().contains_key(&pc) {
             cycles += call_rust(cpu, bus);
+            in_fallback = false;
             continue;
         }
         let is_bios = (0xC0_0000..0xD0_0000).contains(&pc);
+        if only && keep && !(is_bios && bios_ok) {
+            if !in_fallback {
+                if let Ok(mut m) = NESTED_FALLBACK.lock() {
+                    *m.entry(pc).or_default() += 1;
+                }
+                in_fallback = true;
+            }
+            cycles += cpu.step(bus);
+            continue;
+        }
         if only && (!is_bios || !bios_ok) {
             HALTED_AT.store(pc, Ordering::Relaxed);
             break Err(pc);

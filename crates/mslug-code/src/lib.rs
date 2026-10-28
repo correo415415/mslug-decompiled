@@ -36,6 +36,19 @@ pub struct Program {
     /// Dónde se paró en modo sólo manual (PC de la primera instrucción que
     /// no tiene función escrita a mano).
     pub halted_at: Option<u32>,
+    /// Modo "seguir" (ver [`Program::keep_going`]): tabla del juego
+    /// recompilado para rellenar las rutinas sin portar en vez de pararse.
+    fallback: Option<Vec<Option<InsFn>>>,
+    /// La instrucción anterior vino de `fallback` (para contar sólo las
+    /// entradas al código sin portar, no cada instrucción).
+    in_fallback: bool,
+    /// Entradas al código sin portar en modo seguir: PC de entrada ->
+    /// (primer frame, veces que se entró, instrucciones ejecutadas).
+    pub fallback_hits: BTreeMap<u32, (u32, u64, u64)>,
+    /// PC de entrada del tramo sin portar que se está ejecutando.
+    fallback_entry: u32,
+    /// Instrucciones ejecutadas por el relleno recompilado.
+    pub fallback_ins: u64,
 }
 
 impl Default for Program {
@@ -57,7 +70,20 @@ impl Program {
                 }
             }
         }
-        Self { prom, bios, misses: BTreeMap::new(), native: 0, interp: 0, only_manual: false, halted_at: None }
+        Self {
+            prom,
+            bios,
+            misses: BTreeMap::new(),
+            native: 0,
+            interp: 0,
+            only_manual: false,
+            halted_at: None,
+            fallback: None,
+            in_fallback: false,
+            fallback_hits: BTreeMap::new(),
+            fallback_entry: 0,
+            fallback_ins: 0,
+        }
     }
 
     /// Programa **sin** el juego recompilado: sólo ejecuta lo que se añada
@@ -73,6 +99,19 @@ impl Program {
             p.bios.iter_mut().for_each(|f| *f = None);
         }
         p.only_manual = true;
+        p
+    }
+
+    /// Como [`Program::manual_only`], pero sin pararse: cuando el port
+    /// llega a una instrucción sin función escrita a mano, ejecuta la del
+    /// juego recompilado (o el intérprete si tampoco la hay) y lo anota en
+    /// `fallback_hits`. En cuanto ese código llama a una rutina portada, se
+    /// vuelve a usar el port. Sirve para ver de una pasada todas las rutinas
+    /// que faltan en una partida larga en vez de una parada cada vez.
+    pub fn keep_going(with_bios: bool) -> Self {
+        let full = Self::new().prom;
+        let mut p = Self::manual_only(with_bios);
+        p.fallback = Some(full);
         p
     }
 
@@ -149,7 +188,30 @@ impl Program {
             let c = f(cpu, &mut sys.bus);
             cpu.cycles = cpu.cycles.wrapping_add(u64::from(c));
             self.native += 1;
+            self.in_fallback = false;
             return c;
+        }
+        if let Some(fb) = &self.fallback {
+            let pc = cpu.pc & 0xFF_FFFF;
+            if !self.in_fallback {
+                let frame = sys.dbg_frame;
+                self.fallback_hits.entry(pc).or_insert((frame, 0, 0)).1 += 1;
+                self.fallback_entry = pc;
+                self.in_fallback = true;
+            }
+            if let Some(e) = self.fallback_hits.get_mut(&self.fallback_entry) {
+                e.2 += 1;
+            }
+            self.fallback_ins += 1;
+            if let Some(f) = fb.get((pc / 2) as usize).copied().flatten().filter(|_| pc & 1 == 0 && pc < PROM_END) {
+                cpu.instr_pc = cpu.pc;
+                let c = f(cpu, &mut sys.bus);
+                cpu.cycles = cpu.cycles.wrapping_add(u64::from(c));
+                return c;
+            }
+            *self.misses.entry(pc).or_default() += 1;
+            self.interp += 1;
+            return cpu.step(&mut sys.bus);
         }
         *self.misses.entry(cpu.pc & 0xFF_FFFF).or_default() += 1;
         if self.only_manual {

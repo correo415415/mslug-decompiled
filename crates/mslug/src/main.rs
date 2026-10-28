@@ -158,6 +158,14 @@ enum Cmd {
         /// en la primera instrucción sin función Rust y dice cuál es.
         #[arg(long)]
         only_manual: bool,
+        /// Con --only-manual: no pararse en el código sin portar; se ejecuta
+        /// el juego recompilado en su lugar y al final se lista cada rutina
+        /// sin portar que se usó (primer frame y veces).
+        #[arg(long)]
+        keep_going: bool,
+        /// Con --keep-going: cuántas rutinas listar al final.
+        #[arg(long, default_value_t = 60)]
+        keep_top: usize,
         /// Con --only-manual: tampoco la BIOS recompilada.
         #[arg(long)]
         no_bios_code: bool,
@@ -336,10 +344,13 @@ fn main() -> Result<()> {
         Cmd::Progress { frames, coin } => progress::run(&cli.rom, frames, coin)?,
         Cmd::Lockstep { frames, coin } => lockstep::run(&cli.rom, frames, coin)?,
         Cmd::LockstepManual { frames, coin, fuzz, atomic_ref } => lockstep::run_manual(&cli.rom, frames, coin, fuzz, atomic_ref)?,
-        Cmd::Play { frames, coin, dump, every, misses_out, fuzz, manual, only_manual, no_bios_code, halt_shot, hands_off } => {
+        Cmd::Play { frames, coin, dump, every, misses_out, fuzz, manual, only_manual, keep_going, keep_top, no_bios_code, halt_shot, hands_off } => {
             HANDS_OFF.store(hands_off, std::sync::atomic::Ordering::Relaxed);
             let mut sys = load(&cli.rom)?;
-            let mut prog = if only_manual {
+            let only_manual = only_manual || keep_going;
+            let mut prog = if keep_going {
+                mslug_code::Program::keep_going(!no_bios_code)
+            } else if only_manual {
                 mslug_code::Program::manual_only(!no_bios_code)
             } else {
                 mslug_code::Program::new()
@@ -347,6 +358,7 @@ fn main() -> Result<()> {
             if manual || only_manual {
                 let n = if only_manual {
                     mslug_bridge::system::set_mode(true, !no_bios_code);
+                    mslug_bridge::system::set_keep_going(keep_going);
                     mslug_bridge::install_all(|a, f| prog.set_override(a, f))
                 } else {
                     mslug_bridge::install(|a, f| prog.set_override(a, f))
@@ -403,6 +415,9 @@ fn main() -> Result<()> {
             for (a, c) in prog.misses.iter().take(40) {
                 println!("  ${a:06X} x{c}");
             }
+            if keep_going {
+                keep_going_report(&prog, keep_top);
+            }
             if let Some(p) = &misses_out {
                 mslug_code::append_misses(&prog, p)?;
             }
@@ -443,4 +458,43 @@ fn main() -> Result<()> {
         }
     }
     Ok(())
+}
+
+/// Informe de `play --keep-going`: rutinas sin portar que se ejecutaron con
+/// el juego recompilado, agrupadas por rutina (las vueltas de un `jsr` a
+/// código portado cuentan para la rutina que lo contiene) y por orden de
+/// primera aparición.
+fn keep_going_report(prog: &mslug_code::Program, top: usize) {
+    use std::collections::BTreeMap;
+    // rutina -> (primer frame, entradas, instrucciones)
+    let mut by: BTreeMap<u32, (u32, u64, u64)> = BTreeMap::new();
+    for (&pc, &(f, n, ins)) in &prog.fallback_hits {
+        let r = mslug_bridge::symbols::containing(pc).map_or(pc, |(a, _)| a);
+        let e = by.entry(r).or_insert((f, 0, 0));
+        e.0 = e.0.min(f);
+        e.1 += n;
+        e.2 += ins;
+    }
+    let mut v: Vec<(u32, (u32, u64, u64))> = by.into_iter().collect();
+    v.sort_by_key(|&(pc, (f, _, _))| (f, pc));
+    let total = prog.native + prog.fallback_ins;
+    let pct = if total == 0 { 0.0 } else { 100.0 * prog.native as f64 / total as f64 };
+    println!(
+        "--keep-going: {} rutinas sin portar usadas; instrucciones por el port {:.2} % ({} de {})",
+        v.len(), pct, prog.native, total
+    );
+    println!("  primer frame   entradas  instrucciones  PC       rutina");
+    for (pc, (f, n, ins)) in v.iter().take(top) {
+        println!("  {f:>12}  {n:>9}  {ins:>13}  ${pc:06X}  {}", mslug_bridge::symbols::describe(*pc));
+    }
+    if v.len() > top {
+        println!("  ... y {} más (--keep-top N)", v.len() - top);
+    }
+    let nested = mslug_bridge::system::nested_fallback();
+    if !nested.is_empty() {
+        println!("  llamadas anidadas desde el port a código sin portar: {}", nested.len());
+        for (pc, n) in nested.iter().take(top) {
+            println!("                 {n:>9}  ${pc:06X}  {}", mslug_bridge::symbols::describe(*pc));
+        }
+    }
 }
