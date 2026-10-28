@@ -2544,6 +2544,18 @@ pub mod props {
     pub const SHRINK_X: u32 = 0x33;
     pub const FLIP: u32 = 0x3A;
     pub const FIXED_LOOP: u32 = 0x04_D72E;
+    /// Sensor: margen (`+$70`), caja de vigilancia, bit 2 de `+$8C` del
+    /// jugador que lo dispara, guion al saltar y sus estados.
+    pub const MARGIN: u32 = 0x70;
+    pub const SENSOR_MARGIN: u16 = 0x90;
+    pub const SENSOR_BOX: u32 = 0x29_5FB0;
+    pub const PLAYER_STATUS: u32 = 0x8C;
+    pub const SENSOR_TRIGGER: u8 = 1 << 2;
+    pub const S_SENSOR_TRIP: u32 = 0x29_48A6;
+    pub const SENSOR_WATCH: u32 = 0x04_F47A;
+    pub const SENSOR_LOOP: u32 = 0x04_F480;
+    pub const SENSOR_TRIP: u32 = 0x04_F4B6;
+    pub const SENSOR_TRIP_LOOP: u32 = 0x04_F4C8;
 }
 
 /// Contacto entre cajas de entidades (`$028998` / `$028A96` / `$028B14`).
@@ -2673,6 +2685,10 @@ pub mod pickup {
     pub const Y: u32 = 0x24;
     /// `FLAGS2` bits 0 y 3: la entidad no toca objetos.
     pub const UNTOUCHABLE: u8 = (1 << 3) | (1 << 0);
+    /// Espejos de la entidad (`+$3A`: bit 0 en X, bit 1 en Y).
+    pub const FLIP: u32 = 0x3A;
+    pub const FLIP_X: u8 = 1 << 0;
+    pub const FLIP_Y: u8 = 1 << 1;
     /// Se pueden recoger objetos (escena en marcha).
     pub const ENABLED: u32 = 0x10_6ED2;
     pub const PLAYER_ONE: u32 = 0x10_0440;
@@ -3539,6 +3555,9 @@ pub mod pow {
     pub const FACING: u32 = 0x3A;
     pub const FACING_LEFT: u8 = 1 << 0;
     pub const SPAWN_LEFT: u32 = 0x9A;
+    /// Objeto que suelta (`+$9B`) y sus parámetros (`+$9C`).
+    pub const ITEM: u32 = 0x9B;
+    pub const ITEM_PARAMS: u16 = 0x9C;
     /// Gráficos, prioridad, velocidades y aceleraciones, y `+$70` apoyado.
     pub const GFX: u16 = 0x182;
     pub const ATTR: u32 = 0x38;
