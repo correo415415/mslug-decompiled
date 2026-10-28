@@ -3,10 +3,11 @@
 //! aparición.
 //!
 //! Original: `asm/props/fortress_04e580.s` (`Prop_SignA_04f70e`,
-//! `Prop_SignB_04f76c`, `Prop_Sensor_04f46a`) y `Prop_Static_04d6ec`
+//! `Prop_SignB_04f76c`, `Prop_Sensor_04f46a`, `FixTile_Set11C2_04fa40`),
+//! `FixTile_Set11C1_04fa58` y `Prop_Static_04d6ec`
 //! (`asm/enemies/vehicles/turret_car_props_04cbd4.s`).
 
-use super::{anim, fort, items, manual_icons, motion, pickup, platforms, scroll, tasks};
+use super::{anim, fort, items, manual_icons, motion, pickup, platforms, scroll, tasks, video};
 use crate::layout::{props as L, task as T};
 use crate::mem::{Flow, Machine};
 
@@ -134,5 +135,13 @@ pub fn sensor_trip_loop(m: &mut impl Machine) -> Flow {
     if fort::off_left(m, t) {
         return tasks::finish(m);
     }
+    Flow::Return
+}
+
+/// Cambia el gráfico de la entrada alta fija `FIX_TILE_ENTRY` al paso `k`
+/// (0 = `$C2`, 1 = `$C1`), sin animar. Original: `FixTile_Set11C2_04fa40`
+/// / `FixTile_Set11C1_04fa58` (rutinas que llaman los guiones de sprite).
+pub fn fix_tile(m: &mut impl Machine, k: usize) -> Flow {
+    video::start_high_entry_anim(m, L::FIX_TILE_ENTRY, L::FIX_TILE_GFX[k], L::FIX_TILE_LEN, L::FIX_TILE_MODE);
     Flow::Return
 }
