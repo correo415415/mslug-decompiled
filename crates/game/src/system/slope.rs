@@ -230,3 +230,73 @@ pub fn move_b_entity(m: &mut impl Memory, t: u32, at: (u16, u16)) -> bool {
     anim::apply_depth(m, t);
     c
 }
+
+/// Motor de colisión «C»: como [`move_b`] pero sin pegarse al suelo nuevo.
+/// Avanza la posición de trabajo y sólo la confirma si sigue sobre la misma
+/// pendiente (misma gravedad en las dos tablas); si choca con una pared
+/// marca `HIT_WALL`. Devuelve si NO ha podido avanzar (C del original).
+/// Original: `Entity_MoveAndCollide_C_0272a8`.
+pub fn move_c(m: &mut impl Memory, t: u32) -> bool {
+    motion::integrate_velocity(m, t);
+    motion::advance_on_slope(m, t);
+    platforms::apply_camera_work(m, t);
+    let x = m.read_u16(L::WORK_POS[0]).wrapping_add(m.read_u16(L::STEP[0]));
+    let y = m.read_u16(L::WORK_POS[1]).wrapping_sub(1).wrapping_add(m.read_u16(L::STEP[1]));
+    let (kind, mut slope);
+    if platforms::step_onto(m, t, x, y) {
+        kind = L::PLATFORM_KIND;
+        slope = m.read_u32(L::PLATFORM_TILE + L::T_SLOPE);
+        let sub = m.read_u8(slope + L::S_SUB_Y);
+        m.write_u8(L::NEW_SUB[1], sub);
+    } else {
+        let ahead = collision::lookup_tile(m, t, x, y);
+        let mut record = ahead.record;
+        if m.read_u8(record + L::T_KIND_FLAGS) == 1 && m.read_u16(t + L::GRAVITY) == 0 {
+            record += L::SECOND_MASK;
+        }
+        kind = ahead.kind;
+        slope = m.read_u32(record + L::T_SLOPE);
+    }
+    // Rampas: sin permiso para subirlas cuentan como llano.
+    if L::RAMP_KINDS.contains(&kind) && m.read_u8(t + L::FLAGS_13) & L::RAMP_OK == 0 {
+        slope = L::FLAT_SLOPE;
+    }
+    if L::WALL_KINDS.contains(&kind) {
+        set_state(m, t, L::HIT_WALL, true);
+        return true;
+    }
+    if m.read_u16(t + L::GRAVITY2) != m.read_u16(slope + L::S_GRAVITY2) || m.read_u16(t + L::GRAVITY) != m.read_u16(slope) {
+        return true;
+    }
+    m.write_u16(L::WORK_POS[0], x);
+    m.write_u16(L::WORK_POS[1], y.wrapping_add(1));
+    for k in 0..2 {
+        let v = m.read_u8(L::NEW_SUB[k]);
+        m.write_u8(L::WORK_SUB[k], v);
+    }
+    false
+}
+
+/// [`move_c`] sobre la posición de la entidad, con el sombreado por
+/// profundidad. Original: `$027AFC`.
+pub fn move_c_entity(m: &mut impl Memory, t: u32) -> bool {
+    for (w, f) in L::WORK_POS.into_iter().zip([L::X, L::Y]) {
+        let v = m.read_u16(t + f);
+        m.write_u16(w, v);
+    }
+    for (w, f) in L::WORK_SUB.into_iter().zip([L::SUB, L::SUB + 1]) {
+        let v = m.read_u8(t + f);
+        m.write_u8(w, v);
+    }
+    let c = move_c(m, t);
+    for (w, f) in L::WORK_POS.into_iter().zip([L::X, L::Y]) {
+        let v = m.read_u16(w);
+        m.write_u16(t + f, v);
+    }
+    for (w, f) in L::WORK_SUB.into_iter().zip([L::SUB, L::SUB + 1]) {
+        let v = m.read_u8(w);
+        m.write_u8(t + f, v);
+    }
+    anim::apply_depth(m, t);
+    c
+}

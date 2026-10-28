@@ -6171,6 +6171,12 @@ pub mod soldier {
     pub const FLEE_STOP_LOOP: u32 = 0x05_86CE;
     pub const RETREAT_TURN: u32 = 0x05_879E;
     pub const RETREAT: u32 = 0x05_87AC;
+    pub const RETREAT_LOOP: u32 = 0x05_8800;
+    /// Retirada: animación y velocidades (hacia delante, ×2 si no está del
+    /// lado del jugador; reculando).
+    pub const ANIM_RETREAT: u32 = 0x2B_5BCC;
+    pub const RETREAT_SPEED: u16 = 0x100;
+    pub const RETREAT_BACK_SPEED: u16 = 0xFF00;
     pub const STAND: u32 = 0x05_88AE;
     pub const STAND_LOOP: u32 = 0x05_88C4;
     pub const SURRENDER_LOOP: u32 = 0x05_89C8;
@@ -6242,6 +6248,7 @@ pub mod soldier {
     pub const AFTER_DESPAWN_BRAKE: u32 = 0x05_8656;
     pub const AFTER_DESPAWN_FLEE: u32 = 0x05_86B6;
     pub const AFTER_DESPAWN_FLEE_STOP: u32 = 0x05_879C;
+    pub const AFTER_DESPAWN_RETREAT: u32 = 0x05_88AC;
     pub const AFTER_DESPAWN_STAND: u32 = 0x05_88F4;
     pub const AFTER_DESPAWN_EDGE_FLEE: u32 = 0x05_8AA6;
     pub const AFTER_DESPAWN_HOP_FLEE: u32 = 0x05_8B1C;

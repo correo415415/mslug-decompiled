@@ -847,6 +847,13 @@ fn tail_b(m: &mut impl Machine, t: u32, ret: Option<u32>) -> Flow {
     despawn_from(m, t, ret)
 }
 
+/// Paso sin despegarse de la pendiente (motor «C») con la gravedad de
+/// reserva; `true` si no ha podido avanzar. Original:
+/// `Entity_ProbeSwapGravity_A_0282d8`.
+pub fn move_keep_slope(m: &mut impl Machine, t: u32) -> bool {
+    with_alt_gravity(m, t, |m| super::slope::move_c_entity(m, t))
+}
+
 /// Paso con colisión «A» con la gravedad de reserva. Original: `$02831E`.
 pub fn move_stop(m: &mut impl Machine, t: u32) -> bool {
     let row = m.regs().d[4] as u16;
@@ -1321,6 +1328,74 @@ pub fn flee_stop_loop(m: &mut impl Machine) -> Flow {
         set_handler(m, t, L::FALL_START);
     }
     tail_b(m, t, Some(L::AFTER_DESPAWN_FLEE_STOP))
+}
+
+/// Retirada desde el giro: al revés que [`retreat`] (de espaldas si está
+/// del lado contrario). Original: `Soldier_RetreatJmp_05879e`.
+pub fn retreat_turn(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    let side = m.read_u8(t + L::FLAGS_72) & L::SIDE != 0;
+    retreat_start(m, t, side)
+}
+
+/// Retirada: hacia delante (más deprisa si no está del lado del jugador)
+/// o reculando. Original: `Soldier_Retreat_0587ac`.
+pub fn retreat(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    let side = m.read_u8(t + L::FLAGS_72) & L::SIDE != 0;
+    retreat_start(m, t, !side)
+}
+
+fn retreat_start(m: &mut impl Machine, t: u32, forward: bool) -> Flow {
+    anim::start(m, t, L::ANIM_RETREAT);
+    let speed = if !forward {
+        L::RETREAT_BACK_SPEED
+    } else if m.read_u8(t + L::FLAGS_72) & L::SIDE != 0 {
+        L::RETREAT_SPEED
+    } else {
+        L::RETREAT_SPEED * 2
+    };
+    m.write_u16(t + L::SPEED, speed);
+    set_speed(m, t);
+    set_handler(m, t, L::RETREAT_LOOP);
+    retreat_loop(m)
+}
+
+/// Se retira sin bajar de la pendiente; para (de pie) al chocar, al
+/// cambiar de pendiente, al azar o contra una pared; al acabar la
+/// animación, deja de huir. Original: `Soldier_Retreat_Loop_058800`.
+pub fn retreat_loop(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    if move_keep_slope(m, t) {
+        set_handler(m, t, L::STAND);
+    }
+    let r = m.regs();
+    let f = collision::probe_floor(m, t, (r.d[3] as u16, r.d[4] as u16));
+    m.write_u8(t + L::GROUNDED, if f.in_air { 0 } else { 0xFF });
+    think(m, t);
+    if m.read_u16(t + L::GRAVITY) != 0 {
+        set_handler(m, t, L::STAND);
+    }
+    if anim::step(m, t) {
+        set_handler(m, t, L::FLEE_STOP);
+    }
+    let n = 0x100u16.wrapping_sub(m.read_u16(t + L::PREF_D));
+    if roll(m, n) {
+        set_handler(m, t, L::STAND);
+    }
+    if m.read_u8(t + L::FLAGS_5A) & L::PROBE_EDGE != 0 {
+        set_handler(m, t, L::STAND);
+    }
+    if leave_expired(m, t) {
+        set_handler(m, t, L::SPAWN_STAND);
+    }
+    if surrenders(m, t) {
+        set_handler(m, t, L::SURRENDER_FLEE);
+    }
+    if m.read_u8(t + L::GROUNDED) == 0 {
+        set_handler(m, t, L::FALL_START);
+    }
+    tail_b(m, t, Some(L::AFTER_DESPAWN_RETREAT))
 }
 
 /// De pie; al acabar la animación, a andar. Original: `Soldier_Stand_0588ae`.
