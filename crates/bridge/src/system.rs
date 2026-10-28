@@ -11,7 +11,7 @@
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
 use mslug_game::system::soldier::Trait;
-use mslug_game::system::{anim, autopilot, banner, boot, bullet, burst, charger, collision, contact, critters, debris, events, food, fort, frame, game_over, go_arrow, grenade, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, memcard, mission, msg_select, motion, pads, pickup, platforms, player, player_air, player_arm, player_fire, player_ground, player_hud, player_ride, palette, props, parachute, rank, render, rng, scene, script, scroll, slope, slug, slug_arm, slug_drive, slug_fire, slug_hit, human_death, slug_attack, slug_death, spawner, slug_shell, explosion, slug_hunker, slug_idle, slug_jump, soldier, sound, sprite, tasks, title, trig, turret, video, wheels};
+use mslug_game::system::{anim, autopilot, banner, boot, bullet, burst, charger, collision, contact, critters, debris, events, food, fort, frame, game_over, go_arrow, grenade, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, memcard, mission, msg_select, motion, pads, pickup, platforms, player, player_air, player_arm, player_fire, player_ground, player_hud, player_ride, palette, props, parachute, rank, render, rng, scene, score, script, scroll, slope, slug, slug_arm, slug_drive, slug_fire, slug_hit, human_death, slug_attack, slug_death, spawner, slug_shell, explosion, slug_hunker, slug_idle, slug_jump, soldier, sound, sprite, tasks, title, trig, turret, video, wheels};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use mslug_game::input::{Buttons, Edge};
 use neogeo_hw::cpu::m68k::exec::write_sr;
@@ -378,6 +378,17 @@ fn flame(m: &mut CpuMachine, base: u32, f: player_fire::Flame) -> Flow {
         }
     }
     Flow::Return
+}
+
+/// Abanico de dos llamaradas (ángulos `a` y `a + 2`). Sin munición para
+/// la primera el original sale de la variante sin crear ninguna.
+fn flame_pair(m: &mut CpuMachine, entry: u32, a: u8) -> Flow {
+    let f = |angle| player_fire::Flame { angle, spread: 0, ahead: false, low: false };
+    flame(m, entry, f(a));
+    if m.cpu.a[0] == entry + 4 {
+        return Flow::Return;
+    }
+    flame(m, entry + 0x2E, f(a + 2))
 }
 
 fn pistol(m: &mut CpuMachine, aim: player_fire::Aim) -> Flow {
@@ -1980,6 +1991,14 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                  run: |m| flame(m, 0x03_D042, player_fire::Flame { angle: 0x18, spread: 0, ahead: false, low: false }) },
     SystemPort { entry: 0x03_D074, original: "PlayerFire_Flame_DownPos_03d074", rust: "system::player_fire::flame",
                  run: |m| flame(m, 0x03_D074, player_fire::Flame { angle: 0x18, spread: 2, ahead: false, low: false }) },
+    SystemPort { entry: 0x03_D0A6, original: "PlayerFire_Flame_Spread1_3_03d0a6", rust: "system::player_fire::flame (×2)", run: |m| flame_pair(m, 0x03_D0A6, 0x01) },
+    SystemPort { entry: 0x03_D104, original: "PlayerFire_Flame_Spread5_7_03d104", rust: "system::player_fire::flame (×2)", run: |m| flame_pair(m, 0x03_D104, 0x05) },
+    SystemPort { entry: 0x03_D162, original: "PlayerFire_Flame_Spread9_B_03d162", rust: "system::player_fire::flame (×2)", run: |m| flame_pair(m, 0x03_D162, 0x09) },
+    SystemPort { entry: 0x03_D1C0, original: "PlayerFire_Flame_SpreadD_F_03d1c0", rust: "system::player_fire::flame (×2)", run: |m| flame_pair(m, 0x03_D1C0, 0x0D) },
+    SystemPort { entry: 0x03_D21E, original: "PlayerFire_Flame_Spread11_13_03d21e", rust: "system::player_fire::flame (×2)", run: |m| flame_pair(m, 0x03_D21E, 0x11) },
+    SystemPort { entry: 0x03_D27C, original: "PlayerFire_Flame_Spread15_17_03d27c", rust: "system::player_fire::flame (×2)", run: |m| flame_pair(m, 0x03_D27C, 0x15) },
+    SystemPort { entry: 0x03_D2DA, original: "PlayerFire_Flame_Spread19_1B_03d2da", rust: "system::player_fire::flame (×2)", run: |m| flame_pair(m, 0x03_D2DA, 0x19) },
+    SystemPort { entry: 0x03_D338, original: "PlayerFire_Flame_Spread1D_1F_03d338", rust: "system::player_fire::flame (×2)", run: |m| flame_pair(m, 0x03_D338, 0x1D) },
     SystemPort { entry: 0x03_C710, original: "PlayerFire_Pistol_Spawn_03c710", rust: "system::player_fire::pistol_bullet",
                  run: |m| { let t = m.cpu.a[6]; let b = player_fire::pistol_bullet(m, t); fire_regs(m, t, b); Flow::Return } },
     SystemPort { entry: 0x03_C776, original: "PlayerFire_Pistol_Fwd_03c776", rust: "system::player_fire::pistol", run: |m| pistol(m, player_fire::Aim::Forward) },
@@ -2842,6 +2861,17 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
     SystemPort { entry: 0x02_8A96, original: "Entity_HitboxCollide_028A96", rust: "system::contact::collide", run: |m| { let (t, d, v) = (m.cpu.a[6], m.cpu.a[0], m.cpu.a[1]); let c = contact::collide(m, t, d, v); set_carry(m, c); Flow::Return } },
     SystemPort { entry: 0x09_A76A, original: "Item_GroundTail_09a75a+$10", rust: "system::items::cull", run: |m| items::cull(m) },
     SystemPort { entry: 0x09_B8EE, original: "Item_TrailRecord_09b8ee", rust: "system::items::trail", run: |m| { let t = m.cpu.a[6]; items::trail(m, t); Flow::Return } },
+    SystemPort { entry: 0x09_B51E, original: "Score_Popup_Value_09b51e", rust: "system::score::popup_value", run: |m| { score::popup_value(m) } },
+    SystemPort { entry: 0x09_B5F6, original: "Score_Popup_Run_09b5e4+$12", rust: "system::score::popup_loop", run: |m| { score::popup_loop(m) } },
+    SystemPort { entry: 0x09_B47C, original: "Jsr5B6ThenJmpScheduler_09b47c", rust: "system::score::free", run: |m| { score::free(m) } },
+    SystemPort { entry: 0x09_B66A, original: "Score_Digit_09b66a", rust: "system::score::digit", run: |m| { score::digit(m) } },
+    SystemPort { entry: 0x09_B702, original: "Score_Digit_09b66a+$98", rust: "system::score::digit_loop", run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; score::digit_loop(m) } },
+    SystemPort { entry: 0x09_B75A, original: "Score_Digit_Lift_09b75a", rust: "system::score::lift", run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; score::lift(m) } },
+    SystemPort { entry: 0x09_B772, original: "Score_Digit_Lift_09b75a+$18", rust: "system::score::lift_loop", run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; score::lift_loop(m) } },
+    SystemPort { entry: 0x09_B7BC, original: "$09B7BC", rust: "system::score::hold", run: |m| { score::hold(m) } },
+    SystemPort { entry: 0x09_B7C2, original: "$09B7C2", rust: "system::score::hold_loop", run: |m| { score::hold_loop(m) } },
+    SystemPort { entry: 0x09_B7F8, original: "$09B7F8", rust: "system::score::blink", run: |m| { score::blink(m) } },
+    SystemPort { entry: 0x09_B7FE, original: "$09B7FE", rust: "system::score::blink_loop", run: |m| { score::blink_loop(m) } },
     SystemPort { entry: 0x09_B3C6, original: "Item_Tmpl293_Pow_09b3c6", rust: "system::items::pow", run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; items::pow(m) } },
     SystemPort { entry: 0x09_B400, original: "Item_Tmpl293_Pow_09b3c6+$3A", rust: "system::items::pow_loop", run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; items::pow_loop(m) } },
     SystemPort { entry: 0x09_B43E, original: "Item_Pow_Die_09b43e", rust: "system::items::pow_freed", run: |m| items::pow_freed(m) },

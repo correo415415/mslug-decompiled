@@ -3522,6 +3522,82 @@ pub mod scroll {
 
 /// Foco de la cámara: los dos jugadores y la ventana en la que la cámara
 /// los mantiene.
+/// Marcador de puntos flotante y sus cifras (`system::score`).
+pub mod score {
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    pub const FACING: u32 = 0x3A;
+    pub const ATTR: u32 = 0x38;
+    pub const PARENT: u32 = 0x0C;
+    /// Jugador que se lleva los puntos (`+$68`, copiado a `+$6E`; negativo
+    /// = nadie) y las puntuaciones, con la zona donde se dejan los puntos.
+    pub const PLAYER: u32 = 0x68;
+    pub const LAST_PLAYER: u32 = 0x6E;
+    pub const SCORES: [u32; 2] = [0x10_6E94, 0x10_6E9C];
+    pub const SCORE_POINTS: u32 = 0x10_81BA;
+    /// Tipo (`+$98`), tabla alternativa (`+$9C`), puntos BCD y número de
+    /// cifras por tipo (normal y alternativa).
+    pub const KIND: u32 = 0x98;
+    pub const ALT: u32 = 0x9C;
+    pub const VALUES: [u32; 2] = [0x2F_792C, 0x2F_794C];
+    pub const COUNTS: [u32; 2] = [0x2F_798C, 0x2F_7994];
+    /// Cifras que quedan por crear, cifras que aún caen (`+$21`, $FF =
+    /// parpadeando) y los puntos que quedan por repartir (una cifra por
+    /// nibble).
+    pub const DIGITS_LEFT: u32 = 0x72;
+    pub const FALLING: u32 = 0x21;
+    pub const BLINKING: u8 = 0xFF;
+    pub const PENDING: u32 = 0x80;
+    /// Ancho de una cifra y desplazamiento vertical al azar (máscara + base).
+    pub const DIGIT_STEP: u16 = 8;
+    pub const Y_JITTER: u16 = 0xE;
+    pub const Y_BASE: u16 = 9;
+    /// Contadores: espera y vida (frames), parpadeo, bucle, salida y
+    /// márgenes de la vista.
+    pub const TIMER: u32 = 0x70;
+    pub const LIFETIME: u32 = 0x84;
+    pub const HOLD_FRAMES: u16 = 0x1E;
+    pub const LIFE_FRAMES: u16 = 0x96;
+    pub const BLINK_FRAMES: u16 = 0xA;
+    pub const RUN_LOOP: u32 = 0x09_B5F6;
+    pub const FREE: u32 = 0x09_B47C;
+    pub const MARGINS: u32 = 0x09_A6C6;
+    /// Cifra: tarea, valor (`+$74`), retardo (`+$70`), gráficos por jugador,
+    /// prioridad, salto (velocidad y gravedad) y guiones por valor.
+    pub const DIGIT: u32 = 0x09_B66A;
+    pub const DIGIT_VALUE: u32 = 0x74;
+    pub const DIGIT_DELAY: u32 = 0x70;
+    pub const DIGIT_GFX: [(u16, u16); 2] = [(0x1B8, 0x1B9), (0x1CD, 0x1CE)];
+    pub const DIGIT_ATTR: u16 = 0xC000;
+    pub const ATTR_KEEP: u16 = 0xFFE3;
+    pub const DIGIT_PRIORITY: u16 = 0x1C;
+    pub const VEL_X: u32 = 0x28;
+    pub const VEL_Y: u32 = 0x2A;
+    pub const ACC_X: u32 = 0x2C;
+    pub const ACC_Y: u32 = 0x2E;
+    pub const DIGIT_VEL_Y: u16 = 0x886;
+    pub const DIGIT_ACC_Y: u16 = 0xFEDD;
+    pub const DIGIT_SCRIPTS: u32 = 0x2F_77A4;
+    pub const DIGIT_LOOP: u32 = 0x09_B702;
+    /// Encima del marcador: altura, rebote y estados.
+    pub const LIFT_DY: u16 = 0x10;
+    pub const LIFT_VEL: u16 = 0x400;
+    pub const LIFT_FRAMES: u16 = 2;
+    pub const LIFT: u32 = 0x09_B75A;
+    pub const LIFT_LOOP: u32 = 0x09_B772;
+    pub const HOLD: u32 = 0x09_B7BC;
+    pub const HOLD_LOOP: u32 = 0x09_B7C2;
+    pub const BLINK: u32 = 0x09_B7F8;
+    pub const BLINK_LOOP: u32 = 0x09_B7FE;
+    /// Sprite del frame (par / impar) y contador de frames.
+    pub const SPRITE: u32 = 0x14;
+    pub const SPRITE_EVEN: u32 = 0x16;
+    pub const SPRITE_ODD: u32 = 0x18;
+    pub const FRAME_COUNTER: u32 = 0x10_6F28;
+    /// Rutinas de una tarea que ya no está.
+    pub const INACTIVE: [u32; 3] = [0xFFFF_FFFF, 0x00_052A, 0x00_0400];
+}
+
 pub mod focus {
     pub const PLAYERS: [u32; 2] = [0x10_0440, 0x10_04E0];
     /// Rutinas de un jugador que no está en juego.
