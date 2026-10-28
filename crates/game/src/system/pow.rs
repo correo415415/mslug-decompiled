@@ -37,6 +37,14 @@ pub fn setup(m: &mut impl Machine, t: u32) {
     tasks::spawn(m, L::SHADOW, t);
 }
 
+/// Suelta delante el objeto que lleva (`+$9B`, con sus parámetros en
+/// `+$9C`). `None` si no lleva nada. Original: `$03EFEC`
+/// (`Pow_HitboxHdr_03efe4+$8`, que el desensamblado dejó tras datos).
+pub fn drop_item(m: &mut impl Memory, t: u32) -> Option<u32> {
+    let kind = m.read_u8(t + L::ITEM);
+    items::spawn_from(m, t, kind, L::ITEM_PARAMS)
+}
+
 /// Física del prisionero: apoyado anda por el suelo; si no, cae.
 /// Original: `Pow_Physics_03fece`.
 fn physics(m: &mut impl Machine, t: u32) {

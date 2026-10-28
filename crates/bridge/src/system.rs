@@ -2879,6 +2879,10 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
     SystemPort { entry: 0x09_B7F8, original: "$09B7F8", rust: "system::score::blink", run: |m| { score::blink(m) } },
     SystemPort { entry: 0x09_B7FE, original: "$09B7FE", rust: "system::score::blink_loop", run: |m| { score::blink_loop(m) } },
     // --- prisionero suelto
+    SystemPort { entry: 0x03_EFEC, original: "Pow_HitboxHdr_03efe4+0x8", rust: "system::pow::drop_item",
+                 run: |m| { let t = m.cpu.a[6]; let o = pow::drop_item(m, t);
+                            m.cpu.d[1] = (m.cpu.d[1] & 0xFFFF_0000) | u32::from(mslug_game::layout::pow::ITEM_PARAMS);
+                            if let Some(o) = o { m.cpu.a[0] = o; } set_carry(m, o.is_none()); Flow::Return } },
     SystemPort { entry: 0x03_F9B8, original: "Pow_AnimTblB_03f636__L03f9b8", rust: "system::pow::setup", run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; let t = m.cpu.a[6]; pow::setup(m, t); Flow::Return } },
     SystemPort { entry: 0x03_FC38, original: "Pow_AnimTblC_03fa0e+0x22A", rust: "system::pow::seated", run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; pow::seated(m) } },
     SystemPort { entry: 0x03_FC4C, original: "Pow_AnimTblC_03fa0e+0x23E", rust: "system::pow::seated_loop", run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; pow::seated_loop(m) } },
@@ -2919,6 +2923,11 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
     SystemPort { entry: 0x04_D6EC, original: "Prop_Static_04d6ec", rust: "system::props::fixed", run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; props::fixed(m) } },
     SystemPort { entry: 0x04_D70C, original: "Prop_Static_04d6ec+0x20", rust: "system::props::fixed_placed", run: |m| props::fixed_placed(m) },
     SystemPort { entry: 0x04_D72E, original: "Prop_Static_04d6ec+0x42", rust: "system::props::fixed_loop", run: |m| props::fixed_loop(m) },
+    SystemPort { entry: 0x04_F46A, original: "Prop_Sensor_04f46a", rust: "system::props::sensor", run: |m| props::sensor(m) },
+    SystemPort { entry: 0x04_F47A, original: "Prop_Sensor_04f46a+$10", rust: "system::props::sensor_watch", run: |m| props::sensor_watch(m) },
+    SystemPort { entry: 0x04_F480, original: "Prop_Sensor_04f46a+$16", rust: "system::props::sensor_loop", run: |m| props::sensor_loop(m) },
+    SystemPort { entry: 0x04_F4B6, original: "Prop_Sensor_04f46a+$4C", rust: "system::props::sensor_trip", run: |m| props::sensor_trip(m) },
+    SystemPort { entry: 0x04_F4C8, original: "Prop_Sensor_04f46a+$5E", rust: "system::props::sensor_trip_loop", run: |m| props::sensor_trip_loop(m) },
     SystemPort { entry: 0x04_F70E, original: "Prop_SignA_04f70e", rust: "system::props::sign(0)", run: |m| props::sign(m, 0) },
     SystemPort { entry: 0x04_F742, original: "Prop_SignA_04f70e+$34", rust: "system::props::sign_loop", run: |m| props::sign_loop(m) },
     SystemPort { entry: 0x04_F76C, original: "Prop_SignB_04f76c", rust: "system::props::sign(1)", run: |m| props::sign(m, 1) },
