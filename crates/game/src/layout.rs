@@ -3552,6 +3552,13 @@ pub mod pow {
     pub const CHEER: u32 = 0x03_FCA4;
     pub const S_CHEER: u32 = 0x03_F3C2;
     pub const CHEER_LOOP: u32 = 0x03_FCC0;
+    /// De pie esperando (`Pow_Idle_03fe66`) y el saludo al darle.
+    pub const IDLE: u32 = 0x03_FE66;
+    pub const S_IDLE: u32 = 0x03_F070;
+    pub const IDLE_LOOP: u32 = 0x03_FE7E;
+    pub const IDLE_WAVE: u32 = 0x03_FE9C;
+    pub const S_IDLE_WAVE: u32 = 0x03_F0CC;
+    pub const IDLE_WAVE_LOOP: u32 = 0x03_FEAC;
     /// Andar: gráficos, base de animaciones (`+$48`), `+$13` bits 0 y 3
     /// que se limpian, `+$98` hacia dónde (0 = como mira), `+$5C` frames
     /// hasta pararse, velocidad, `+$5A` bit 5 = pared y `+$72` columna del
