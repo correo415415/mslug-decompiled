@@ -2099,6 +2099,8 @@ pub mod hits {
     /// forma (+5: 0 punto, 4 rectángulo), siempre activa (+6), …, caja
     /// (+$0A)}; `END` = fin.
     pub const ATTACKS: u32 = 0x4C;
+    /// Sonido del golpe que acierta (`Attack_ApplyThenSound10FA_05e8da`).
+    pub const HIT_SOUND: u16 = 0x10FA;
     pub const ATTACK_LEN: u32 = 0x50;
     pub const END: u8 = 0xFF;
     pub const NONE: u32 = 0xFFFF_FFFF;

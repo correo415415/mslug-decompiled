@@ -23,6 +23,16 @@ use crate::mem::Memory;
 /// 0 = el jugador 1 ha dado al Slug, 1 = el jugador 2).
 pub type Outcome = i8;
 
+/// Lista de ataque y, si ha acertado (bit «gastada» de `FLAGS3`), el
+/// sonido del golpe. Original: `Attack_ApplyThenSound10FA_05e8da`.
+pub fn run_attack_list_sound(m: &mut impl Memory, t: u32, d1_in: u8) -> (Outcome, u32, u8) {
+    let r = run_attack_list_d1(m, t, d1_in);
+    if m.read_u8(t + L::FLAGS3) & L::SPENT != 0 {
+        super::sound::play(m, L::HIT_SOUND);
+    }
+    r
+}
+
 /// Ejecuta la lista de cajas de ataque de `t`. Original:
 /// `Hitbox_RunAttackList_0283d8`. Devuelve el resultado y la dirección
 /// final del cursor (lo que queda en `a0`).
