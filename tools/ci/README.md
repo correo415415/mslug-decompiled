@@ -1,7 +1,7 @@
 # CI del port: `port.yml` corregido
 
-El token del sandbox no tiene permiso `workflows`, así que no puede modificar
-`.github/workflows/`. Este directorio contiene la versión corregida del workflow.
+Copia de referencia de `.github/workflows/port.yml` (ya instalado en `main`,
+`port` y `port_next`). Si se cambia uno, hay que cambiar los dos.
 
 ## Por qué no se podía lanzar
 
@@ -18,7 +18,7 @@ que no había forma de activarlo a mano.
   `{"event_type":"port","client_payload":{"ref":"port_next"}}`.
   El checkout, la etiqueta de la release y el commit destino usan esa rama.
 
-## Cómo instalarlo (una vez, desde la web o con un token con `workflows`)
+## Instalación (hecha; repetir sólo si cambia)
 
 1. Copiar `tools/ci/port.yml` a `.github/workflows/port.yml` en **main**.
 2. Copiar el mismo fichero en la rama `port` (y `port_next`).
