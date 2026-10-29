@@ -27,6 +27,17 @@ pub fn award(m: &mut impl Memory, t: u32, points: u32) {
     hits::add_score(m, L::SCORES[usize::from(player != 0)], L::SCORE_POINTS);
 }
 
+/// Como [`award`], pero antes toma como jugador el dueño del último
+/// ataque que le ha dado (si lo hay). Original: `$051A28`.
+pub fn award_attacker(m: &mut impl Memory, t: u32, points: u32) {
+    let a = m.read_u32(t + L::ATTACKER);
+    if a != L::NO_ATTACKER {
+        let p = m.read_u8(a + L::PLAYER);
+        m.write_u8(t + L::LAST_PLAYER, p);
+    }
+    award(m, t, points);
+}
+
 /// Marcador con una cantidad: suma los puntos de su tipo (`+$98`, de la
 /// tabla normal o la alternativa según `+$9C`), calcula cuántas cifras
 /// tiene, se coloca a la derecha de la última y un poco más abajo al azar

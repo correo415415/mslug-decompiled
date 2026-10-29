@@ -11,7 +11,7 @@
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
 use mslug_game::system::soldier::Trait;
-use mslug_game::system::{aim_turret, anim, enemy_grenade, thrown, autopilot, banner, boot, bullet, burst, charger, collision, contact, critters, debris, events, food, fort, frame, game_over, go_arrow, grenade, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, memcard, mission, msg_select, motion, pads, pickup, platforms, player, pow, player_air, player_arm, player_fire, player_ground, player_hud, player_ride, palette, props, parachute, rank, render, rng, scene, score, script, scroll, slope, slug, slug_arm, slug_drive, slug_fire, slug_hit, human_death, slug_attack, slug_death, spawner, slug_shell, explosion, slug_hunker, slug_idle, slug_jump, soldier, sound, sprite, tasks, title, trig, turret, video, wheels};
+use mslug_game::system::{aim_turret, anim, enemy_grenade, scenery, thrown, autopilot, banner, boot, bullet, burst, charger, collision, contact, critters, debris, events, food, fort, frame, game_over, go_arrow, grenade, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, memcard, mission, msg_select, motion, pads, pickup, platforms, player, pow, player_air, player_arm, player_fire, player_ground, player_hud, player_ride, palette, props, parachute, rank, render, rng, scene, score, script, scroll, slope, slug, slug_arm, slug_drive, slug_fire, slug_hit, human_death, slug_attack, slug_death, spawner, slug_shell, explosion, slug_hunker, slug_idle, slug_jump, soldier, sound, sprite, tasks, title, trig, turret, video, wheels};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use mslug_game::input::{Buttons, Edge};
 use neogeo_hw::cpu::m68k::exec::write_sr;
@@ -2987,6 +2987,28 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
     SystemPort { entry: 0x04_F480, original: "Prop_Sensor_04f46a+$16", rust: "system::props::sensor_loop", run: |m| props::sensor_loop(m) },
     SystemPort { entry: 0x04_F4B6, original: "Prop_Sensor_04f46a+$4C", rust: "system::props::sensor_trip", run: |m| props::sensor_trip(m) },
     SystemPort { entry: 0x04_F4C8, original: "Prop_Sensor_04f46a+$5E", rust: "system::props::sensor_trip_loop", run: |m| props::sensor_trip_loop(m) },
+    // --- farola, choza y tejado
+    SystemPort { entry: 0x04_D74A, original: "Prop_Lamp_04d74a", rust: "system::scenery::lamp", run: |m| scenery::lamp(m) },
+    SystemPort { entry: 0x04_D782, original: "Prop_LampIdle_04d782", rust: "system::scenery::lamp_idle", run: |m| scenery::lamp_idle(m) },
+    SystemPort { entry: 0x04_D7DC, original: "Prop_LampHit_04d7dc", rust: "system::scenery::lamp_hit", run: |m| scenery::lamp_hit(m) },
+    SystemPort { entry: 0x04_D7EE, original: "Prop_LampHit_04d7dc+$12", rust: "system::scenery::lamp_hit_loop", run: |m| scenery::lamp_hit_loop(m) },
+    SystemPort { entry: 0x04_D81A, original: "Prop_LampSpark_04d81a", rust: "system::scenery::spark", run: |m| coll(m, scenery::spark) },
+    SystemPort { entry: 0x04_D898, original: "Prop_LampSpark_04d81a+$7E", rust: "system::scenery::spark_loop", run: |m| coll(m, scenery::spark_loop) },
+    SystemPort { entry: 0x04_D8F2, original: "Prop_Hut_04d8f2", rust: "system::scenery::hut", run: |m| scenery::hut(m) },
+    SystemPort { entry: 0x04_D96A, original: "Prop_Hut_04d8f2+$78", rust: "system::scenery::hut_loop", run: |m| scenery::hut_loop(m) },
+    SystemPort { entry: 0x04_D996, original: "Prop_HutWreck_04d996", rust: "system::scenery::hut_wreck", run: |m| scenery::hut_wreck(m) },
+    SystemPort { entry: 0x04_D9BA, original: "Prop_HutWreck_04d996+$24", rust: "system::scenery::hut_wreck_loop", run: |m| scenery::hut_wreck_loop(m) },
+    SystemPort { entry: 0x04_D9D6, original: "Prop_HutRoof_04d9d6", rust: "system::scenery::roof", run: |m| scenery::roof(m) },
+    SystemPort { entry: 0x04_DA0A, original: "Prop_HutRoof_04d9d6+$34", rust: "system::scenery::roof_loop", run: |m| scenery::roof_loop(m) },
+    SystemPort { entry: 0x04_DA52, original: "Prop_HutRoofFall_04da52", rust: "system::scenery::roof_fall", run: |m| scenery::roof_fall(m) },
+    SystemPort { entry: 0x04_DA8C, original: "Prop_HutRoofFall_04da52+$3A", rust: "system::scenery::roof_fall_loop", run: |m| scenery::roof_fall_loop(m) },
+    SystemPort { entry: 0x04_F2A4, original: "Prop_SlotPrioCheckRts_04f2a4", rust: "system::scenery::wait_children", run: |m| scenery::wait_children(m) },
+    SystemPort { entry: 0x04_F2C2, original: "Prop_Roof_04f2c2", rust: "system::scenery::fort_roof", run: |m| scenery::fort_roof(m) },
+    SystemPort { entry: 0x04_F2FC, original: "Prop_Roof_04f2c2+$3A", rust: "system::scenery::fort_roof_loop", run: |m| scenery::fort_roof_loop(m) },
+    SystemPort { entry: 0x04_F344, original: "Prop_RoofFall_04f344", rust: "system::scenery::fort_roof_fall", run: |m| scenery::fort_roof_fall(m) },
+    SystemPort { entry: 0x04_F372, original: "Prop_RoofFall_04f344+$2E", rust: "system::scenery::fort_roof_fall_loop", run: |m| scenery::fort_roof_fall_loop(m) },
+    SystemPort { entry: 0x05_1A28, original: "$051A28", rust: "system::score::award_attacker",
+                 run: |m| { let (t, p) = (m.cpu.a[6], m.cpu.d[0]); score::award_attacker(m, t, p); Flow::Return } },
     // --- objeto arrojado y su sombra
     SystemPort { entry: 0x09_C23C, original: "Thrown_GroundTail_09c23c", rust: "system::thrown::ground_tail", run: |m| thrown::ground_tail(m) },
     SystemPort { entry: 0x09_C25E, original: "Thrown_Init_09c25e", rust: "system::thrown::start", run: |m| coll(m, thrown::start) },
