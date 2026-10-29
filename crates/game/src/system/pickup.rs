@@ -62,6 +62,23 @@ pub fn player_in_box(m: &mut impl Memory, t: u32, bbox: u32) -> Option<u32> {
     }
 }
 
+/// Jugador en juego más cercano en X a `t` (el 1 si empatan); `None` si
+/// no hay ninguno. Original: `$05E0D4` (C = ninguno; la entidad en `a0`).
+pub fn nearest_player_x(m: &mut impl Memory, t: u32) -> Option<u32> {
+    let [p1, p2] = crate::layout::PLAYER_ENTITY;
+    match super::go_arrow::players_mask(m) {
+        0 => None,
+        1 => Some(p1),
+        2 => Some(p2),
+        _ => {
+            let x = m.read_u16(t + L::X);
+            let d1 = (m.read_u16(p1 + L::X).wrapping_sub(x) as i16).wrapping_abs();
+            let d2 = (m.read_u16(p2 + L::X).wrapping_sub(x) as i16).wrapping_abs();
+            Some(if d2 < d1 { p2 } else { p1 })
+        }
+    }
+}
+
 /// Jugador (índice y entidad) que toca la caja `bbox` de `t`; si la tocan
 /// los dos, el que está más a la derecha (el 2 si empatan). Sólo cuando se
 /// puede recoger (`ENABLED`). Original: `$03EE48`.

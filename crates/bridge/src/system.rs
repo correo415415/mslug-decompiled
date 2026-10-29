@@ -11,7 +11,7 @@
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
 use mslug_game::system::soldier::Trait;
-use mslug_game::system::{anim, autopilot, banner, boot, bullet, burst, charger, collision, contact, critters, debris, events, food, fort, frame, game_over, go_arrow, grenade, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, memcard, mission, msg_select, motion, pads, pickup, platforms, player, pow, player_air, player_arm, player_fire, player_ground, player_hud, player_ride, palette, props, parachute, rank, render, rng, scene, score, script, scroll, slope, slug, slug_arm, slug_drive, slug_fire, slug_hit, human_death, slug_attack, slug_death, spawner, slug_shell, explosion, slug_hunker, slug_idle, slug_jump, soldier, sound, sprite, tasks, title, trig, turret, video, wheels};
+use mslug_game::system::{aim_turret, anim, autopilot, banner, boot, bullet, burst, charger, collision, contact, critters, debris, events, food, fort, frame, game_over, go_arrow, grenade, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, memcard, mission, msg_select, motion, pads, pickup, platforms, player, pow, player_air, player_arm, player_fire, player_ground, player_hud, player_ride, palette, props, parachute, rank, render, rng, scene, score, script, scroll, slope, slug, slug_arm, slug_drive, slug_fire, slug_hit, human_death, slug_attack, slug_death, spawner, slug_shell, explosion, slug_hunker, slug_idle, slug_jump, soldier, sound, sprite, tasks, title, trig, turret, video, wheels};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use mslug_game::input::{Buttons, Edge};
 use neogeo_hw::cpu::m68k::exec::write_sr;
@@ -462,6 +462,20 @@ fn engine_sound_regs(m: &mut CpuMachine, t: u32, code: u16) {
         m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_0000) | u32::from(code);
     }
     slug_drive::engine_sound(m, t, code);
+}
+
+/// Puertos que mueven con colisión: `a5` apunta al área de trabajo, como
+/// lo deja el original.
+fn coll<'a, 'b>(m: &'a mut CpuMachine<'b>, f: fn(&'a mut CpuMachine<'b>) -> Flow) -> Flow {
+    m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE;
+    f(m)
+}
+
+/// Salida de `$05E086`/`$05E0D4`: la entidad del jugador en `a0` (o la del
+/// 2P y C = 1 si no hay ninguno).
+fn player_regs(m: &mut CpuMachine, p: Option<u32>) {
+    m.cpu.a[0] = p.unwrap_or(mslug_game::layout::PLAYER_ENTITY[1]);
+    set_carry(m, p.is_none());
 }
 
 fn set_carry(m: &mut CpuMachine, c: bool) {
@@ -2973,6 +2987,58 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
     SystemPort { entry: 0x04_F480, original: "Prop_Sensor_04f46a+$16", rust: "system::props::sensor_loop", run: |m| props::sensor_loop(m) },
     SystemPort { entry: 0x04_F4B6, original: "Prop_Sensor_04f46a+$4C", rust: "system::props::sensor_trip", run: |m| props::sensor_trip(m) },
     SystemPort { entry: 0x04_F4C8, original: "Prop_Sensor_04f46a+$5E", rust: "system::props::sensor_trip_loop", run: |m| props::sensor_trip_loop(m) },
+    // --- torreta que apunta (misión 1)
+    SystemPort { entry: 0x06_0E62, original: "AimTurret_Tmpl08E_060e62", rust: "system::aim_turret::start", run: |m| coll(m, aim_turret::start) },
+    SystemPort { entry: 0x06_0F04, original: "AimTurret_Active_060f04", rust: "system::aim_turret::active", run: |m| coll(m, aim_turret::active) },
+    SystemPort { entry: 0x06_0F0A, original: "AimTurret_Active_060f04+$6", rust: "system::aim_turret::active_loop", run: |m| coll(m, aim_turret::active_loop) },
+    SystemPort { entry: 0x06_0F88, original: "AimTurret_ActiveB_060f88", rust: "system::aim_turret::orbit", run: |m| coll(m, aim_turret::orbit) },
+    SystemPort { entry: 0x06_0F8E, original: "AimTurret_ActiveB_060f88+$6", rust: "system::aim_turret::orbit_loop", run: |m| coll(m, aim_turret::orbit_loop) },
+    SystemPort { entry: 0x06_100C, original: "AimTurret_Die_06100c", rust: "system::aim_turret::die", run: |m| coll(m, aim_turret::die) },
+    SystemPort { entry: 0x06_1024, original: "AimTurret_Die_06100c+$18", rust: "system::aim_turret::die_loop", run: |m| coll(m, aim_turret::die_loop) },
+    SystemPort { entry: 0x06_10F4, original: "AimTurret_DieB_0610f4", rust: "system::aim_turret::die_b", run: |m| coll(m, aim_turret::die_b) },
+    SystemPort { entry: 0x06_111C, original: "AimTurret_DieB_0610f4+$28", rust: "system::aim_turret::die_b_loop", run: |m| coll(m, aim_turret::die_b_loop) },
+    SystemPort { entry: 0x06_1204, original: "AimTurret_Dormant_061204", rust: "system::aim_turret::dormant", run: |m| coll(m, aim_turret::dormant) },
+    SystemPort { entry: 0x06_1210, original: "AimTurret_Dormant_061204+$C", rust: "system::aim_turret::dormant_loop", run: |m| coll(m, aim_turret::dormant_loop) },
+    SystemPort { entry: 0x06_1254, original: "AimTurret_Gun_061254", rust: "system::aim_turret::gun", run: |m| aim_turret::gun(m) },
+    SystemPort { entry: 0x06_127A, original: "AimTurret_Gun_061254+$26", rust: "system::aim_turret::gun_loop", run: |m| aim_turret::gun_loop(m) },
+    SystemPort { entry: 0x06_12A8, original: "AimTurret_GunAttack_0612a8", rust: "system::aim_turret::gun_attack", run: |m| coll(m, aim_turret::gun_attack) },
+    SystemPort { entry: 0x06_12B4, original: "AimTurret_GunAttack_0612a8+$C", rust: "system::aim_turret::gun_attack_loop", run: |m| coll(m, aim_turret::gun_attack_loop) },
+    SystemPort { entry: 0x06_12E6, original: "AimTurret_Barrel_0612e6", rust: "system::aim_turret::barrel", run: |m| coll(m, aim_turret::barrel) },
+    SystemPort { entry: 0x06_1316, original: "AimTurret_Barrel_0612e6+$30", rust: "system::aim_turret::barrel_loop", run: |m| coll(m, aim_turret::barrel_loop) },
+    SystemPort { entry: 0x06_1344, original: "AimTurret_Shell_061344", rust: "system::aim_turret::shell", run: |m| coll(m, aim_turret::shell) },
+    SystemPort { entry: 0x06_13C4, original: "AimTurret_Shell_061344+$80", rust: "system::aim_turret::shell_loop", run: |m| coll(m, aim_turret::shell_loop) },
+    SystemPort { entry: 0x06_1452, original: "AimTurret_ShellBurst_061452", rust: "system::aim_turret::shell_burst", run: |m| aim_turret::shell_burst(m) },
+    SystemPort { entry: 0x06_1474, original: "AimTurret_ShellBurst_061452+$22", rust: "system::aim_turret::shell_burst_loop", run: |m| aim_turret::shell_burst_loop(m) },
+    SystemPort { entry: 0x06_1480, original: "AimTurret_Rts_061480", rust: "(rts)", run: |_m| Flow::Return },
+    SystemPort { entry: 0x06_1482, original: "AimTurret_DropItem_061482", rust: "system::aim_turret::drop_item",
+                 run: |m| { let t = m.cpu.a[6]; if let Some(o) = aim_turret::drop_item(m, t) { m.cpu.a[0] = o; } Flow::Return } },
+    SystemPort { entry: 0x06_14B6, original: "AimTurret_Cooldown_0614b6", rust: "system::aim_turret::body_script", run: |m| { let t = m.cpu.a[6]; aim_turret::body_script(m, t); Flow::Return } },
+    SystemPort { entry: 0x06_14E6, original: "AimTurret_AnimScript_0614e6", rust: "system::aim_turret::gun_draw", run: |m| { let t = m.cpu.a[6]; aim_turret::gun_draw(m, t); Flow::Return } },
+    SystemPort { entry: 0x06_1580, original: "AimTurret_HitCheck_061580", rust: "system::aim_turret::flash", run: |m| { let t = m.cpu.a[6]; aim_turret::flash(m, t); Flow::Return } },
+    SystemPort { entry: 0x06_15F6, original: "AimTurret_GunOffset_0615f6", rust: "system::aim_turret::gun_palette", run: |m| { let t = m.cpu.a[6]; aim_turret::gun_palette(m, t); Flow::Return } },
+    SystemPort { entry: 0x06_161E, original: "AimTurret_SinCos40_06161e", rust: "system::aim_turret::orbit_step",
+                 run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; let t = m.cpu.a[6]; let at = (m.cpu.d[3] as u16, m.cpu.d[4] as u16); aim_turret::orbit_step(m, t, at); Flow::Return } },
+    SystemPort { entry: 0x06_164C, original: "AimTurret_AimAtPlayer_06164c", rust: "system::aim_turret::aim",
+                 run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; let t = m.cpu.a[6]; aim_turret::aim(m, t, false); Flow::Return } },
+    SystemPort { entry: 0x06_16CA, original: "AimTurret_AimAtPlayerB_0616ca", rust: "system::aim_turret::aim (caída)",
+                 run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; let t = m.cpu.a[6]; aim_turret::aim(m, t, true); Flow::Return } },
+    SystemPort { entry: 0x06_174A, original: "AimTurret_StepAngle_06174a", rust: "system::aim_turret::near",
+                 run: |m| { let t = m.cpu.a[6]; let c = aim_turret::near(m, t, mslug_game::layout::aim_turret::CLOSE); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x06_1774, original: "AimTurret_StepAngleB_061774", rust: "system::aim_turret::near",
+                 run: |m| { let t = m.cpu.a[6]; let c = aim_turret::near(m, t, mslug_game::layout::aim_turret::CLOSE_ORBIT); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x06_179E, original: "AimTurret_Acquire_06179e", rust: "system::aim_turret::acquire", run: |m| { let t = m.cpu.a[6]; aim_turret::acquire(m, t); Flow::Return } },
+    SystemPort { entry: 0x06_17D2, original: "AimTurret_Anim_0617d2", rust: "system::aim_turret::update_pose", run: |m| { let t = m.cpu.a[6]; aim_turret::update_pose(m, t); Flow::Return } },
+    SystemPort { entry: 0x06_18B0, original: "AimTurret_RngDifficulty_0618b0", rust: "system::aim_turret::fire_control", run: |m| { let t = m.cpu.a[6]; aim_turret::fire_control(m, t); Flow::Return } },
+    SystemPort { entry: 0x06_1910, original: "AimTurret_SpawnPair_061910", rust: "system::aim_turret::spawn_pair", run: |m| { let t = m.cpu.a[6]; aim_turret::spawn_pair(m, t); Flow::Return } },
+    SystemPort { entry: 0x06_1952, original: "AimTurret_ScrollGate_061952", rust: "system::aim_turret::gate_start", run: |m| { let t = m.cpu.a[6]; aim_turret::gate_start(m, t); Flow::Return } },
+    SystemPort { entry: 0x06_197C, original: "AimTurret_ScrollGateB_06197c", rust: "system::aim_turret::gate",
+                 run: |m| { let t = m.cpu.a[6]; let c = aim_turret::gate(m, t); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x06_19AE, original: "AimTurret_Stub_0619ae", rust: "system::aim_turret::below_next",
+                 run: |m| { let t = m.cpu.a[6]; let c = aim_turret::below_next(m, t); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x05_E0D4, original: "Target_AcquireNearestPlayer_05e086+$4E", rust: "system::pickup::nearest_player_x",
+                 run: |m| { let t = m.cpu.a[6]; let p = pickup::nearest_player_x(m, t); player_regs(m, p); Flow::Return } },
+    SystemPort { entry: 0x05_E086, original: "Target_AcquireNearestPlayer_05e086", rust: "system::pickup::player_in_box",
+                 run: |m| { let (t, b) = (m.cpu.a[6], m.cpu.a[0]); let p = pickup::player_in_box(m, t, b); m.cpu.a[1] = b; player_regs(m, p); Flow::Return } },
     SystemPort { entry: 0x04_FA40, original: "FixTile_Set11C2_04fa40", rust: "system::props::fix_tile(0)",
                  run: |m| { let r = props::fix_tile(m, 0); fix_tile_regs(m, 0); r } },
     SystemPort { entry: 0x04_FA58, original: "FixTile_Set11C1_04fa58", rust: "system::props::fix_tile(1)",

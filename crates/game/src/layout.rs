@@ -6395,3 +6395,158 @@ pub mod soldier {
     pub const AFTER_DESPAWN_SPAWN_HURT: u32 = 0x05_92F4;
     pub const AFTER_DESPAWN_SPAWN_RECOVER: u32 = 0x05_9330;
 }
+
+/// Torreta que apunta (plantilla `$8E`): el cuerpo vuela hacia la altura
+/// de vigilancia sobre el jugador más cercano, su cañón (tarea hija) y los
+/// proyectiles con su casquillo.
+pub mod aim_turret {
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    pub const VEL_X: u32 = 0x28;
+    pub const VEL_Y: u32 = 0x2A;
+    pub const ACC_X: u32 = 0x2C;
+    pub const ACC_Y: u32 = 0x2E;
+    /// Ángulo (1/256 de vuelta) hacia el objetivo / de la órbita.
+    pub const ANGLE: u32 = 0x34;
+    pub const ATTR: u32 = 0x38;
+    pub const ATTR_INIT: u16 = 0x8000;
+    /// Espejo (bit 0 = mira a la izquierda).
+    pub const FACING: u32 = 0x3A;
+    pub const FACING_LEFT: u8 = 1 << 0;
+    /// Guion del cañón: fotograma, tabla y espera.
+    pub const FRAME: u32 = 0x3B;
+    pub const SCRIPT: u32 = 0x3C;
+    pub const WAIT: u32 = 0x46;
+    pub const HITBOX: u32 = 0x48;
+    pub const ATTACKS: u32 = 0x4C;
+    /// Paleta en uso y las tres que alterna (normal A/B y destello).
+    pub const PAL: u32 = 0x14;
+    pub const PAL_A: u32 = 0x16;
+    pub const PAL_B: u32 = 0x18;
+    pub const PAL_FLASH: u32 = 0x1A;
+    /// Reducción del sprite (para el dibujo del cañón).
+    pub const SHRINK_H: u32 = 0x32;
+    pub const SHRINK_V: u32 = 0x33;
+    /// `+$13`: golpeada este frame (bit 3) y la lista de ataque ha dado (bit 1).
+    pub const FLAGS2: u32 = 0x13;
+    pub const HIT: u8 = 1 << 3;
+    pub const ATTACK_HIT: u8 = 1 << 1;
+    /// `+$20` = $FF: el cuerpo se ha ido (lo miran sus hijas).
+    pub const GONE: u32 = 0x20;
+    pub const TIMER: u32 = 0x66;
+    pub const FLASH_TICK: u32 = 0x70;
+    /// Pose (0–6) según la velocidad horizontal.
+    pub const AIM: u32 = 0x71;
+    pub const TARGET_X: u32 = 0x72;
+    pub const TARGET_Y: u32 = 0x74;
+    /// Espera entre ráfagas (palabra), entre disparos y disparos que quedan.
+    pub const BURST_WAIT: u32 = 0x78;
+    pub const SHOT_WAIT: u32 = 0x7A;
+    pub const SHOTS: u32 = 0x7B;
+    pub const SHOTS_NEW: u8 = 0xFF;
+    /// Historia de golpes (bit 0 = este frame, bit 1 = el anterior).
+    pub const HIT_HISTORY: u32 = 0x7C;
+    /// Puerta de retirada: tiempo, distancia de scroll máxima y cámara inicial.
+    pub const GATE_TIMER: u32 = 0x80;
+    pub const GATE_DIST: u32 = 0x82;
+    pub const GATE_CAM: u32 = 0x84;
+    pub const COUNT: u32 = 0x86;
+    /// Parámetros de aparición.
+    pub const PARAM_FACING: u32 = 0x98;
+    pub const PARAM_HEIGHT: u32 = 0x99;
+    /// Tiempo de la puerta; $FF = al morir sale volando (`DIE_B`).
+    pub const PARAM_GATE: u32 = 0x9A;
+    pub const PARAM_DIST: u32 = 0x9B;
+    pub const SPREAD: u32 = 0x9C;
+    pub const SPREAD_MASK: u16 = 0x1F;
+    pub const ITEM: u32 = 0x9D;
+    pub const ITEM_PARAMS: u16 = 0x9E;
+    pub const ITEM_DX: u16 = 0x10;
+
+    pub const GFX_BODY: [u16; 3] = [0x187, 0x188, 0x18A];
+    pub const GFX_GUN: [u16; 2] = [0x189, 0x18B];
+    pub const GFX_BARREL: u16 = 0x189;
+    pub const GFX_SHELL: u16 = 0x187;
+    pub const SND_LOOP: u16 = 0x10E8;
+    pub const SND_HIT: u16 = 0x108D;
+    pub const SND_CRASH: u16 = 0x102F;
+    pub const SND_SHOT: u16 = 0x109B;
+    pub const SND_BURST: u16 = 0x1022;
+
+    /// Tablas por dificultad (`$0799DE`).
+    pub const T_TIMER: u32 = 0x2B_DD0A;
+    pub const T_BURST_WAIT_START: u32 = 0x2B_DE0E;
+    pub const T_SHOT_WAIT: u32 = 0x2B_DE90;
+    pub const T_SHOTS: u32 = 0x2B_DF12;
+    pub const T_BURST_WAIT: u32 = 0x2B_DD8C;
+    pub const T_SHELL_SPEED: u32 = 0x2B_DF94;
+
+    pub const HITBOX_BODY: u32 = 0x2C_32D6;
+    pub const MARGINS: u32 = 0x2C_33A0;
+    pub const MARGINS_SHELL: u32 = 0x2C_33AA;
+    pub const S_DIE: u32 = 0x2C_2CD8;
+    pub const S_BARREL: u32 = 0x2C_2D86;
+    pub const S_SHELL: u32 = 0x2C_2DF8;
+    /// Guion del cuerpo por pose (−1 = ninguno) y del cañón por pose.
+    pub const POSE_SCRIPTS: u32 = 0x2C_2CBC;
+    pub const GUN_SCRIPTS: u32 = 0x2C_3212;
+    pub const LAST_POSE: u8 = 6;
+    pub const FRAME_LEN: u32 = 8;
+    pub const FRAME_WAIT: u32 = 4;
+    pub const FRAME_END: u32 = 0xFFFF_FFFF;
+    pub const ATTACKS_GUN: u32 = 0x2C_3282;
+    pub const HITBOX_SHELL: u32 = 0x2C_334C;
+    pub const ATTACKS_SHELL: u32 = 0x2C_322E;
+    /// Lanzadores (`$077C7E`): humo al caer y restos al estrellarse.
+    pub const SMOKE: u32 = 0x2C_33B4;
+    pub const DEBRIS: u32 = 0x2C_3406;
+    pub const EXPLOSION: u32 = 0x07_7FD6;
+    pub const FIRE: u32 = 0x07_7F6A;
+
+    pub const ACTIVE: u32 = 0x06_0F04;
+    pub const ACTIVE_LOOP: u32 = 0x06_0F0A;
+    pub const ORBIT: u32 = 0x06_0F88;
+    pub const ORBIT_LOOP: u32 = 0x06_0F8E;
+    pub const DIE: u32 = 0x06_100C;
+    pub const DIE_LOOP: u32 = 0x06_1024;
+    pub const DIE_B: u32 = 0x06_10F4;
+    pub const DIE_B_LOOP: u32 = 0x06_111C;
+    pub const DORMANT: u32 = 0x06_1204;
+    pub const DORMANT_LOOP: u32 = 0x06_1210;
+    pub const GUN: u32 = 0x06_1254;
+    pub const GUN_LOOP: u32 = 0x06_127A;
+    pub const GUN_ATTACK: u32 = 0x06_12A8;
+    pub const GUN_ATTACK_LOOP: u32 = 0x06_12B4;
+    pub const BARREL: u32 = 0x06_12E6;
+    pub const BARREL_LOOP: u32 = 0x06_1316;
+    pub const SHELL: u32 = 0x06_1344;
+    pub const SHELL_LOOP: u32 = 0x06_13C4;
+    pub const SHELL_BURST: u32 = 0x06_1452;
+    pub const SHELL_BURST_LOOP: u32 = 0x06_1474;
+
+    pub const FRAME_COUNTER: u32 = 0x10_6F28;
+    pub const CAMERA_X: u32 = 0x10_6F50;
+    /// Origen de pantalla en X (`$04400E`).
+    pub const SCREEN_X: u32 = 0x10_6F70;
+
+    pub const HEIGHT_BASE: u16 = 0x100;
+    pub const HEIGHT_STEP: u16 = 0x10;
+    pub const LOW_TARGET_Y: u16 = 0x1FF;
+    pub const FLY_OFF_TARGET: (u16, u16) = (0x140, 0x160);
+    pub const CRASH_Y: i16 = 0x1B0;
+    pub const FLY_OFF_SCREEN_X: i16 = 0x3E0;
+    pub const CLOSE: i16 = 8;
+    pub const CLOSE_ORBIT: i16 = 0x10;
+    pub const ORBIT_STEP: u16 = 4;
+    pub const ORBIT_RADIUS: i16 = 0x40;
+    pub const FALL_ACC_Y: u16 = 0x10;
+    pub const SMOKE_DX: u16 = 0x28;
+    pub const SMOKE_DY: u16 = 0x18;
+    pub const EXPLOSION_DY: u16 = 0x10;
+    pub const SHELL_DY: u16 = 0x10;
+    pub const SHELL_TIMER: u16 = 0x3C;
+    pub const GUN_ATTACK_FRAMES: u16 = 4;
+    pub const GATE_STEP: u16 = 2;
+    /// Velocidades X que separan las 7 poses.
+    pub const POSE_THRESHOLDS: [i16; 6] = [-0xC0, -0x80, -0x40, 0x40, 0x80, 0xC0];
+}
