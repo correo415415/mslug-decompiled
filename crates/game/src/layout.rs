@@ -6629,3 +6629,52 @@ pub mod enemy_grenade {
     pub const EXPLODE_QUIET: u32 = 0x05_6012;
     pub const GONE: u32 = 0x05_6058;
 }
+
+/// Objeto arrojado (`system::thrown`) y su sombra.
+pub mod thrown {
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    pub const VEL_X: u32 = 0x28;
+    pub const VEL_Y: u32 = 0x2A;
+    pub const ATTR: u32 = 0x38;
+    pub const ATTR_INIT: u16 = 0xD000;
+    pub const ATTR_PRIO_KEEP: u16 = 0xFFE3;
+    pub const ATTR_PRIO: u16 = 0x10;
+    /// Espejo: bit 0 = horizontal, bit 1 = vertical.
+    pub const FACING: u32 = 0x3A;
+    pub const FLIP_X: u8 = 1 << 0;
+    pub const FLIP_Y: u8 = 1 << 1;
+    pub const ATTACKS: u32 = 0x4C;
+    pub const FLAGS_13: u32 = 0x13;
+    pub const ATTACK_HIT: u8 = 1 << 1;
+    /// Variante (bit 0 = cae en vertical; 3 = boca abajo) y lado del lanzador.
+    pub const KIND: u32 = 0x98;
+    pub const SIDE: u32 = 0x99;
+    pub const KIND_VERTICAL: u8 = 1 << 0;
+    pub const KIND_UPSIDE: u8 = 3;
+    pub const SIDE_MASK: u8 = 1 << 1;
+    pub const GFX: u16 = 0x184;
+    /// Guiones de vuelo y de aterrizaje (vertical / horizontal).
+    pub const SCRIPT_V: u32 = 0x2F_83A4;
+    pub const SCRIPT_H: u32 = 0x2F_84AE;
+    pub const LANDED_V: u32 = 0x2F_8416;
+    pub const LANDED_H: u32 = 0x2F_8520;
+    pub const ATTACKS_FLY: u32 = 0x2F_85B8;
+    /// Velocidades iniciales y la vertical hacia la que tiende.
+    pub const SPEED: u16 = 0x800;
+    pub const VEL_Y_H: u16 = 0xFE00;
+    pub const TERMINAL_Y: u16 = 0x200;
+    /// Márgenes de fuera de pantalla.
+    pub const MARGINS: u32 = 0x09_C234;
+    /// Sombra: dueño, campo del sprite en el dueño y el suyo.
+    pub const OWNER: u32 = 0x0C;
+    pub const OWNER_SPRITE: u32 = 0x70;
+    pub const SPRITE: u32 = 0x3C;
+    /// Rutinas.
+    pub const FLY: u32 = 0x09_C30A;
+    pub const LANDED: u32 = 0x09_C39A;
+    pub const LANDED_LOOP: u32 = 0x09_C3D0;
+    pub const SHADOW: u32 = 0x09_C3F0;
+    pub const SHADOW_LOOP: u32 = 0x09_C410;
+    pub const SHADOW_B_LOOP: u32 = 0x09_C474;
+}

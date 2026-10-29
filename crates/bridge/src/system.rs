@@ -11,7 +11,7 @@
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
 use mslug_game::system::soldier::Trait;
-use mslug_game::system::{aim_turret, anim, enemy_grenade, autopilot, banner, boot, bullet, burst, charger, collision, contact, critters, debris, events, food, fort, frame, game_over, go_arrow, grenade, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, memcard, mission, msg_select, motion, pads, pickup, platforms, player, pow, player_air, player_arm, player_fire, player_ground, player_hud, player_ride, palette, props, parachute, rank, render, rng, scene, score, script, scroll, slope, slug, slug_arm, slug_drive, slug_fire, slug_hit, human_death, slug_attack, slug_death, spawner, slug_shell, explosion, slug_hunker, slug_idle, slug_jump, soldier, sound, sprite, tasks, title, trig, turret, video, wheels};
+use mslug_game::system::{aim_turret, anim, enemy_grenade, thrown, autopilot, banner, boot, bullet, burst, charger, collision, contact, critters, debris, events, food, fort, frame, game_over, go_arrow, grenade, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, memcard, mission, msg_select, motion, pads, pickup, platforms, player, pow, player_air, player_arm, player_fire, player_ground, player_hud, player_ride, palette, props, parachute, rank, render, rng, scene, score, script, scroll, slope, slug, slug_arm, slug_drive, slug_fire, slug_hit, human_death, slug_attack, slug_death, spawner, slug_shell, explosion, slug_hunker, slug_idle, slug_jump, soldier, sound, sprite, tasks, title, trig, turret, video, wheels};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use mslug_game::input::{Buttons, Edge};
 use neogeo_hw::cpu::m68k::exec::write_sr;
@@ -2987,6 +2987,16 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
     SystemPort { entry: 0x04_F480, original: "Prop_Sensor_04f46a+$16", rust: "system::props::sensor_loop", run: |m| props::sensor_loop(m) },
     SystemPort { entry: 0x04_F4B6, original: "Prop_Sensor_04f46a+$4C", rust: "system::props::sensor_trip", run: |m| props::sensor_trip(m) },
     SystemPort { entry: 0x04_F4C8, original: "Prop_Sensor_04f46a+$5E", rust: "system::props::sensor_trip_loop", run: |m| props::sensor_trip_loop(m) },
+    // --- objeto arrojado y su sombra
+    SystemPort { entry: 0x09_C23C, original: "Thrown_GroundTail_09c23c", rust: "system::thrown::ground_tail", run: |m| thrown::ground_tail(m) },
+    SystemPort { entry: 0x09_C25E, original: "Thrown_Init_09c25e", rust: "system::thrown::start", run: |m| coll(m, thrown::start) },
+    SystemPort { entry: 0x09_C30A, original: "Thrown_Init_09c25e+$AC", rust: "system::thrown::fly", run: |m| coll(m, thrown::fly) },
+    SystemPort { entry: 0x09_C39A, original: "Thrown_Landed_09c39a", rust: "system::thrown::landed", run: |m| coll(m, thrown::landed) },
+    SystemPort { entry: 0x09_C3D0, original: "Thrown_Landed_09c39a+$36", rust: "system::thrown::landed_loop", run: |m| coll(m, thrown::landed_loop) },
+    SystemPort { entry: 0x09_C3F0, original: "Thrown_Shadow_09c3f0", rust: "system::thrown::shadow", run: |m| thrown::shadow(m, true) },
+    SystemPort { entry: 0x09_C410, original: "Thrown_Shadow_09c3f0+$20", rust: "system::thrown::shadow_loop", run: |m| thrown::shadow_loop(m, true) },
+    SystemPort { entry: 0x09_C454, original: "Thrown_ShadowB_09c454", rust: "system::thrown::shadow(B)", run: |m| thrown::shadow(m, false) },
+    SystemPort { entry: 0x09_C474, original: "Thrown_ShadowB_09c454+$20", rust: "system::thrown::shadow_loop(B)", run: |m| thrown::shadow_loop(m, false) },
     // --- granada enemiga
     SystemPort { entry: 0x05_5BCE, original: "Grenade_SpawnFromThrower_055bce", rust: "system::enemy_grenade::spawn_from",
                  run: |m| { let t = m.cpu.a[6]; let next = m.read_u32(mslug_game::layout::enemy_grenade::PARENT + mslug_game::layout::task::NEXT);
