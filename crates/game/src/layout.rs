@@ -6550,3 +6550,82 @@ pub mod aim_turret {
     /// Velocidades X que separan las 7 poses.
     pub const POSE_THRESHOLDS: [i16; 6] = [-0xC0, -0x80, -0x40, 0x40, 0x80, 0xC0];
 }
+
+/// Granada enemiga (`system::enemy_grenade`): la que lanzan los soldados.
+pub mod enemy_grenade {
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    pub const VEL_X: u32 = 0x28;
+    pub const VEL_Y: u32 = 0x2A;
+    pub const ACC_X: u32 = 0x2C;
+    pub const ACC_Y: u32 = 0x2E;
+    /// Ángulo (1/256 de vuelta; con el guion que gira, fotograma 0–31).
+    pub const ANGLE: u32 = 0x30;
+    pub const ATTR: u32 = 0x38;
+    pub const ATTR_INIT: u16 = 0xD000;
+    /// Bits de prioridad del atributo que fija cada final.
+    pub const ATTR_PRIO_KEEP: u16 = 0xFFE3;
+    /// Espejo (bit 0 = mira a la izquierda).
+    pub const FACING: u32 = 0x3A;
+    pub const FACING_LEFT: u8 = 1 << 0;
+    /// Trayectoria (índice en `TRAJ`).
+    pub const KIND: u32 = 0x5C;
+    /// Movimiento: 0 / `MOVE_ROLL` = caída que se para, otro = subida «E».
+    pub const MOVE: u32 = 0x70;
+    pub const MOVE_ROLL: u16 = 0xFFFE;
+    /// Y de salida (por encima frena).
+    pub const START_Y: u32 = 0x72;
+    pub const PAL: u32 = 0x14;
+    pub const PAL_A: u32 = 0x16;
+    pub const FLAGS_13: u32 = 0x13;
+    pub const ATTACK_HIT: u8 = 1 << 1;
+    pub const ROLLING: u8 = 1 << 6;
+    /// Bits que se apagan al estallar (1, 3 y 0).
+    pub const BLAST_CLEAR: u8 = 0b1011;
+    pub const FLAGS_6B: u32 = 0x6B;
+    pub const FLAGS_6B_BIT4: u8 = 1 << 4;
+    pub const HITBOX: u32 = 0x48;
+    pub const NONE: u32 = 0xFFFF_FFFF;
+    pub const ATTACKS: u32 = 0x4C;
+    /// Modo de escena (1 y 3: el sprite gira con la velocidad; 2: apunta
+    /// al jugador y no frena) y contador de frames.
+    pub const MODE: u32 = super::system::FRAME_PARAM_B;
+    pub const MODE_AIMED: u8 = 2;
+    pub const MODE_SPIN: [u8; 2] = [1, 3];
+    pub const FRAME: u32 = super::system::FRAME_COUNTER;
+    /// Con este byte distinto de 0 todas revientan sin sonido.
+    pub const STOP_ALL: u32 = 0x10_E39E;
+    /// Tarea madre y desplazamiento bajo el lanzador.
+    pub const PARENT: u32 = 0x10_0800;
+    pub const THROW_DY: u16 = 0x20;
+    /// Tabla de trayectorias: 8 bytes (vel. X, acel. Y, vel. Y, movimiento).
+    pub const TRAJ: u32 = 0x05_5C08;
+    pub const TRAJ_STRIDE: u32 = 8;
+    /// Márgenes de fuera de pantalla.
+    pub const PROBE_BOX: u32 = 0x05_5CC8;
+    /// Campos de paleta que alterna según el frame (4 words).
+    pub const PAL_FIELDS: u32 = 0x05_5CD0;
+    /// Caja donde busca al jugador (modo que apunta) y altura de su pecho.
+    pub const AIM_BOX: u32 = 0x05_E166;
+    pub const AIM_DY: u16 = 0x1C;
+    /// Tipo de tile que la hace estallar al instante.
+    pub const TILE_SOLID: u8 = 1;
+    pub const GFX: [u16; 3] = [0x15D, 0x164, 0x165];
+    pub const SCRIPT: u32 = 0x2C_72BA;
+    pub const SCRIPT_SPIN: u32 = 0x2C_72C0;
+    pub const ATTACKS_FLY: u32 = 0x29_CBFE;
+    /// Finales: atributo, bits de prioridad y sonido.
+    pub const ATTR_GROUND: u16 = 0x2000;
+    pub const ATTR_AIR: u16 = 0x8000;
+    pub const PRIO_BACK: u16 = 0x10;
+    pub const PRIO_HIT: u16 = 0x4;
+    pub const SOUND: u16 = 0x1027;
+    pub const SOUND_NONE: u16 = 0xFFFF;
+    /// Rutinas.
+    pub const TASK: u32 = 0x05_5CD8;
+    pub const FLY: u32 = 0x05_5E7A;
+    pub const EXPLODE: u32 = 0x05_5FCA;
+    pub const EXPLODE_HIT: u32 = 0x05_5FEE;
+    pub const EXPLODE_QUIET: u32 = 0x05_6012;
+    pub const GONE: u32 = 0x05_6058;
+}
