@@ -7,6 +7,7 @@
 //! normal: terminan una interrupción, saltan a la BIOS o ceden el control
 //! al planificador. Por eso devuelven un [`Flow`](crate::Flow).
 
+pub mod aim_turret;
 pub mod anim;
 pub mod autopilot;
 pub mod banner;
