@@ -88,6 +88,8 @@ pub mod trig;
 pub mod turret;
 pub mod tasks;
 pub mod thrown;
+pub mod barrel;
+pub mod smoke;
 pub mod video;
 pub mod wheels;
 
