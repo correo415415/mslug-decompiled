@@ -3671,6 +3671,9 @@ pub mod score {
     pub const LAST_PLAYER: u32 = 0x6E;
     pub const SCORES: [u32; 2] = [0x10_6E94, 0x10_6E9C];
     pub const SCORE_POINTS: u32 = 0x10_81BA;
+    /// Último ataque que le ha dado (`$FFFFFFFF` = ninguno).
+    pub const ATTACKER: u32 = 0x50;
+    pub const NO_ATTACKER: u32 = 0xFFFF_FFFF;
     /// Tipo (`+$98`), tabla alternativa (`+$9C`), puntos BCD y número de
     /// cifras por tipo (normal y alternativa).
     pub const KIND: u32 = 0x98;
@@ -6677,4 +6680,88 @@ pub mod thrown {
     pub const SHADOW: u32 = 0x09_C3F0;
     pub const SHADOW_LOOP: u32 = 0x09_C410;
     pub const SHADOW_B_LOOP: u32 = 0x09_C474;
+}
+
+/// Decorados de la misión 1 que se rompen (`system::scenery`): farola,
+/// choza y su tejado.
+pub mod scenery {
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    pub const VEL_X: u32 = 0x28;
+    pub const VEL_Y: u32 = 0x2A;
+    pub const ATTACKS: u32 = 0x4C;
+    pub const NO_ATTACKS: u32 = 0xFFFF_FFFF;
+    pub const SPAWN_RECORD: u32 = 0x3C;
+    pub const SHRINK_Y: u32 = 0x32;
+    pub const SHRINK_X: u32 = 0x33;
+    pub const FLIP: u32 = 0x3A;
+    /// `+$12` bit 6: sin cola de dibujo propia (chispa).
+    pub const FLAGS_12: u32 = 0x12;
+    pub const FLAGS_12_BIT6: u8 = 1 << 6;
+    /// `+$13` bit 3: golpeado este frame.
+    pub const FLAGS_13: u32 = 0x13;
+    pub const HIT: u8 = 1 << 3;
+    /// Estado que miran las hijas / la madre (`$FF` = destruido).
+    pub const STATE: u32 = 0x21;
+    pub const STATE_WRECKED: u8 = 0xFF;
+    pub const HP: u32 = 0x66;
+    /// Espera del fotograma del guion (la chispa la gasta a mano).
+    pub const WAIT: u32 = 0x46;
+    pub const LIFE: u32 = 0x72;
+    /// Farola: gráficos, guiones, sonido del golpe, 1 de cada 4 golpes
+    /// suelta una chispa (`SPARK_DY` más abajo).
+    pub const LAMP_GFX: u16 = 0x41;
+    pub const S_LAMP: u32 = 0x29_4280;
+    pub const S_LAMP_HIT: u32 = 0x29_4296;
+    pub const S_SPARK: u32 = 0x29_4378;
+    pub const LAMP_SOUND: u16 = 0x10A9;
+    pub const SPARK_ODDS: u16 = 3;
+    pub const SPARK_DY: u16 = 0x18;
+    /// Chispa: vida (base + azar), velocidades al azar, cuándo empieza a
+    /// parpadear y márgenes de la vista.
+    pub const SPARK_LIFE: u16 = 0xF0;
+    pub const SPARK_LIFE_RND: u16 = 0x1F;
+    pub const SPARK_VX_RND: u16 = 0x1F;
+    pub const SPARK_VY_RND: u16 = 0x3F;
+    pub const SPARK_BLINK: i16 = 0x14;
+    pub const SPARK_MARGINS: u32 = 0x29_6254;
+    /// Choza: gráficos, guiones, ocupante y tejado (`HUT_CHILD_D` desde
+    /// la choza), celdas que estampa al romperse.
+    pub const HUT_GFX: u16 = 0x3F;
+    pub const S_HUT: u32 = 0x29_4234;
+    pub const S_HUT_WRECK: u32 = 0x29_4244;
+    pub const HUT_OCCUPANT: u32 = 0x05_FA00;
+    pub const HUT_CHILD_D: (u16, u16) = (0x28, 1);
+    pub const HUT_WRECK_CELLS: u32 = 0x29_5D38;
+    /// Tejado: gráficos, vida, guiones, sonidos del golpe, puntos,
+    /// ataques al caer, sonido y restos al estrellarse.
+    pub const ROOF_GFX: u16 = 0x3D;
+    pub const ROOF_HP: u16 = 0x14;
+    pub const S_ROOF: u32 = 0x29_4254;
+    pub const S_ROOF_FALL: u32 = 0x29_426A;
+    pub const HIT_SOUNDS: u32 = 0x05_E766;
+    pub const ROOF_POINTS: u32 = 0x1000;
+    pub const ROOF_ATTACKS: u32 = 0x29_5FBA;
+    pub const CRASH_SOUND: u16 = 0x1028;
+    pub const ROOF_DEBRIS: u32 = 0x29_5BD8;
+    /// Rutinas.
+    pub const LAMP_IDLE: u32 = 0x04_D782;
+    pub const LAMP_HIT: u32 = 0x04_D7DC;
+    pub const LAMP_HIT_LOOP: u32 = 0x04_D7EE;
+    pub const SPARK: u32 = 0x04_D81A;
+    pub const SPARK_LOOP: u32 = 0x04_D898;
+    pub const HUT_LOOP: u32 = 0x04_D96A;
+    pub const HUT_WRECK: u32 = 0x04_D996;
+    pub const HUT_WRECK_LOOP: u32 = 0x04_D9BA;
+    pub const ROOF: u32 = 0x04_D9D6;
+    pub const ROOF_LOOP: u32 = 0x04_DA0A;
+    pub const ROOF_FALL: u32 = 0x04_DA52;
+    pub const ROOF_FALL_LOOP: u32 = 0x04_DA8C;
+    pub const WAIT_CHILDREN: u32 = 0x04_F2A4;
+    /// Tejado del fuerte: margen de baja por la izquierda y sus estados.
+    pub const MARGIN: u32 = 0x70;
+    pub const FORT_ROOF_MARGIN: u16 = 0x28;
+    pub const FORT_ROOF_LOOP: u32 = 0x04_F2FC;
+    pub const FORT_ROOF_FALL: u32 = 0x04_F344;
+    pub const FORT_ROOF_FALL_LOOP: u32 = 0x04_F372;
 }
