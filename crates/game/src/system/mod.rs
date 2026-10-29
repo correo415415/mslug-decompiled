@@ -85,6 +85,7 @@ pub mod title;
 pub mod trig;
 pub mod turret;
 pub mod tasks;
+pub mod thrown;
 pub mod video;
 pub mod wheels;
 
