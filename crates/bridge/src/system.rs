@@ -11,7 +11,7 @@
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
 use mslug_game::system::soldier::Trait;
-use mslug_game::system::{aim_turret, anim, enemy_grenade, hut, scenery, thrown, autopilot, banner, boot, bullet, burst, charger, collision, contact, critters, debris, events, food, fort, frame, game_over, go_arrow, grenade, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, memcard, mission, msg_select, motion, pads, pickup, platforms, player, pow, player_air, player_arm, player_fire, player_ground, player_hud, player_ride, palette, props, parachute, rank, render, rng, scene, score, script, scroll, slope, slug, slug_arm, slug_drive, slug_fire, slug_hit, human_death, slug_attack, slug_death, spawner, slug_shell, explosion, slug_hunker, slug_idle, slug_jump, soldier, sound, sprite, tasks, title, trig, turret, video, wheels};
+use mslug_game::system::{aim_turret, barrel, smoke, anim, enemy_grenade, hut, scenery, thrown, autopilot, banner, boot, bullet, burst, charger, collision, contact, critters, debris, events, food, fort, frame, game_over, go_arrow, grenade, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, memcard, mission, msg_select, motion, pads, pickup, platforms, player, pow, player_air, player_arm, player_fire, player_ground, player_hud, player_ride, palette, props, parachute, rank, render, rng, scene, score, script, scroll, slope, slug, slug_arm, slug_drive, slug_fire, slug_hit, human_death, slug_attack, slug_death, spawner, slug_shell, explosion, slug_hunker, slug_idle, slug_jump, soldier, sound, sprite, tasks, title, trig, turret, video, wheels};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use mslug_game::input::{Buttons, Edge};
 use neogeo_hw::cpu::m68k::exec::write_sr;
@@ -2987,6 +2987,50 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
     SystemPort { entry: 0x04_F480, original: "Prop_Sensor_04f46a+$16", rust: "system::props::sensor_loop", run: |m| props::sensor_loop(m) },
     SystemPort { entry: 0x04_F4B6, original: "Prop_Sensor_04f46a+$4C", rust: "system::props::sensor_trip", run: |m| props::sensor_trip(m) },
     SystemPort { entry: 0x04_F4C8, original: "Prop_Sensor_04f46a+$5E", rust: "system::props::sensor_trip_loop", run: |m| props::sensor_trip_loop(m) },
+    // --- barril flotante y mina acuática
+    SystemPort { entry: 0x06_5F40, original: "Barrel_Tmpl8D_065f40", rust: "system::barrel::barrel", run: |m| coll(m, barrel::barrel) },
+    SystemPort { entry: 0x06_5F7A, original: "Barrel_Tmpl8D_065f40+$3A", rust: "system::barrel::barrel_loop", run: |m| coll(m, barrel::barrel_loop) },
+    SystemPort { entry: 0x06_5FBA, original: "Barrel_Idle_065fba", rust: "system::barrel::idle", run: |m| coll(m, barrel::idle) },
+    SystemPort { entry: 0x06_5FD2, original: "Barrel_Idle_065fba+$18", rust: "system::barrel::idle_loop", run: |m| coll(m, barrel::idle_loop) },
+    SystemPort { entry: 0x06_600E, original: "FloatBarrel_Submerge_06600e", rust: "system::barrel::submerge", run: |m| coll(m, barrel::submerge) },
+    SystemPort { entry: 0x06_606E, original: "FloatBarrel_Submerge_06600e+$60", rust: "system::barrel::submerge_loop", run: |m| coll(m, barrel::submerge_loop) },
+    SystemPort { entry: 0x06_60CC, original: "FloatBarrel_Surface_0660cc", rust: "system::barrel::surface", run: |m| coll(m, barrel::surface) },
+    SystemPort { entry: 0x06_60EC, original: "FloatBarrel_Surface_0660cc+$20", rust: "system::barrel::surface_loop", run: |m| coll(m, barrel::surface_loop) },
+    SystemPort { entry: 0x06_6174, original: "FloatBarrel_Drift_066174", rust: "system::barrel::drift", run: |m| coll(m, barrel::drift) },
+    SystemPort { entry: 0x06_6186, original: "FloatBarrel_Drift_066174+$12", rust: "system::barrel::drift_loop", run: |m| coll(m, barrel::drift_loop) },
+    SystemPort { entry: 0x06_61D8, original: "FloatBarrel_Splash_0661d8", rust: "system::barrel::splash", run: |m| coll(m, barrel::splash) },
+    SystemPort { entry: 0x06_621A, original: "FloatBarrel_Splash_0661d8+$42", rust: "system::barrel::splash_loop", run: |m| coll(m, barrel::splash_loop) },
+    SystemPort { entry: 0x06_6228, original: "FloatBarrel_Pop_066228", rust: "system::barrel::pop", run: |m| coll(m, barrel::pop) },
+    SystemPort { entry: 0x06_6258, original: "FloatBarrel_Bob_066258", rust: "system::barrel::bob", run: |m| coll(m, barrel::bob) },
+    SystemPort { entry: 0x06_626A, original: "FloatBarrel_Bob_066258+$12", rust: "system::barrel::bob_loop", run: |m| coll(m, barrel::bob_loop) },
+    SystemPort { entry: 0x06_62A4, original: "FloatBarrel_BobSettle_0662a4", rust: "system::barrel::settle", run: |m| coll(m, barrel::settle) },
+    SystemPort { entry: 0x06_630C, original: "FloatBarrel_BobSettle_0662a4+$68", rust: "system::barrel::settle_loop", run: |m| coll(m, barrel::settle_loop) },
+    SystemPort { entry: 0x06_637A, original: "FloatMine_Init_06637a", rust: "system::barrel::mine", run: |m| coll(m, barrel::mine) },
+    SystemPort { entry: 0x06_6400, original: "FloatMine_Init_06637a+$86", rust: "system::barrel::mine_loop", run: |m| coll(m, barrel::mine_loop) },
+    SystemPort { entry: 0x06_6490, original: "FloatMine_Armed_066490", rust: "system::barrel::armed", run: |m| coll(m, barrel::armed) },
+    SystemPort { entry: 0x06_64A2, original: "FloatMine_Armed_066490+$12", rust: "system::barrel::armed_loop", run: |m| coll(m, barrel::armed_loop) },
+    SystemPort { entry: 0x06_6528, original: "FloatBarrel_Shard_066528", rust: "system::barrel::shard", run: |m| coll(m, barrel::shard) },
+    SystemPort { entry: 0x06_6574, original: "FloatBarrel_Shard_066528+$4C", rust: "system::barrel::shard_loop", run: |m| coll(m, barrel::shard_loop) },
+    SystemPort { entry: 0x06_65C6, original: "FloatBarrel_FlipByFrame_0665c6", rust: "system::barrel::flip_by_frame", run: |m| { let t = m.task_register(); barrel::flip_by_frame(m, t); Flow::Return } },
+    SystemPort { entry: 0x06_65E8, original: "FloatBarrel_WaveBob_0665e8", rust: "system::barrel::wave_bob", run: |m| { let t = m.task_register(); let c = barrel::wave_bob(m, t); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x06_6622, original: "FloatBarrel_FaceTarget_066622", rust: "system::barrel::face_target", run: |m| { let t = m.task_register(); barrel::face_target(m, t); Flow::Return } },
+    SystemPort { entry: 0x06_6644, original: "FloatBarrel_TargetInRange_066644", rust: "system::barrel::target_in_range", run: |m| { let t = m.task_register(); let p = barrel::target_in_range(m, t); if let Some(p) = p { m.cpu.a[0] = p; } set_carry(m, p.is_some()); Flow::Return } },
+    SystemPort { entry: 0x06_6680, original: "FloatBarrel_SpawnMine_066680", rust: "system::barrel::spawn_mine", run: |m| barrel::spawn_mine(m) },
+    SystemPort { entry: 0x06_6692, original: "FloatBarrel_HitCheck_066692", rust: "system::barrel::has_children", run: |m| { let t = m.task_register(); let c = barrel::has_children(m, t); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x08_B58E, original: "Math_AbsW_08b58e", rust: "system::barrel::abs16", run: |m| { let d0 = m.cpu.d[0] as u16; m.cpu.d[1] = (m.cpu.d[1] & 0xFFFF_0000) | u32::from(((d0 as i16) >> 8) as u16); m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_0000) | u32::from(barrel::abs16(d0)); Flow::Return } },
+    // --- humos y salpicaduras
+    SystemPort { entry: 0x07_8840, original: "Smoke_Small_078840", rust: "system::smoke::start(SMALL)", run: |m| smoke::start(m, mslug_game::layout::smoke::SMALL) },
+    SystemPort { entry: 0x07_8864, original: "Smoke_Pair40_078864", rust: "system::smoke::ring(RING_40)", run: |m| smoke::ring(m, &mslug_game::layout::smoke::RING_40) },
+    SystemPort { entry: 0x07_8890, original: "Smoke_Pair20_078890", rust: "system::smoke::ring(RING_20)", run: |m| smoke::ring(m, &mslug_game::layout::smoke::RING_20) },
+    SystemPort { entry: 0x07_88C0, original: "Smoke_Std_0788c0", rust: "system::smoke::start(STD)", run: |m| smoke::start(m, mslug_game::layout::smoke::STD) },
+    SystemPort { entry: 0x07_88E4, original: "Smoke_StdB_0788e4", rust: "system::smoke::start(PLAIN)", run: |m| smoke::start(m, mslug_game::layout::smoke::PLAIN) },
+    SystemPort { entry: 0x07_8908, original: "Smoke_Big_078908", rust: "system::smoke::start(BIG)", run: |m| smoke::start(m, mslug_game::layout::smoke::BIG) },
+    SystemPort { entry: 0x07_892C, original: "Smoke_Big_078908+$24", rust: "system::smoke::start(4)", run: |m| smoke::start(m, 4) },
+    SystemPort { entry: 0x07_8950, original: "Smoke_Big_078908+$48", rust: "system::smoke::start(5)", run: |m| smoke::start(m, 5) },
+    SystemPort { entry: 0x07_8974, original: "Smoke_Big_078908+$6C", rust: "system::smoke::start(6)", run: |m| smoke::start(m, 6) },
+    SystemPort { entry: 0x07_89CA, original: "Smoke_Big_078908__L0789ae+$1C", rust: "system::smoke::step", run: |m| smoke::step(m) },
+    SystemPort { entry: 0x07_89F0, original: "Smoke_Column_0789f0", rust: "system::smoke::column", run: |m| smoke::column(m) },
+    SystemPort { entry: 0x07_8A42, original: "Smoke_Column_0789f0+$52", rust: "system::smoke::step", run: |m| smoke::step(m) },
     // --- ocupante de la choza y su puerta
     SystemPort { entry: 0x05_FA00, original: "HutOccupant_Init_05fa00", rust: "system::hut::occupant", run: |m| coll(m, hut::occupant) },
     SystemPort { entry: 0x05_FA56, original: "HutOccupant_Idle_05fa56", rust: "system::hut::occupant_idle", run: |m| coll(m, hut::occupant_idle) },

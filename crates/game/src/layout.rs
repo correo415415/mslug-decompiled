@@ -6828,3 +6828,148 @@ pub mod hut {
     pub const DOOR_FREE: u32 = 0x05_FCE6;
     pub const DOOR_FREE_LOOP: u32 = 0x05_FD00;
 }
+
+/// Barril flotante y su mina acuática (`system::barrel`).
+pub mod barrel {
+    pub const OWNER: u32 = 0x0C;
+    pub const FLAGS_12: u32 = 0x12;
+    /// `+$12` bit 6: se dibuja detrás (lo quita al reventar).
+    pub const BEHIND: u8 = 1 << 6;
+    pub const FLAGS_13: u32 = 0x13;
+    pub const HIT_FLASH: u8 = 1 << 3;
+    pub const ATTACK_HIT: u8 = 1 << 1;
+    /// Palabras de sprite que se intercambian en los frames pares.
+    pub const SPRITE_A: u32 = 0x16;
+    pub const SPRITE_B: u32 = 0x18;
+    pub const SPRITE_C: u32 = 0x14;
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    pub const VEL_X: u32 = 0x28;
+    pub const VEL_Y: u32 = 0x2A;
+    pub const ACC_X: u32 = 0x2C;
+    pub const ACC_Y: u32 = 0x2E;
+    pub const ATTR: u32 = 0x38;
+    pub const ATTR_INIT: u16 = 0x8000;
+    pub const FACING: u32 = 0x3A;
+    pub const HITBOX: u32 = 0x48;
+    pub const ATTACKS: u32 = 0x4C;
+    /// Quien le ha dado (de su velocidad sale la del barril y la astilla).
+    pub const ATTACKER: u32 = 0x50;
+    pub const HP: u32 = 0x66;
+    pub const TARGET: u32 = 0x70;
+    pub const COUNT: u32 = 0x74;
+    /// Mina: altura de la ola respecto a su reposo.
+    pub const WAVE: u32 = 0x76;
+    pub const WAVE_INIT: u16 = 0xF400;
+    pub const WAVE_ARMED: i16 = 0x600;
+    /// Parámetros del guion: vueltas antes de hundirse, gravedad (`& 7`) y
+    /// alcance en pasos de 16 px.
+    pub const TURNS: u32 = 0x98;
+    pub const SINK: u32 = 0x99;
+    pub const RANGE: u32 = 0x9B;
+    pub const RANGE_STEP: u16 = 0x10;
+    pub const GFX: u16 = 0x179;
+    pub const MINE_GFX: u16 = 0x1DA;
+    pub const FRAME_COUNTER: u32 = 0x10_6F28;
+    /// Celda de agua (la que deja `d7` al pisar).
+    pub const WATER: u8 = 0x41;
+    /// Márgenes de fuera de pantalla (barril; mina y astilla).
+    pub const MARGINS: u32 = 0x2C_7998;
+    pub const MARGINS_SMALL: u32 = 0x2C_79A2;
+    /// Cajas de detección del jugador (cerca / demasiado cerca).
+    pub const NEAR_BOX: u32 = 0x2C_79AC;
+    pub const CLOSE_BOX: u32 = 0x2C_79B6;
+    /// Guiones.
+    pub const SCRIPT_WAIT: u32 = 0x2C_756C;
+    pub const SCRIPT_IDLE: u32 = 0x2C_75E6;
+    pub const SCRIPT_SUBMERGE: u32 = 0x2C_7626;
+    pub const SCRIPT_SURFACE: u32 = 0x2C_765C;
+    pub const SCRIPT_DRIFT: u32 = 0x2C_7688;
+    pub const SCRIPT_POP: u32 = 0x2C_76E8;
+    pub const SCRIPT_SETTLE: u32 = 0x2C_7744;
+    pub const SCRIPT_MINE: u32 = 0x2C_7798;
+    pub const SCRIPT_ARMED: u32 = 0x2C_77A8;
+    pub const SCRIPT_SHARD: u32 = 0x2C_77E6;
+    /// Mina: ataques, caja de golpe, HP y velocidad por dificultad.
+    pub const MINE_ATTACKS: u32 = 0x2C_784C;
+    pub const MINE_HITBOX: u32 = 0x2C_7944;
+    pub const MINE_HP: u16 = 0x64;
+    pub const MINE_SPEED: u32 = 0x2B_DB84;
+    pub const MINE_DX: u16 = 0x18;
+    pub const MINE_DY: u16 = 0x24;
+    /// Velocidades.
+    pub const SUBMERGE_VEL_Y: u16 = 0x0A00;
+    pub const SUBMERGE_ACC_Y: u16 = 0xFF80;
+    pub const SINK_STEP: u16 = 8;
+    pub const BOB_ACC_Y: u16 = 0xFFD0;
+    pub const SHARD_VEL_Y: u16 = 0x0700;
+    pub const SHARD_ACC_Y: u16 = 0xFF80;
+    pub const SHARD_VEL_X: u16 = 0x0800;
+    /// El humo/salpicadura que suelta, un poco más abajo.
+    pub const SMOKE: u32 = 0x07_88C0;
+    pub const SMOKE_DY: u16 = 8;
+    pub const EXPLOSION: u32 = 0x07_7F6A;
+    /// Sonidos.
+    pub const SND_SPLASH: u16 = 0x1052;
+    pub const SND_POP: u16 = 0x103E;
+    pub const SND_HIT: u16 = 0x108D;
+    pub const SND_BLAST: u16 = 0x1022;
+    /// Rutinas.
+    pub const LOOP: u32 = 0x06_5F7A;
+    pub const IDLE: u32 = 0x06_5FBA;
+    pub const IDLE_LOOP: u32 = 0x06_5FD2;
+    pub const SUBMERGE: u32 = 0x06_600E;
+    pub const SUBMERGE_LOOP: u32 = 0x06_606E;
+    pub const SURFACE: u32 = 0x06_60CC;
+    pub const SURFACE_LOOP: u32 = 0x06_60EC;
+    pub const DRIFT: u32 = 0x06_6174;
+    pub const DRIFT_LOOP: u32 = 0x06_6186;
+    pub const SPLASH: u32 = 0x06_61D8;
+    pub const SPLASH_LOOP: u32 = 0x06_621A;
+    pub const POP: u32 = 0x06_6228;
+    pub const BOB_LOOP: u32 = 0x06_626A;
+    pub const SETTLE: u32 = 0x06_62A4;
+    pub const SETTLE_LOOP: u32 = 0x06_630C;
+    pub const BOB: u32 = 0x06_6258;
+    pub const MINE: u32 = 0x06_637A;
+    pub const MINE_LOOP: u32 = 0x06_6400;
+    pub const ARMED: u32 = 0x06_6490;
+    pub const ARMED_LOOP: u32 = 0x06_64A2;
+    pub const SHARD: u32 = 0x06_6528;
+    pub const SHARD_LOOP: u32 = 0x06_6574;
+}
+
+/// Humos y salpicaduras (`system::smoke`).
+pub mod smoke {
+    pub const FLAGS_12: u32 = 0x12;
+    pub const BEHIND: u8 = 1 << 6;
+    pub const X: u32 = 0x22;
+    pub const SCALE: [u32; 2] = [0x32, 0x33];
+    pub const HITBOX: u32 = 0x48;
+    pub const NO_HITBOX: u32 = 0xFFFF_FFFF;
+    pub const MARGINS: u32 = 0x70;
+    /// Variantes: gráficos, guion, márgenes y si va detrás, a escala
+    /// completa y girada al azar.
+    pub const KINDS: [(u16, u32, u32, bool); 7] = [
+        (0x0C, 0x2D_ED26, 0x2D_F238, false),
+        (0x0C, 0x2D_E7C2, 0x2D_F238, true),
+        (0x0C, 0x2D_E7C2, 0x2D_F238, false),
+        (0x139, 0x2D_E7C2, 0x2D_F238, true),
+        (0x0C, 0x2D_E93E, 0x2D_F242, true),
+        (0x0C, 0x2D_EABA, 0x2D_F238, true),
+        (0x0C, 0x2D_EC0C, 0x2D_F242, true),
+    ];
+    pub const SMALL: usize = 0;
+    pub const STD: usize = 1;
+    pub const PLAIN: usize = 2;
+    pub const BIG: usize = 3;
+    /// Columna: gráficos, guion y márgenes.
+    pub const COLUMN: (u16, u32, u32) = (0x10, 0x2D_EEA2, 0x2D_F24C);
+    /// Grupos de humo grande: desplazamientos en X de las hermanas.
+    pub const RING_40: [u16; 4] = [0x20, 0xFFE0, 0x10, 0xFFF0];
+    pub const RING_20: [u16; 2] = [0x10, 0xFFF0];
+    /// Rutinas.
+    pub const BIG_ENTRY: u32 = 0x07_8908;
+    pub const LOOP: u32 = 0x07_89CA;
+    pub const COLUMN_LOOP: u32 = 0x07_8A42;
+}
