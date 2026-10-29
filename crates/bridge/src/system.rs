@@ -11,7 +11,7 @@
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
 use mslug_game::system::soldier::Trait;
-use mslug_game::system::{aim_turret, barrel, smoke, anim, enemy_grenade, hut, scenery, thrown, autopilot, banner, boot, bullet, burst, charger, collision, contact, critters, debris, events, food, fort, frame, game_over, go_arrow, grenade, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, memcard, mission, msg_select, motion, pads, pickup, platforms, player, pow, player_air, player_arm, player_fire, player_ground, player_hud, player_ride, palette, props, parachute, rank, render, rng, scene, score, script, scroll, slope, slug, slug_arm, slug_drive, slug_fire, slug_hit, human_death, slug_attack, slug_death, spawner, slug_shell, explosion, slug_hunker, slug_idle, slug_jump, soldier, sound, sprite, tasks, title, trig, turret, video, wheels};
+use mslug_game::system::{aim_turret, barrel, smoke, tower, anim, enemy_grenade, hut, scenery, thrown, autopilot, banner, boot, bullet, burst, charger, collision, contact, critters, debris, events, food, fort, frame, game_over, go_arrow, grenade, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, memcard, mission, msg_select, motion, pads, pickup, platforms, player, pow, player_air, player_arm, player_fire, player_ground, player_hud, player_ride, palette, props, parachute, rank, render, rng, scene, score, script, scroll, slope, slug, slug_arm, slug_drive, slug_fire, slug_hit, human_death, slug_attack, slug_death, spawner, slug_shell, explosion, slug_hunker, slug_idle, slug_jump, soldier, sound, sprite, tasks, title, trig, turret, video, wheels};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use mslug_game::input::{Buttons, Edge};
 use neogeo_hw::cpu::m68k::exec::write_sr;
@@ -3031,6 +3031,33 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
     SystemPort { entry: 0x07_89CA, original: "Smoke_Big_078908__L0789ae+$1C", rust: "system::smoke::step", run: |m| smoke::step(m) },
     SystemPort { entry: 0x07_89F0, original: "Smoke_Column_0789f0", rust: "system::smoke::column", run: |m| smoke::column(m) },
     SystemPort { entry: 0x07_8A42, original: "Smoke_Column_0789f0+$52", rust: "system::smoke::step", run: |m| smoke::step(m) },
+    // --- torre, búnker y puente
+    SystemPort { entry: 0x04_DAD2, original: "Prop_Tower_04dad2", rust: "system::tower::tower", run: |m| tower::tower(m) },
+    SystemPort { entry: 0x04_DB36, original: "Prop_Tower_04dad2+$64", rust: "system::tower::tower_loop", run: |m| tower::tower_loop(m) },
+    SystemPort { entry: 0x04_DB72, original: "Prop_TowerTop_04db72", rust: "system::tower::top", run: |m| tower::top(m) },
+    SystemPort { entry: 0x04_DBAC, original: "Prop_TowerTop_04db72+$3A", rust: "system::tower::top_loop", run: |m| tower::top_loop(m) },
+    SystemPort { entry: 0x04_DC4A, original: "Prop_TowerTopWreck_04dc4a", rust: "system::tower::top_wreck", run: |m| tower::top_wreck(m) },
+    SystemPort { entry: 0x04_DC88, original: "Prop_TowerTopWreckLoop_04dc88", rust: "system::tower::wreck_loop", run: |m| tower::wreck_loop(m) },
+    SystemPort { entry: 0x04_DC96, original: "Prop_TowerFlag_04dc96", rust: "system::tower::flag", run: |m| tower::flag(m) },
+    SystemPort { entry: 0x04_DCC4, original: "Prop_TowerFlag_04dc96+$2E", rust: "system::tower::flag_loop", run: |m| tower::flag_loop(m) },
+    SystemPort { entry: 0x04_DCE6, original: "Prop_TowerBase_04dce6", rust: "system::tower::base", run: |m| tower::base(m) },
+    SystemPort { entry: 0x04_DD2E, original: "Prop_TowerBase_04dce6+$48", rust: "system::tower::base_loop", run: |m| tower::base_loop(m) },
+    SystemPort { entry: 0x04_DDEC, original: "Prop_TowerBaseWreck_04ddec", rust: "system::tower::base_wreck", run: |m| tower::base_wreck(m) },
+    SystemPort { entry: 0x04_DE32, original: "Prop_TowerBaseWreckLoop_04de32", rust: "system::tower::wreck_loop", run: |m| tower::wreck_loop(m) },
+    SystemPort { entry: 0x04_DE40, original: "Prop_Bunker_04de40", rust: "system::tower::bunker", run: |m| tower::bunker(m) },
+    SystemPort { entry: 0x04_DE8A, original: "Prop_Bunker_04de40+$4A", rust: "system::tower::bunker_loop", run: |m| tower::bunker_loop(m) },
+    SystemPort { entry: 0x04_DF30, original: "Prop_BunkerWreck_04df30", rust: "system::tower::bunker_wreck", run: |m| tower::bunker_wreck(m) },
+    SystemPort { entry: 0x04_DF72, original: "Prop_BunkerWreck_04df30__L04df72", rust: "system::tower::bunker_wreck_loop", run: |m| tower::bunker_wreck_loop(m) },
+    SystemPort { entry: 0x04_DF98, original: "Prop_Bridge_04df98", rust: "system::tower::bridge", run: |m| tower::bridge(m) },
+    SystemPort { entry: 0x04_DFF6, original: "Prop_Bridge_04df98+$5E", rust: "system::tower::bridge_loop", run: |m| tower::bridge_loop(m) },
+    SystemPort { entry: 0x04_E05E, original: "Prop_BridgeCollapse_04e05e", rust: "system::tower::collapse", run: |m| tower::collapse(m) },
+    SystemPort { entry: 0x04_E076, original: "Prop_BridgeCollapse_04e05e+$18", rust: "system::tower::collapse_loop", run: |m| tower::collapse_loop(m) },
+    SystemPort { entry: 0x04_E12C, original: "Prop_BridgePillar_04e12c", rust: "system::tower::pillar", run: |m| tower::pillar(m) },
+    SystemPort { entry: 0x04_E188, original: "Prop_BridgePillar_04e12c+$5C", rust: "system::tower::pillar_loop", run: |m| tower::pillar_loop(m) },
+    SystemPort { entry: 0x04_FA8A, original: "Prop_TowerBlitState10_04fa8a", rust: "system::tower::tower_blit", run: |m| { let t = m.task_register(); tower::tower_blit(m, t); Flow::Return } },
+    SystemPort { entry: 0x04_FAF8, original: "Prop_BunkerBlitState10_04faf8", rust: "system::tower::bunker_blit", run: |m| { let t = m.task_register(); tower::bunker_blit(m, t); Flow::Return } },
+    SystemPort { entry: 0x04_FB3C, original: "Prop_NestBlitByFacing_04fb3c", rust: "system::tower::nest_blit", run: |m| { let t = m.task_register(); tower::nest_blit(m, t); Flow::Return } },
+    SystemPort { entry: 0x04_FB74, original: "Prop_NestBlitPair_04fb74", rust: "system::tower::nest_blit_pair", run: |m| { tower::nest_blit_pair(m); Flow::Return } },
     // --- ocupante de la choza y su puerta
     SystemPort { entry: 0x05_FA00, original: "HutOccupant_Init_05fa00", rust: "system::hut::occupant", run: |m| coll(m, hut::occupant) },
     SystemPort { entry: 0x05_FA56, original: "HutOccupant_Idle_05fa56", rust: "system::hut::occupant_idle", run: |m| coll(m, hut::occupant_idle) },

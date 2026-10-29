@@ -6973,3 +6973,116 @@ pub mod smoke {
     pub const LOOP: u32 = 0x07_89CA;
     pub const COLUMN_LOOP: u32 = 0x07_8A42;
 }
+
+/// Torre, búnker y puente de la misión 1 (`system::tower`).
+pub mod tower {
+    pub const OWNER: u32 = 0x0C;
+    pub const FLAGS_13: u32 = 0x13;
+    pub const HIT_FLASH: u8 = 1 << 3;
+    /// `+$20` = estado que ya está pintado; `+$21` = estado (bits de las
+    /// piezas rotas; `$FF` = acabada).
+    pub const DRAWN: u32 = 0x20;
+    pub const STATE: u32 = 0x21;
+    pub const GONE: u8 = 0xFF;
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    pub const SCALE: [u32; 2] = [0x32, 0x33];
+    pub const FACING: u32 = 0x3A;
+    pub const RECORD: u32 = 0x3C;
+    pub const HITBOX: u32 = 0x48;
+    pub const NO_HITBOX: u32 = 0xFFFF_FFFF;
+    pub const HP: u32 = 0x66;
+    pub const HP_INIT: u16 = 0x3C;
+    pub const HP_DAMAGED: i16 = 0x1E;
+    pub const MARGIN: u32 = 0x70;
+    /// Estado que pinta el búnker (lo pone su ocupante).
+    pub const WANTED: u32 = 0x74;
+    /// Bandera de la lista de sucesos (`$FF` = se acabó).
+    pub const WATCH_FLAG: u16 = 0x75;
+    pub const HIT_SOUNDS: u32 = 0x05_E766;
+    pub const SND_BREAK: u16 = 0x1030;
+    pub const SND_CRUMBLE: u16 = 0x1028;
+    pub const SND_PILLAR: u16 = 0x102F;
+    pub const POINTS: u32 = 0x1000;
+    pub const BRIDGE_POINTS: u32 = 0x5000;
+    /// Torre: estado acabado y pintados por estado.
+    pub const TOWER_DONE: u8 = 0x12;
+    pub const TOWER_BLITS: [(u8, u32); 5] =
+        [(0x10, 0x29_557E), (0x11, 0x29_5592), (0x12, 0x29_55A6), (0x01, 0x29_55BA), (0x02, 0x29_55CE)];
+    pub const BUNKER_BLITS: [(u8, u32); 3] = [(0x10, 0x29_5646), (0x01, 0x29_565A), (0x11, 0x29_566E)];
+    /// Torre: tejado, parte de arriba y base (con sus desplazamientos).
+    pub const ROOF: (u32, u16, u16) = (0x04_F2C2, 0x5C, 0x22);
+    pub const TOP: u32 = 0x04_DB72;
+    pub const BASE: (u32, u16, u16) = (0x04_DCE6, 0x80, 0x30);
+    /// Parte de arriba.
+    pub const TOP_WATCH: u32 = 0x0E_92B2;
+    pub const TOP_MARGIN: u16 = 0x50;
+    pub const TOP_SCRIPT: u32 = 0x29_4446;
+    pub const TOP_DX: u16 = 0x10;
+    pub const TOP_BIT: u8 = 0x10;
+    pub const TOP_GONE: u8 = 0xF0;
+    pub const TOP_WRECK_BLITS: [u32; 2] = [0x29_556A, 0x29_55E2];
+    /// Trozos: lanzadores de escombros y la explosión grande (con su
+    /// desplazamiento).
+    pub const DEBRIS_A: u32 = 0x29_5B5A;
+    pub const DEBRIS_B: u32 = 0x29_5B6C;
+    pub const BLAST: u32 = 0x29_5CB0;
+    pub const TOP_BLAST: (u16, u16) = (0x20, 0x30);
+    /// Bandera de la torre.
+    pub const FLAG_GFX: u16 = 0x40;
+    pub const FLAG_SCRIPT: u32 = 0x29_440A;
+    /// Base: su soldado, guion, la grieta a media vida y la ruina.
+    pub const BASE_SOLDIER: (u32, u16, u16) = (0x05_F384, 0x29, 0x09);
+    pub const BASE_SCRIPT: u32 = 0x29_445C;
+    pub const BASE_DEBRIS: u32 = 0x29_5BA2;
+    pub const BASE_DEBRIS_B: u32 = 0x29_5BB4;
+    pub const BASE_CRACK_BLIT: u32 = 0x29_55F6;
+    pub const BASE_WRECK_BLIT: u32 = 0x29_560A;
+    pub const BASE_BLAST: (u16, u16) = (0xFFE0, 0x30);
+    pub const BASE_GONE: u8 = 0x0F;
+    /// Búnker.
+    pub const BUNKER_WATCH: u32 = 0x0E_92EA;
+    pub const BUNKER_MARGIN: u16 = 0x70;
+    pub const BUNKER_SCRIPT: u32 = 0x29_4472;
+    pub const BUNKER_BLAST: (u16, u16) = (0x20, 0x20);
+    pub const BUNKER_WRECK_BLITS: (u32, u32) = (0x29_561E, 0x29_5632);
+    /// Puente y sus pilares.
+    pub const PILLAR: u32 = 0x04_E12C;
+    pub const PILLAR_DX: u16 = 0xD0;
+    pub const BRIDGE_MARGIN: u16 = 0x60;
+    pub const BRIDGE_WATCH: u32 = 0x0E_9310;
+    pub const BRIDGE_FALL: u8 = 0x11;
+    pub const BRIDGE_DEBRIS: [u32; 3] = [0x29_5BEA, 0x29_5BFC, 0x29_5CC2];
+    pub const BRIDGE_FALL_BLITS: [u32; 2] = [0x29_56AA, 0x29_56E6];
+    pub const COLLAPSE_SCRIPT: u32 = 0x29_4488;
+    pub const COLLAPSE_DEBRIS: [u32; 3] = [0x29_5C0E, 0x29_5C20, 0x29_5CC2];
+    pub const COLLAPSE_BLITS: [u32; 4] = [0x29_56BE, 0x29_56FA, 0x29_5722, 0x29_574A];
+    pub const PILLAR_SOLDIER: u32 = 0x05_F38A;
+    pub const PILLAR_SOLDIER_AT: [(u16, u16); 2] = [(0x2B, 0xFFE9), (0xFFEC, 0xFFE9)];
+    pub const PILLAR_MARGIN: u16 = 0x70;
+    pub const PILLAR_SCRIPT: u32 = 0x29_449E;
+    pub const PILLAR_DEBRIS: [u32; 2] = [0x29_5B7E, 0x29_5B90];
+    pub const PILLAR_DEBRIS_DY: u16 = 0xFFE0;
+    pub const PILLAR_BLAST_DX: u16 = 0x20;
+    pub const PILLAR_BITS: [u8; 2] = [0x10, 0x01];
+    /// Pintados del nido según el lado, y la pareja fija.
+    pub const NEST_BLITS: [[u32; 2]; 2] = [[0x29_5696, 0x29_570E], [0x29_56D2, 0x29_5736]];
+    pub const NEST_PAIR: [u32; 2] = [0x29_575E, 0x29_5772];
+    /// Rutinas.
+    pub const WAIT_CHILDREN: u32 = 0x04_F2A4;
+    pub const TOWER_LOOP: u32 = 0x04_DB36;
+    pub const TOP_LOOP: u32 = 0x04_DBAC;
+    pub const TOP_WRECK: u32 = 0x04_DC4A;
+    pub const TOP_WRECK_LOOP: u32 = 0x04_DC88;
+    pub const FLAG_LOOP: u32 = 0x04_DCC4;
+    pub const BASE_LOOP: u32 = 0x04_DD2E;
+    pub const BASE_WRECK: u32 = 0x04_DDEC;
+    pub const BASE_WRECK_LOOP: u32 = 0x04_DE32;
+    pub const BUNKER_LOOP: u32 = 0x04_DE8A;
+    pub const BUNKER_WRECK: u32 = 0x04_DF30;
+    pub const BUNKER_WRECK_LOOP: u32 = 0x04_DF72;
+    pub const BRIDGE_LOOP: u32 = 0x04_DFF6;
+    pub const COLLAPSE: u32 = 0x04_E05E;
+    pub const COLLAPSE_LOOP: u32 = 0x04_E076;
+    pub const PILLAR_LOOP: u32 = 0x04_E188;
+}
