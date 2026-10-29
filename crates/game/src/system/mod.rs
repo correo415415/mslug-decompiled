@@ -31,6 +31,7 @@ pub mod ground_fx;
 pub mod contact;
 pub mod hits;
 pub mod human_death;
+pub mod hut;
 pub mod hud;
 pub mod icons;
 pub mod irq;

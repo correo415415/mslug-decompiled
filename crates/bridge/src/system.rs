@@ -11,7 +11,7 @@
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
 use mslug_game::system::soldier::Trait;
-use mslug_game::system::{aim_turret, anim, enemy_grenade, scenery, thrown, autopilot, banner, boot, bullet, burst, charger, collision, contact, critters, debris, events, food, fort, frame, game_over, go_arrow, grenade, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, memcard, mission, msg_select, motion, pads, pickup, platforms, player, pow, player_air, player_arm, player_fire, player_ground, player_hud, player_ride, palette, props, parachute, rank, render, rng, scene, score, script, scroll, slope, slug, slug_arm, slug_drive, slug_fire, slug_hit, human_death, slug_attack, slug_death, spawner, slug_shell, explosion, slug_hunker, slug_idle, slug_jump, soldier, sound, sprite, tasks, title, trig, turret, video, wheels};
+use mslug_game::system::{aim_turret, anim, enemy_grenade, hut, scenery, thrown, autopilot, banner, boot, bullet, burst, charger, collision, contact, critters, debris, events, food, fort, frame, game_over, go_arrow, grenade, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, memcard, mission, msg_select, motion, pads, pickup, platforms, player, pow, player_air, player_arm, player_fire, player_ground, player_hud, player_ride, palette, props, parachute, rank, render, rng, scene, score, script, scroll, slope, slug, slug_arm, slug_drive, slug_fire, slug_hit, human_death, slug_attack, slug_death, spawner, slug_shell, explosion, slug_hunker, slug_idle, slug_jump, soldier, sound, sprite, tasks, title, trig, turret, video, wheels};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use mslug_game::input::{Buttons, Edge};
 use neogeo_hw::cpu::m68k::exec::write_sr;
@@ -2987,6 +2987,27 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
     SystemPort { entry: 0x04_F480, original: "Prop_Sensor_04f46a+$16", rust: "system::props::sensor_loop", run: |m| props::sensor_loop(m) },
     SystemPort { entry: 0x04_F4B6, original: "Prop_Sensor_04f46a+$4C", rust: "system::props::sensor_trip", run: |m| props::sensor_trip(m) },
     SystemPort { entry: 0x04_F4C8, original: "Prop_Sensor_04f46a+$5E", rust: "system::props::sensor_trip_loop", run: |m| props::sensor_trip_loop(m) },
+    // --- ocupante de la choza y su puerta
+    SystemPort { entry: 0x05_FA00, original: "HutOccupant_Init_05fa00", rust: "system::hut::occupant", run: |m| coll(m, hut::occupant) },
+    SystemPort { entry: 0x05_FA56, original: "HutOccupant_Idle_05fa56", rust: "system::hut::occupant_idle", run: |m| coll(m, hut::occupant_idle) },
+    SystemPort { entry: 0x05_FAA6, original: "HutOccupant_Emerge_05faa6", rust: "system::hut::occupant_emerge", run: |m| coll(m, hut::occupant_emerge) },
+    SystemPort { entry: 0x05_FABE, original: "HutOccupant_Emerge_05faa6+$18", rust: "system::hut::occupant_emerge_loop", run: |m| coll(m, hut::occupant_emerge_loop) },
+    SystemPort { entry: 0x05_FB24, original: "HutOccupant_Out_05fb24", rust: "system::hut::occupant_out", run: |m| coll(m, hut::occupant_out) },
+    SystemPort { entry: 0x05_FB3C, original: "HutOccupant_Out_05fb24+$18", rust: "system::hut::occupant_out_loop", run: |m| coll(m, hut::occupant_out_loop) },
+    SystemPort { entry: 0x05_FB88, original: "HutOccupant_WaitParent_05fb88", rust: "system::hut::occupant_wait", run: |m| hut::occupant_wait(m) },
+    SystemPort { entry: 0x05_FB8E, original: "HutOccupant_WaitParent_05fb88+$6", rust: "system::hut::occupant_wait_loop", run: |m| hut::occupant_wait_loop(m) },
+    SystemPort { entry: 0x05_FBA0, original: "HutDoor_Init_05fba0", rust: "system::hut::door", run: |m| hut::door(m) },
+    SystemPort { entry: 0x05_FBE6, original: "HutDoor_Idle_05fbe6", rust: "system::hut::door_idle", run: |m| hut::door_idle(m) },
+    SystemPort { entry: 0x05_FC26, original: "HutDoor_Open_05fc26", rust: "system::hut::door_open", run: |m| hut::door_open(m) },
+    SystemPort { entry: 0x05_FC38, original: "HutDoor_Open_05fc26+$12", rust: "system::hut::door_open_loop", run: |m| hut::door_open_loop(m) },
+    SystemPort { entry: 0x05_FC78, original: "HutDoor_Break_05fc78", rust: "system::hut::door_break", run: |m| hut::door_break(m) },
+    SystemPort { entry: 0x05_FCA8, original: "HutDoor_Break_05fc78+$30", rust: "system::hut::door_break_loop", run: |m| hut::door_break_loop(m) },
+    SystemPort { entry: 0x05_FCE6, original: "HutDoor_Free_05fce6", rust: "system::hut::door_free", run: |m| hut::door_free(m) },
+    SystemPort { entry: 0x05_FD08, original: "HutOccupant_PlayersNear_05fd08", rust: "system::hut::players_near",
+                 run: |m| { let t = m.cpu.a[6]; let c = hut::players_near(m, t); m.cpu.a[0] = mslug_game::layout::PLAYER_ENTITY[usize::from(!c || { let x = m.read_u16(t + 0x22); (x.wrapping_sub(m.read_u16(mslug_game::layout::PLAYER_ENTITY[0] + 0x22)) as i16) >= 0xA0 })];
+                            set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x05_FD40, original: "Offworld_Box2C168E_05fd40", rust: "system::hut::off_view",
+                 run: |m| { let t = m.cpu.a[6]; let c = hut::off_view(m, t); m.cpu.a[0] = mslug_game::layout::hut::MARGINS; set_carry(m, c); Flow::Return } },
     // --- farola, choza y tejado
     SystemPort { entry: 0x04_D74A, original: "Prop_Lamp_04d74a", rust: "system::scenery::lamp", run: |m| scenery::lamp(m) },
     SystemPort { entry: 0x04_D782, original: "Prop_LampIdle_04d782", rust: "system::scenery::lamp_idle", run: |m| scenery::lamp_idle(m) },

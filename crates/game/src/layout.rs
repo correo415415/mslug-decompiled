@@ -6765,3 +6765,66 @@ pub mod scenery {
     pub const FORT_ROOF_FALL: u32 = 0x04_F344;
     pub const FORT_ROOF_FALL_LOOP: u32 = 0x04_F372;
 }
+
+/// Ocupante de la choza y su puerta (`system::hut`).
+pub mod hut {
+    pub const X: u32 = 0x22;
+    pub const ATTR: u32 = 0x38;
+    pub const SHRINK_Y: u32 = 0x32;
+    pub const SHRINK_X: u32 = 0x33;
+    pub const HP: u32 = 0x66;
+    pub const HP_INIT: u16 = 0x10;
+    /// Estado del ocupante que mira la puerta: `OUT` = ha salido,
+    /// `HIT` = le han dado.
+    pub const STATE: u32 = 0x20;
+    pub const STATE_OUT: u8 = 0x80;
+    pub const STATE_HIT: u8 = 0xFF;
+    /// `$FF` = la puerta se ha roto o ha desaparecido (lo pone la puerta en
+    /// el ocupante).
+    pub const DOOR_GONE: u32 = 0x21;
+    pub const GONE: u8 = 0xFF;
+    /// Puerta: espera del guion y otro byte del guion que se ponen a 0.
+    pub const WAIT: u32 = 0x46;
+    pub const WAIT_OPEN: u8 = 2;
+    pub const SCRIPT_FLAG: u32 = 0x44;
+    /// El ocupante sale cuando un jugador está a menos de esto a su izquierda.
+    pub const NEAR_DX: i16 = 0xA0;
+    pub const PLAYERS: [u32; 2] = super::PLAYER_ENTITY;
+    /// Márgenes de fuera de la vista.
+    pub const MARGINS: u32 = 0x2C_168E;
+    /// Gráficos y guiones.
+    pub const OCC_GFX: u16 = 0xE;
+    pub const OCC_ATTR_UP: u16 = 2;
+    pub const S_OCC_IDLE: u32 = 0x2C_0F20;
+    pub const S_OCC_EMERGE: u32 = 0x2C_0F9C;
+    pub const S_OCC_OUT: u32 = 0x2C_10D8;
+    pub const DOOR_GFX: u16 = 0x19;
+    pub const S_DOOR: u32 = 0x2C_14CC;
+    pub const S_DOOR_OPEN: u32 = 0x2C_14E2;
+    pub const S_DOOR_BREAK: u32 = 0x2C_1546;
+    /// Sonidos: el del ocupante (se corta) y el de la puerta al romperse.
+    pub const SND_LOOP: u16 = 0x10AE;
+    pub const SND_BREAK: u16 = 0x108E;
+    /// Al salir con la puerta rota se convierte en soldado y deja un efecto
+    /// de suelo; la puerta rota deja una explosión `BREAK_DX` a la izquierda.
+    pub const SOLDIER: u32 = 0x05_8F82;
+    pub const GROUND_FX: u32 = 0x07_76E2;
+    pub const EXPLOSION: u32 = 0x07_7EFE;
+    pub const BREAK_DX: u16 = 0x10;
+    /// Rutinas.
+    pub const OCC_IDLE: u32 = 0x05_FA56;
+    pub const OCC_EMERGE: u32 = 0x05_FAA6;
+    pub const OCC_EMERGE_LOOP: u32 = 0x05_FABE;
+    pub const OCC_OUT: u32 = 0x05_FB24;
+    pub const OCC_OUT_LOOP: u32 = 0x05_FB3C;
+    pub const OCC_WAIT: u32 = 0x05_FB88;
+    pub const OCC_WAIT_LOOP: u32 = 0x05_FB8E;
+    pub const DOOR: u32 = 0x05_FBA0;
+    pub const DOOR_IDLE: u32 = 0x05_FBE6;
+    pub const DOOR_OPEN: u32 = 0x05_FC26;
+    pub const DOOR_OPEN_LOOP: u32 = 0x05_FC38;
+    pub const DOOR_BREAK: u32 = 0x05_FC78;
+    pub const DOOR_BREAK_LOOP: u32 = 0x05_FCA8;
+    pub const DOOR_FREE: u32 = 0x05_FCE6;
+    pub const DOOR_FREE_LOOP: u32 = 0x05_FD00;
+}
