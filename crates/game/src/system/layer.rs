@@ -127,6 +127,28 @@ pub fn write_tiles(m: &mut impl Memory, cam: u32, map: u32, win: Window) {
     }
 }
 
+/// Pinta en una capa un trozo de mapa descrito en la ROM: {capa.l,
+/// mapa.l, columna y fila en el anillo, columna y fila en el mapa, ancho y
+/// alto} (palabras). Lo usan los decorados que cambian al romperse.
+/// Original: `Sprite_InvokeBlit8Params` (`$05022A`, con `$051DE2`).
+pub fn blit(m: &mut impl Memory, cmd: u32) {
+    let cam = m.read_u32(cmd);
+    let map = m.read_u32(cmd + 4);
+    let mut w = [0u16; 6];
+    for (k, v) in w.iter_mut().enumerate() {
+        *v = m.read_u16(cmd + 8 + 2 * k as u32);
+    }
+    blit_regs(m, cam, map, w);
+}
+
+/// Como [`blit`] con los parámetros ya cargados (`d0`–`d5`: columna y
+/// fila en el anillo, columna y fila en el mapa, ancho y alto).
+/// Original: `$051DE2`.
+pub fn blit_regs(m: &mut impl Memory, cam: u32, map: u32, w: [u16; 6]) {
+    let map_h = m.read_u16(map + 2);
+    write_tiles(m, cam, map, Window { ring: (w[0], w[1]), map: (w[2], w[3]), size: (w[4], w[5]), map_h });
+}
+
 fn vram(m: &mut impl Memory, addr: u16, data: u16) {
     m.write_u16(Y::VRAM_ADDR_SHADOW, addr);
     m.write_u16(hw::VRAM_ADDR, addr);
