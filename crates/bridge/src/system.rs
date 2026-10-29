@@ -11,7 +11,7 @@
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
 use mslug_game::system::soldier::Trait;
-use mslug_game::system::{aim_turret, anim, autopilot, banner, boot, bullet, burst, charger, collision, contact, critters, debris, events, food, fort, frame, game_over, go_arrow, grenade, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, memcard, mission, msg_select, motion, pads, pickup, platforms, player, pow, player_air, player_arm, player_fire, player_ground, player_hud, player_ride, palette, props, parachute, rank, render, rng, scene, score, script, scroll, slope, slug, slug_arm, slug_drive, slug_fire, slug_hit, human_death, slug_attack, slug_death, spawner, slug_shell, explosion, slug_hunker, slug_idle, slug_jump, soldier, sound, sprite, tasks, title, trig, turret, video, wheels};
+use mslug_game::system::{aim_turret, anim, enemy_grenade, autopilot, banner, boot, bullet, burst, charger, collision, contact, critters, debris, events, food, fort, frame, game_over, go_arrow, grenade, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, memcard, mission, msg_select, motion, pads, pickup, platforms, player, pow, player_air, player_arm, player_fire, player_ground, player_hud, player_ride, palette, props, parachute, rank, render, rng, scene, score, script, scroll, slope, slug, slug_arm, slug_drive, slug_fire, slug_hit, human_death, slug_attack, slug_death, spawner, slug_shell, explosion, slug_hunker, slug_idle, slug_jump, soldier, sound, sprite, tasks, title, trig, turret, video, wheels};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use mslug_game::input::{Buttons, Edge};
 use neogeo_hw::cpu::m68k::exec::write_sr;
@@ -2987,6 +2987,24 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
     SystemPort { entry: 0x04_F480, original: "Prop_Sensor_04f46a+$16", rust: "system::props::sensor_loop", run: |m| props::sensor_loop(m) },
     SystemPort { entry: 0x04_F4B6, original: "Prop_Sensor_04f46a+$4C", rust: "system::props::sensor_trip", run: |m| props::sensor_trip(m) },
     SystemPort { entry: 0x04_F4C8, original: "Prop_Sensor_04f46a+$5E", rust: "system::props::sensor_trip_loop", run: |m| props::sensor_trip_loop(m) },
+    // --- granada enemiga
+    SystemPort { entry: 0x05_5BCE, original: "Grenade_SpawnFromThrower_055bce", rust: "system::enemy_grenade::spawn_from",
+                 run: |m| { let t = m.cpu.a[6]; let next = m.read_u32(mslug_game::layout::enemy_grenade::PARENT + mslug_game::layout::task::NEXT);
+                            let g = enemy_grenade::spawn_from(m, t); m.cpu.a[0] = g; m.cpu.a[1] = next;
+                            m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_0000) | u32::from(m.read_u16(g + 0x22));
+                            m.cpu.d[1] = (m.cpu.d[1] & 0xFFFF_0000) | u32::from(m.read_u16(g + 0x24)); Flow::Return } },
+    SystemPort { entry: 0x05_5CD8, original: "Grenade_Task_055cd8", rust: "system::enemy_grenade::start", run: |m| coll(m, enemy_grenade::start) },
+    SystemPort { entry: 0x05_5E7A, original: "Grenade_Task_055cd8+$1A2", rust: "system::enemy_grenade::fly", run: |m| coll(m, enemy_grenade::fly) },
+    SystemPort { entry: 0x05_5FCA, original: "Grenade_Explode_055fca", rust: "system::enemy_grenade::explode", run: |m| enemy_grenade::explode(m) },
+    SystemPort { entry: 0x05_5FEE, original: "Grenade_Explode_055fca+$24", rust: "system::enemy_grenade::explode_hit", run: |m| enemy_grenade::explode_hit(m) },
+    SystemPort { entry: 0x05_6012, original: "Grenade_Explode_055fca+$48", rust: "system::enemy_grenade::explode_quiet", run: |m| enemy_grenade::explode_quiet(m) },
+    SystemPort { entry: 0x05_6032, original: "Grenade_Explode_055fca+$68", rust: "system::enemy_grenade::blast", run: |m| enemy_grenade::blast(m) },
+    SystemPort { entry: 0x05_6058, original: "Jsr5B6ThenJmpScheduler_056058", rust: "system::enemy_grenade::gone", run: |m| enemy_grenade::gone(m) },
+    SystemPort { entry: 0x05_E172, original: "$05E172", rust: "system::enemy_grenade::angle_to_player",
+                 run: |m| { let t = m.cpu.a[6]; let r = enemy_grenade::angle_to_player(m, t);
+                            match r { Some((a, p)) => { m.cpu.a[0] = p; m.cpu.d[0] = u32::from(a); set_carry(m, false); }
+                                      None => { player_regs(m, None); m.cpu.a[1] = mslug_game::layout::enemy_grenade::AIM_BOX; } }
+                            Flow::Return } },
     // --- torreta que apunta (misión 1)
     SystemPort { entry: 0x06_0E62, original: "AimTurret_Tmpl08E_060e62", rust: "system::aim_turret::start", run: |m| coll(m, aim_turret::start) },
     SystemPort { entry: 0x06_0F04, original: "AimTurret_Active_060f04", rust: "system::aim_turret::active", run: |m| coll(m, aim_turret::active) },
