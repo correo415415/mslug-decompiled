@@ -11,7 +11,7 @@
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
 use mslug_game::system::soldier::Trait;
-use mslug_game::system::{aim_turret, barrel, smoke, tower, tower_soldier, anim, enemy_grenade, hut, scenery, thrown, autopilot, banner, boot, bullet, burst, charger, collision, contact, critters, debris, events, food, fort, frame, game_over, go_arrow, grenade, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, memcard, mission, msg_select, motion, pads, pickup, platforms, player, pow, player_air, player_arm, player_fire, player_ground, player_hud, player_ride, palette, props, parachute, rank, render, rng, scene, score, script, scroll, slope, slug, slug_arm, slug_drive, slug_fire, slug_hit, human_death, slug_attack, slug_death, spawner, slug_shell, explosion, slug_hunker, slug_idle, slug_jump, soldier, sound, sprite, tasks, title, trig, turret, video, wheels};
+use mslug_game::system::{aim_turret, barrel, smoke, tower, tower_soldier, player_death, anim, enemy_grenade, hut, scenery, thrown, autopilot, banner, boot, bullet, burst, charger, collision, contact, critters, debris, events, food, fort, frame, game_over, go_arrow, grenade, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, memcard, mission, msg_select, motion, pads, pickup, platforms, player, pow, player_air, player_arm, player_fire, player_ground, player_hud, player_ride, palette, props, parachute, rank, render, rng, scene, score, script, scroll, slope, slug, slug_arm, slug_drive, slug_fire, slug_hit, human_death, slug_attack, slug_death, spawner, slug_shell, explosion, slug_hunker, slug_idle, slug_jump, soldier, sound, sprite, tasks, title, trig, turret, video, wheels};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use mslug_game::input::{Buttons, Edge};
 use neogeo_hw::cpu::m68k::exec::write_sr;
@@ -3091,6 +3091,44 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
     SystemPort { entry: 0x05_F9C8, original: "Offworld_Box2C0EE8_05f9c8", rust: "system::tower_soldier::mate_off_world", run: |m| { let t = m.task_register(); let c = tower_soldier::mate_off_world(m, t); set_carry(m, c); Flow::Return } },
     SystemPort { entry: 0x02_72A8, original: "Entity_MoveAndCollide_C_0272a8", rust: "system::motion::move_c", run: |m| { let t = m.task_register(); let c = motion::move_c(m, t); set_carry(m, c); Flow::Return } },
     SystemPort { entry: 0x02_7AFC, original: "Entity_ProbeRevertCcr_027AFC", rust: "system::motion::walk_c", run: |m| { let t = m.task_register(); let c = motion::walk_c(m, t); set_carry(m, c); Flow::Return } },
+    // --- muerte del jugador
+    SystemPort { entry: 0x03_3572, original: "PlayerHandlerA_033572", rust: "system::player_death::dispatch(0)", run: |m| coll(m, |m| player_death::dispatch(m, 0)) },
+    SystemPort { entry: 0x03_3578, original: "PlayerHandlerB_033578", rust: "system::player_death::dispatch(1)", run: |m| coll(m, |m| player_death::dispatch(m, 1)) },
+    SystemPort { entry: 0x03_75D2, original: "Player_Death_0375d2", rust: "system::player_death::smoke", run: |m| coll(m, player_death::smoke) },
+    SystemPort { entry: 0x03_761E, original: "Player_Death_GroundTest_03761e", rust: "system::player_death::pit_check", run: |m| { let t = m.cpu.a[6]; player_death::pit_check(m, t); Flow::Return } },
+    SystemPort { entry: 0x03_765A, original: "Player_Death_PlayMusic_03765a", rust: "system::player_death::scream_next", run: |m| coll(m, player_death::scream_next) },
+    SystemPort { entry: 0x03_7684, original: "Player_Death_Alt_037684", rust: "system::player_death::alt", run: |m| coll(m, player_death::alt) },
+    SystemPort { entry: 0x03_7724, original: "Player_Death_Alt_037684+$A0", rust: "system::player_death::alt_loop", run: |m| coll(m, player_death::alt_loop) },
+    SystemPort { entry: 0x03_7778, original: "Player_Death_Fall_037778", rust: "system::player_death::fall", run: |m| coll(m, player_death::fall) },
+    SystemPort { entry: 0x03_77EC, original: "Player_Death_Fall_037778+$74", rust: "system::player_death::fall_loop", run: |m| coll(m, player_death::fall_loop) },
+    SystemPort { entry: 0x03_7874, original: "Player_Death_FallLanded_037874", rust: "system::player_death::fall_landed", run: |m| coll(m, player_death::fall_landed) },
+    SystemPort { entry: 0x03_78AC, original: "Player_Death_FallLanded_037874+$38", rust: "system::player_death::fall_landed_loop", run: |m| coll(m, player_death::fall_landed_loop) },
+    SystemPort { entry: 0x03_78C6, original: "Player_Death_FallSpawnFx_0378c6", rust: "system::player_death::splash", run: |m| coll(m, player_death::splash) },
+    SystemPort { entry: 0x03_795A, original: "Player_Death_FallSpawnFx_0378c6+$94", rust: "system::player_death::splash_loop", run: |m| coll(m, player_death::splash_loop) },
+    SystemPort { entry: 0x03_79E2, original: "Player_Death_FallLandedB_0379e2", rust: "system::player_death::splash_landed", run: |m| coll(m, player_death::splash_landed) },
+    SystemPort { entry: 0x03_7A1A, original: "Player_Death_FallLandedB_0379e2+$38", rust: "system::player_death::splash_landed_loop", run: |m| coll(m, player_death::splash_landed_loop) },
+    SystemPort { entry: 0x03_7A34, original: "Player_Death_PrioE000_037a34", rust: "system::player_death::front", run: |m| coll(m, player_death::front) },
+    SystemPort { entry: 0x03_7A3E, original: "Player_Death_Generic_037a3e", rust: "system::player_death::generic", run: |m| coll(m, player_death::generic) },
+    SystemPort { entry: 0x03_7AB8, original: "Player_Death_Generic_037a3e+$7A", rust: "system::player_death::generic_loop", run: |m| coll(m, player_death::generic_loop) },
+    SystemPort { entry: 0x03_7AF2, original: "Player_Death_Blood_037af2", rust: "system::player_death::blood", run: |m| coll(m, player_death::blood) },
+    SystemPort { entry: 0x03_7B00, original: "Player_Death_Timed_037b00", rust: "system::player_death::timed", run: |m| coll(m, player_death::timed) },
+    SystemPort { entry: 0x03_7B5A, original: "Player_Death_Timed_037b00+$5A", rust: "system::player_death::timed_loop", run: |m| coll(m, player_death::timed_loop) },
+    SystemPort { entry: 0x03_7B8E, original: "Player_DeathPit_037b8e", rust: "system::player_death::pit", run: |m| coll(m, player_death::pit) },
+    SystemPort { entry: 0x03_7BE0, original: "Player_DeathPit_037b8e+$52", rust: "system::player_death::pit_loop", run: |m| coll(m, player_death::pit_loop) },
+    SystemPort { entry: 0x03_7C1A, original: "Player_Death_Despawn_037c1a", rust: "system::player_death::despawn", run: |m| coll(m, player_death::despawn) },
+    SystemPort { entry: 0x03_7C40, original: "Player_Death_Despawn_037c1a+$26", rust: "system::player_death::despawn_loop", run: |m| coll(m, player_death::despawn_loop) },
+    SystemPort { entry: 0x03_9148, original: "PlayerDeathFx_Splash_039148", rust: "system::player_death::fx_splash", run: |m| coll(m, player_death::fx_splash) },
+    SystemPort { entry: 0x03_916A, original: "PlayerDeathFx_Splash_039148+$22", rust: "system::player_death::fx_splash_loop", run: |m| coll(m, player_death::fx_splash_loop) },
+    SystemPort { entry: 0x03_91AA, original: "PlayerDeathFx_Loop_0391aa", rust: "system::player_death::fx_fade", run: |m| coll(m, player_death::fx_fade) },
+    SystemPort { entry: 0x03_91C2, original: "PlayerDeathFx_Loop_0391aa+$18", rust: "system::player_death::fx_follow", run: |m| coll(m, player_death::fx_follow) },
+    SystemPort { entry: 0x03_91EE, original: "PlayerDeathFx_Ripple_0391ee", rust: "system::player_death::fx_ripple", run: |m| coll(m, player_death::fx_ripple) },
+    SystemPort { entry: 0x03_9210, original: "PlayerDeathFx_Ripple_0391ee+$22", rust: "system::player_death::fx_follow", run: |m| coll(m, player_death::fx_follow) },
+    SystemPort { entry: 0x03_9214, original: "PlayerDeathFx_Alt_039214", rust: "system::player_death::fx_alt", run: |m| coll(m, player_death::fx_alt) },
+    SystemPort { entry: 0x03_9230, original: "PlayerDeathFx_Alt_039214+$1C", rust: "system::player_death::fx_follow", run: |m| coll(m, player_death::fx_follow) },
+    SystemPort { entry: 0x03_3358, original: "Player_SpawnBloodFx_033358", rust: "system::player_death::spawn_blood", run: |m| { let t = m.cpu.a[6]; player_death::spawn_blood(m, t); Flow::Return } },
+    SystemPort { entry: 0x03_D842, original: "$03D842", rust: "system::player_death::blood_fx", run: |m| coll(m, player_death::blood_fx) },
+    SystemPort { entry: 0x03_D87C, original: "$03D842+$3A", rust: "system::player_death::blood_fx_loop", run: |m| coll(m, player_death::blood_fx_loop) },
+    SystemPort { entry: 0x05_DCA4, original: "Entity_NegIfFacing_05dca4", rust: "system::player_death::set_vx_facing", run: |m| { let t = m.cpu.a[6]; let v = player_death::set_vx_facing(m, t, m.cpu.d[0] as u16); m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_0000) | u32::from(v); Flow::Return } },
     // --- ocupante de la choza y su puerta
     SystemPort { entry: 0x05_FA00, original: "HutOccupant_Init_05fa00", rust: "system::hut::occupant", run: |m| coll(m, hut::occupant) },
     SystemPort { entry: 0x05_FA56, original: "HutOccupant_Idle_05fa56", rust: "system::hut::occupant_idle", run: |m| coll(m, hut::occupant_idle) },

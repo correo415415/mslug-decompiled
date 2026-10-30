@@ -7179,3 +7179,122 @@ pub mod tower_soldier {
     pub const SHELL: u32 = 0x05_F8A8;
     pub const SHELL_LOOP: u32 = 0x05_F8C0;
 }
+
+/// Muerte del jugador: los estados de muerte (según cómo ha muerto, `+$58`),
+/// la caída al vacío, la desaparición y los efectos (salpicadura, onda,
+/// humo, sangre).
+pub mod player_death {
+    /// Tablas de estados de muerte (en el suelo / en el aire), 34 entradas.
+    pub const TABLES: [u32; 2] = [0x03_338A, 0x03_3412];
+    pub const KIND: u32 = 0x58;
+    pub const KIND_LIMIT: u8 = 0x22;
+    pub const KIND_CLAMP: u8 = 0x0F;
+    pub const FLAGS_13: u32 = 0x13;
+    pub const DYING: u8 = 1 << 0;
+    pub const BYTE_21: u32 = 0x21;
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    pub const VEL_X: u32 = 0x28;
+    pub const VEL_Y: u32 = 0x2A;
+    pub const ACC_X: u32 = 0x2C;
+    pub const ACC_Y: u32 = 0x2E;
+    pub const ATTR: u32 = 0x38;
+    pub const FACING: u32 = 0x3A;
+    pub const HITBOX: u32 = 0x48;
+    pub const NO_HITBOX: u32 = 0xFFFF_FFFF;
+    pub const FLAGS_5B: u32 = 0x5B;
+    pub const ACTIVE_5B: u8 = 1 << 7;
+    pub const TINT: u32 = 0x5C;
+    pub const BYTE_6C: u32 = 0x6C;
+    pub const BYTE_70: u32 = 0x70;
+    pub const SCRIPT_HEAD: u32 = 0x74;
+    pub const FIELD_7C: u32 = 0x7C;
+    pub const FIELD_7E: u32 = 0x7E;
+    /// `+$8C`: bits 1–3 se borran al morir.
+    pub const STATUS: u32 = 0x8C;
+    pub const STATUS_CLEAR: u8 = 0b1110;
+    /// `+$8D` bit 1: cayendo.
+    pub const AIR: u32 = 0x8D;
+    pub const FALLING: u8 = 1 << 1;
+    pub const TIMER: u32 = 0x90;
+    pub const TIMER_INIT: u8 = 0x28;
+    pub const PIT_TIMER: u8 = 6;
+    /// Salto hacia atrás al morir.
+    pub const FALL_VEL_X: u16 = 0xFEE9;
+    pub const FALL_VEL_Y: u16 = 0x0457;
+    pub const FALL_ACC_Y: u16 = 0xFF9B;
+    pub const ATTR_FRONT: u16 = 0xE000;
+    pub const SCRIPT_SMOKE: u32 = 0x27_9F76;
+    pub const SCRIPT_ALT: u32 = 0x27_9F80;
+    pub const SCRIPT_FALL: u32 = 0x27_9F44;
+    pub const SCRIPT_FALL_LANDED: u32 = 0x27_9F4E;
+    pub const SCRIPT_SPLASH: u32 = 0x27_9F58;
+    pub const SCRIPT_SPLASH_LANDED: u32 = 0x27_9F62;
+    pub const SCRIPT_GENERIC: u32 = 0x27_9F30;
+    pub const SCRIPT_TIMED: u32 = 0x27_9F6C;
+    /// Rutinas de la tabla.
+    pub const GENERIC: u32 = 0x03_7A3E;
+    pub const FRONT: u32 = 0x03_7A34;
+    pub const ALT: u32 = 0x03_7684;
+    pub const FALL: u32 = 0x03_7778;
+    pub const SPLASH: u32 = 0x03_78C6;
+    pub const TIMED: u32 = 0x03_7B00;
+    pub const BLOOD: u32 = 0x03_7AF2;
+    pub const SCREAM_NEXT: u32 = 0x03_765A;
+    pub const ALT_LOOP: u32 = 0x03_7724;
+    pub const FALL_LOOP: u32 = 0x03_77EC;
+    pub const FALL_LANDED: u32 = 0x03_7874;
+    pub const FALL_LANDED_LOOP: u32 = 0x03_78AC;
+    pub const SPLASH_LOOP: u32 = 0x03_795A;
+    pub const SPLASH_LANDED: u32 = 0x03_79E2;
+    pub const SPLASH_LANDED_LOOP: u32 = 0x03_7A1A;
+    pub const GENERIC_LOOP: u32 = 0x03_7AB8;
+    pub const TIMED_LOOP: u32 = 0x03_7B5A;
+    pub const PIT: u32 = 0x03_7B8E;
+    pub const PIT_LOOP: u32 = 0x03_7BE0;
+    pub const DESPAWN: u32 = 0x03_7C1A;
+    pub const DESPAWN_LOOP: u32 = 0x03_7C40;
+    pub const FREE: u32 = 0x400;
+    /// Caída al vacío: márgenes (la escena `PIT_SCENE` usa los segundos).
+    pub const SCENE: u32 = 0x10_6ECE;
+    pub const PIT_SCENE: u8 = 3;
+    pub const PIT_MARGINS: [u32; 2] = [0x03_24C6, 0x03_24BC];
+    /// En la escena del agua, por encima de `WATER_Y`, el tile `WATER_TILE`.
+    pub const WATER_SCENE: u8 = 1;
+    pub const WATER_Y: i16 = 0x10C;
+    pub const WATER_TILE: u8 = 0x40;
+    pub const P1: u32 = 0x10_0440;
+    pub const SCREAM: [u16; 2] = [0x1123, 0x1087];
+    pub const SMOKE_SOUND: u16 = 0x1053;
+    pub const BLOOD_SOUND: u16 = 0x10FB;
+    pub const ALT_ODDS: u8 = 0x0B;
+    pub const SMOKE_TASK: u32 = 0x07_8840;
+    pub const SMOKE_ATTR: u16 = 0xD000;
+    pub const SMOKE_DY: u16 = 0x10;
+    /// Efectos: salpicadura, onda y el otro.
+    pub const FX_SPLASH: u32 = 0x03_9148;
+    pub const FX_SPLASH_LOOP: u32 = 0x03_916A;
+    pub const FX_FADE: u32 = 0x03_91AA;
+    pub const FX_FOLLOW: u32 = 0x03_91C2;
+    pub const FX_RIPPLE: u32 = 0x03_91EE;
+    pub const FX_RIPPLE_LOOP: u32 = 0x03_9210;
+    pub const FX_ALT: u32 = 0x03_9214;
+    pub const FX_ALT_LOOP: u32 = 0x03_9230;
+    pub const FX_GFX: u16 = 0x185;
+    pub const FX_ALT_GFX: u16 = 0x1DF;
+    pub const FX_SCRIPT_SPLASH: u32 = 0x27_A182;
+    pub const FX_SCRIPT_FADE: u32 = 0x27_A228;
+    pub const FX_SCRIPT_RIPPLE: u32 = 0x27_A0FE;
+    pub const FX_SCRIPT_ALT: u32 = 0x27_9F9A;
+    pub const FX_RIPPLE_TINT: u16 = 0x1C;
+    pub const ATTR_KEEP: u16 = 0xFFE3;
+    /// Sangre (si el ajuste `BLOOD` está activo).
+    pub const BLOOD_DIP: u32 = 0x10_FD8F;
+    pub const BLOOD_TASK: u32 = 0x03_D842;
+    pub const BLOOD_LOOP: u32 = 0x03_D87C;
+    pub const BLOOD_SCRIPT: u32 = 0x03_D894;
+    pub const BLOOD_GFX: u16 = 0x17A;
+    pub const BLOOD_ATTR: u16 = 0xD000;
+    pub const BLOOD_ATTR_SET: u16 = 0x10;
+    pub const BLOOD_ATTR_ADD: u16 = 0x200;
+}
