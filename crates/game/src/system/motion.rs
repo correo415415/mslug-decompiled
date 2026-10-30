@@ -440,3 +440,56 @@ pub fn move_e_probe_surface(m: &mut impl Memory, t: u32, at: (u16, u16)) -> (boo
     }
     (hit, s)
 }
+
+/// Movimiento con colisión «C» (andar por el suelo): integra, avanza por
+/// la pendiente y, si el punto nuevo es una plataforma o un tile con la
+/// misma pendiente que la que lleva, lo acepta. Devuelve si se ha
+/// bloqueado (pared o cambio de pendiente), sin moverse.
+/// Original: `Entity_MoveAndCollide_C_0272a8` (C = bloqueado).
+pub fn move_c(m: &mut impl Memory, t: u32) -> bool {
+    use crate::layout::slope as S;
+    integrate_velocity(m, t);
+    advance_on_slope(m, t);
+    platforms::apply_camera_work(m, t);
+    let x = m.read_u16(S::WORK_POS[0]).wrapping_add(m.read_u16(S::STEP[0]));
+    let y = m.read_u16(S::WORK_POS[1]).wrapping_sub(1).wrapping_add(m.read_u16(S::STEP[1]));
+    let (kind, mut slope) = if platforms::step_onto(m, t, x, y) {
+        let table = m.read_u32(S::PLATFORM_TILE + S::T_SLOPE);
+        let sub = m.read_u8(table + S::S_SUB_Y);
+        m.write_u8(S::NEW_SUB[1], sub);
+        (S::PLATFORM_KIND, table)
+    } else {
+        let tile = collision::lookup_tile(m, t, x, y);
+        let mut rec = tile.record;
+        if m.read_u8(rec + S::T_KIND_FLAGS) == 1 && m.read_u16(t + S::GRAVITY) == 0 {
+            rec += S::SECOND_MASK;
+        }
+        (tile.kind, m.read_u32(rec + S::T_SLOPE))
+    };
+    if S::RAMP_KINDS.contains(&kind) && m.read_u8(t + S::FLAGS_13) & S::RAMP_OK == 0 {
+        slope = S::FLAT_SLOPE;
+    }
+    if S::WALL_KINDS.contains(&kind) {
+        let st = m.read_u8(t + S::STATE);
+        m.write_u8(t + S::STATE, st | S::HIT_WALL);
+        return true;
+    }
+    if m.read_u16(t + S::GRAVITY2) != m.read_u16(slope + S::S_GRAVITY2) || m.read_u16(t + S::GRAVITY) != m.read_u16(slope) {
+        return true;
+    }
+    m.write_u16(S::WORK_POS[0], x);
+    m.write_u16(S::WORK_POS[1], y.wrapping_add(1));
+    for k in 0..2 {
+        let v = m.read_u8(S::NEW_SUB[k]);
+        m.write_u8(S::WORK_SUB[k], v);
+    }
+    false
+}
+
+/// [`move_c`] sobre la posición de la entidad y la profundidad según la
+/// altura. Original: `Entity_ProbeRevertCcr_027AFC` (C = bloqueado).
+pub fn walk_c(m: &mut impl Memory, t: u32) -> bool {
+    let c = on_entity_pos(m, t, |m| move_c(m, t));
+    super::anim::apply_depth(m, t);
+    c
+}

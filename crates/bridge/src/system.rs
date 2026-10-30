@@ -11,7 +11,7 @@
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
 use mslug_game::system::soldier::Trait;
-use mslug_game::system::{aim_turret, barrel, smoke, tower, anim, enemy_grenade, hut, scenery, thrown, autopilot, banner, boot, bullet, burst, charger, collision, contact, critters, debris, events, food, fort, frame, game_over, go_arrow, grenade, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, memcard, mission, msg_select, motion, pads, pickup, platforms, player, pow, player_air, player_arm, player_fire, player_ground, player_hud, player_ride, palette, props, parachute, rank, render, rng, scene, score, script, scroll, slope, slug, slug_arm, slug_drive, slug_fire, slug_hit, human_death, slug_attack, slug_death, spawner, slug_shell, explosion, slug_hunker, slug_idle, slug_jump, soldier, sound, sprite, tasks, title, trig, turret, video, wheels};
+use mslug_game::system::{aim_turret, barrel, smoke, tower, tower_soldier, anim, enemy_grenade, hut, scenery, thrown, autopilot, banner, boot, bullet, burst, charger, collision, contact, critters, debris, events, food, fort, frame, game_over, go_arrow, grenade, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, memcard, mission, msg_select, motion, pads, pickup, platforms, player, pow, player_air, player_arm, player_fire, player_ground, player_hud, player_ride, palette, props, parachute, rank, render, rng, scene, score, script, scroll, slope, slug, slug_arm, slug_drive, slug_fire, slug_hit, human_death, slug_attack, slug_death, spawner, slug_shell, explosion, slug_hunker, slug_idle, slug_jump, soldier, sound, sprite, tasks, title, trig, turret, video, wheels};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use mslug_game::input::{Buttons, Edge};
 use neogeo_hw::cpu::m68k::exec::write_sr;
@@ -3058,6 +3058,39 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
     SystemPort { entry: 0x04_FAF8, original: "Prop_BunkerBlitState10_04faf8", rust: "system::tower::bunker_blit", run: |m| { let t = m.task_register(); tower::bunker_blit(m, t); Flow::Return } },
     SystemPort { entry: 0x04_FB3C, original: "Prop_NestBlitByFacing_04fb3c", rust: "system::tower::nest_blit", run: |m| { let t = m.task_register(); tower::nest_blit(m, t); Flow::Return } },
     SystemPort { entry: 0x04_FB74, original: "Prop_NestBlitPair_04fb74", rust: "system::tower::nest_blit_pair", run: |m| { tower::nest_blit_pair(m); Flow::Return } },
+    // --- soldado de la torre y de los pilares
+    SystemPort { entry: 0x05_F384, original: "TowerSoldier_Init_05f384", rust: "system::tower_soldier::init(true)", run: |m| coll(m, |m| tower_soldier::init(m, true)) },
+    SystemPort { entry: 0x05_F38A, original: "TowerSoldier_Init_05f384+$6", rust: "system::tower_soldier::init(false)", run: |m| coll(m, |m| tower_soldier::init(m, false)) },
+    SystemPort { entry: 0x05_F3CA, original: "TowerSoldier_Init_05f384+$46", rust: "system::tower_soldier::init_loop", run: |m| coll(m, tower_soldier::init_loop) },
+    SystemPort { entry: 0x05_F3F2, original: "TowerSoldier_Watch_05f3f2", rust: "system::tower_soldier::watch", run: |m| coll(m, tower_soldier::watch) },
+    SystemPort { entry: 0x05_F3FE, original: "TowerSoldier_Watch_05f3f2+$C", rust: "system::tower_soldier::watch_loop", run: |m| coll(m, tower_soldier::watch_loop) },
+    SystemPort { entry: 0x05_F482, original: "TowerSoldier_Fire_05f482", rust: "system::tower_soldier::fire", run: |m| coll(m, tower_soldier::fire) },
+    SystemPort { entry: 0x05_F48E, original: "TowerSoldier_Fire_05f482+$C", rust: "system::tower_soldier::fire_loop", run: |m| coll(m, tower_soldier::fire_loop) },
+    SystemPort { entry: 0x05_F508, original: "TowerSoldier_Die_05f508", rust: "system::tower_soldier::die", run: |m| coll(m, tower_soldier::die) },
+    SystemPort { entry: 0x05_F55E, original: "TowerSoldier_Die_05f508+$56", rust: "system::tower_soldier::die_loop", run: |m| coll(m, tower_soldier::die_loop) },
+    SystemPort { entry: 0x05_F5AA, original: "TowerSoldier_Fall_05f5aa", rust: "system::tower_soldier::fall", run: |m| coll(m, tower_soldier::fall) },
+    SystemPort { entry: 0x05_F5DA, original: "TowerSoldier_Fall_05f5aa+$30", rust: "system::tower_soldier::fall_loop", run: |m| coll(m, tower_soldier::fall_loop) },
+    SystemPort { entry: 0x05_F5FA, original: "TowerSoldier_Flee_05f5fa", rust: "system::tower_soldier::flee", run: |m| coll(m, tower_soldier::flee) },
+    SystemPort { entry: 0x05_F64C, original: "TowerSoldier_Flee_05f5fa+$52", rust: "system::tower_soldier::flee_loop", run: |m| coll(m, tower_soldier::flee_loop) },
+    SystemPort { entry: 0x05_F668, original: "TowerSoldier_InitB_05f668", rust: "system::tower_soldier::mate", run: |m| coll(m, tower_soldier::mate) },
+    SystemPort { entry: 0x05_F696, original: "TowerSoldier_InitB_05f668+$2E", rust: "system::tower_soldier::mate_loop", run: |m| coll(m, tower_soldier::mate_loop) },
+    SystemPort { entry: 0x05_F6C4, original: "TowerSoldier_Grenade_05f6c4", rust: "system::tower_soldier::grenade", run: |m| coll(m, tower_soldier::grenade) },
+    SystemPort { entry: 0x05_F722, original: "TowerSoldier_Grenade_05f6c4+$5E", rust: "system::tower_soldier::grenade_loop", run: |m| coll(m, tower_soldier::grenade_loop) },
+    SystemPort { entry: 0x05_F752, original: "TowerSoldier_GrenadeBurst_05f752", rust: "system::tower_soldier::burst", run: |m| coll(m, tower_soldier::burst) },
+    SystemPort { entry: 0x05_F77E, original: "TowerSoldier_GrenadeBurst_05f752+$2C", rust: "system::tower_soldier::burst_loop", run: |m| coll(m, tower_soldier::burst_loop) },
+    SystemPort { entry: 0x05_F7F4, original: "TowerSoldier_Muzzle_05f7f4", rust: "system::tower_soldier::muzzle", run: |m| coll(m, tower_soldier::muzzle) },
+    SystemPort { entry: 0x05_F82C, original: "TowerSoldier_Muzzle_05f7f4+$38", rust: "system::tower_soldier::muzzle_loop", run: |m| coll(m, tower_soldier::muzzle_loop) },
+    SystemPort { entry: 0x05_F8A8, original: "TowerSoldier_Shell_05f8a8", rust: "system::tower_soldier::shell", run: |m| coll(m, tower_soldier::shell) },
+    SystemPort { entry: 0x05_F8C0, original: "TowerSoldier_Shell_05f8a8+$18", rust: "system::tower_soldier::shell_loop", run: |m| coll(m, tower_soldier::shell_loop) },
+    SystemPort { entry: 0x05_F93A, original: "TowerSoldier_Helper_05f93a", rust: "system::tower_soldier::give_up", run: |m| coll(m, tower_soldier::give_up) },
+    SystemPort { entry: 0x05_F91E, original: "TowerSoldier_OffsetPlus10_05f91e", rust: "system::tower_soldier::trail", run: |m| { let t = m.task_register(); tower_soldier::trail(m, t); Flow::Return } },
+    SystemPort { entry: 0x05_E4DC, original: "Parent_CopyPos_05e4dc", rust: "system::tower_soldier::copy_owner_pos", run: |m| { let t = m.task_register(); tower_soldier::copy_owner_pos(m, t); Flow::Return } },
+    SystemPort { entry: 0x05_F94C, original: "TowerSoldier_SpawnDebris_05f94c", rust: "system::tower_soldier::near_owner", run: |m| { let t = m.task_register(); let c = tower_soldier::near_owner(m, t); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x05_F990, original: "Offworld_Box2C0ED4_05f990", rust: "system::tower_soldier::shot_off_world", run: |m| { let t = m.task_register(); let c = tower_soldier::shot_off_world(m, t); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x05_F9AC, original: "Offworld_Box2C0EDE_05f9ac", rust: "system::tower_soldier::off_world", run: |m| { let t = m.task_register(); let c = tower_soldier::off_world(m, t); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x05_F9C8, original: "Offworld_Box2C0EE8_05f9c8", rust: "system::tower_soldier::mate_off_world", run: |m| { let t = m.task_register(); let c = tower_soldier::mate_off_world(m, t); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x02_72A8, original: "Entity_MoveAndCollide_C_0272a8", rust: "system::motion::move_c", run: |m| { let t = m.task_register(); let c = motion::move_c(m, t); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x02_7AFC, original: "Entity_ProbeRevertCcr_027AFC", rust: "system::motion::walk_c", run: |m| { let t = m.task_register(); let c = motion::walk_c(m, t); set_carry(m, c); Flow::Return } },
     // --- ocupante de la choza y su puerta
     SystemPort { entry: 0x05_FA00, original: "HutOccupant_Init_05fa00", rust: "system::hut::occupant", run: |m| coll(m, hut::occupant) },
     SystemPort { entry: 0x05_FA56, original: "HutOccupant_Idle_05fa56", rust: "system::hut::occupant_idle", run: |m| coll(m, hut::occupant_idle) },
