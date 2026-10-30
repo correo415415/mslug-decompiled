@@ -437,3 +437,33 @@ mod tests {
         assert_eq!(f, Flow::Call { routine: 0x5678, then: routine::SCHEDULER_AFTER_TASK });
     }
 }
+
+/// ¿Tiene `t` aún hijas? (la tarea siguiente tiene más prioridad). Es la
+/// comprobación que repiten decenas de enemigos y objetos antes de darse
+/// de baja. Originales: `ChildRank_CmpByte10_*`, `Entity_CmpDepthToParent_*`,
+/// `*_RetGate*`, `*_CmpSlotWithParent_*`… (C = sí).
+pub fn has_children(m: &mut impl Memory, t: u32) -> bool {
+    let next = m.read_u32(t + T::NEXT);
+    m.read_u8(t + T::PRIORITY) < m.read_u8(next + T::PRIORITY)
+}
+
+/// Crea una tarea `handler` hija de la de la misión y la marca.
+/// Original: `Spawn_MarkPending_04498E`.
+pub fn spawn_marked(m: &mut impl Memory, handler: u32) -> u32 {
+    let c = spawn(m, handler, crate::layout::shared::MISSION_TASK);
+    let f = m.read_u8(c + T::FLAGS);
+    m.write_u8(c + T::FLAGS, f | T::FLAGS_MARKED);
+    c
+}
+
+/// Un jugador en juego al azar (si están los dos, cualquiera de ellos).
+/// Devuelve la elección (0 = ninguno, 1 = 1P, 2 = 2P) y su entidad.
+/// Original: `Players_PickRandomAlive_05e1ea` (C = ninguno).
+pub fn pick_random_alive(m: &mut impl Memory) -> (u16, u32) {
+    use crate::layout::shared as S;
+    let mut k = super::go_arrow::players_mask(m);
+    if k >= 3 {
+        k = (super::rng::next(m).0 & 1) + 1;
+    }
+    (k, S::PLAYERS[usize::from(k == 2)])
+}
