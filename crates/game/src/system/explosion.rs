@@ -113,3 +113,42 @@ pub fn arc_run(m: &mut impl Machine, at: (u16, u16)) -> Flow {
     }
     Flow::Return
 }
+
+/// Explosión pequeña: gráfico 4, girada al azar, a tamaño completo; sigue
+/// a la capa de la cámara y desaparece al acabar o al salir.
+/// Original: `Explosion_Small_077e10`.
+pub fn small(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    anim::alloc_entry(m, t, L::SMALL_GFX);
+    m.write_u8(t + L::SCALE[0], 0xFF);
+    m.write_u8(t + L::SCALE[1], 0xFF);
+    random_flip(m, t);
+    anim::start(m, t, L::SMALL_SCRIPT);
+    if items::out_of_view_seen(m, t, Some(L::SMALL_MARGINS)) {
+        return tasks::finish(m);
+    }
+    m.write_u32(t + T::HANDLER, L::SMALL_RUN);
+    small_run(m)
+}
+
+/// Bucle de la pequeña. Original: `Explosion_Small_077e10+$3C`.
+pub fn small_run(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    follow_layer(m, t);
+    if anim::step(m, t) || items::out_of_view_seen(m, t, Some(L::SMALL_MARGINS)) {
+        return tasks::finish(m);
+    }
+    Flow::Return
+}
+
+/// Deja una explosión pequeña (al final de las hijas de `t`) en el punto
+/// de destino de `t`. Devuelve la tarea creada y la que queda detrás.
+/// Original: `Spawner_SpawnAtGoal_077d88`.
+pub fn spawn_at_goal(m: &mut impl Memory, t: u32) -> (u32, u32) {
+    let (e, after) = tasks::spawn_last(m, L::SMALL, t);
+    anim::copy_sprite_pos(m, t, e);
+    let (x, y) = (m.read_u16(t + L::GOAL[0]), m.read_u16(t + L::GOAL[1]));
+    m.write_u16(e + L::X, x);
+    m.write_u16(e + L::Y, y);
+    (e, after)
+}

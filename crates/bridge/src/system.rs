@@ -11,7 +11,7 @@
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
 use mslug_game::system::soldier::Trait;
-use mslug_game::system::{aim_turret, barrel, smoke, tower, tower_soldier, player_death, frag, continue_count, anim, enemy_grenade, hut, scenery, thrown, autopilot, banner, boot, bullet, burst, charger, collision, contact, critters, debris, events, food, fort, frame, game_over, go_arrow, grenade, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, memcard, mission, msg_select, motion, pads, pickup, platforms, player, pow, player_air, player_arm, player_fire, player_ground, player_hud, player_ride, palette, props, parachute, rank, render, rng, scene, score, script, scroll, slope, slug, slug_arm, slug_drive, slug_fire, slug_hit, human_death, slug_attack, slug_death, spawner, slug_shell, explosion, slug_hunker, slug_idle, slug_jump, soldier, sound, sprite, tasks, title, trig, turret, video, wheels};
+use mslug_game::system::{aim_turret, barrel, smoke, tower, tower_soldier, player_death, frag, continue_count, dropped_weapon, sign, anim, enemy_grenade, hut, scenery, thrown, autopilot, banner, boot, bullet, burst, charger, collision, contact, critters, debris, events, food, fort, frame, game_over, go_arrow, grenade, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, memcard, mission, msg_select, motion, pads, pickup, platforms, player, pow, player_air, player_arm, player_fire, player_ground, player_hud, player_ride, palette, props, parachute, rank, render, rng, scene, score, script, scroll, slope, slug, slug_arm, slug_drive, slug_fire, slug_hit, human_death, slug_attack, slug_death, spawner, slug_shell, explosion, slug_hunker, slug_idle, slug_jump, soldier, sound, sprite, tasks, title, trig, turret, video, wheels};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use mslug_game::input::{Buttons, Edge};
 use neogeo_hw::cpu::m68k::exec::write_sr;
@@ -3305,6 +3305,32 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
     SystemPort { entry: 0x04_784C, original: "$04784C", rust: "system::continue_count::big_text", run: |m| { let (at, text, pal) = (m.cpu.a[1] as u16, m.cpu.a[2], m.cpu.d[1] as u16); continue_count::big_text(m, at, text, pal); Flow::Return } },
     SystemPort { entry: 0x00_2C66, original: "PalSlot_SetBit3_002c66", rust: "system::continue_count::pin_sprite", run: |m| { let k = m.cpu.d[1] as u16; continue_count::pin_sprite(m, k); m.cpu.a[1] = mslug_game::layout::continue_count::SPRITE_TABLE; m.cpu.d[1] = (m.cpu.d[1] & 0xFFFF_0000) | u32::from(k.wrapping_mul(32)); Flow::Return } },
     SystemPort { entry: 0x00_2C76, original: "$002C76", rust: "system::continue_count::unpin_sprite", run: |m| { let k = m.cpu.d[1] as u16; continue_count::unpin_sprite(m, k); m.cpu.a[1] = mslug_game::layout::continue_count::SPRITE_TABLE; m.cpu.d[1] = (m.cpu.d[1] & 0xFFFF_0000) | u32::from(k.wrapping_mul(32)); Flow::Return } },
+    // --- objeto del marcador de la misión
+    SystemPort { entry: 0x09_B872, original: "Item_SpawnAtOffset_09b872", rust: "system::items::spawn_at_mark", run: |m| items::spawn_at_mark(m) },
+    SystemPort { entry: 0x09_A8BE, original: "$09A8BE", rust: "system::items::appear", run: |m| items::appear(m) },
+    SystemPort { entry: 0x09_A8FA, original: "$09A8BE+$3C", rust: "system::items::appear_run", run: |m| items::appear_run(m) },
+    // --- arma que suelta el jugador y explosión pequeña
+    SystemPort { entry: 0x03_8BE4, original: "DroppedWeapon_Spawn_038be4", rust: "system::dropped_weapon::spawn", run: |m| coll(m, dropped_weapon::spawn) },
+    SystemPort { entry: 0x03_8C42, original: "DroppedWeapon_Spawn_038be4+$5E", rust: "system::dropped_weapon::fly", run: |m| coll(m, dropped_weapon::fly) },
+    SystemPort { entry: 0x03_8C70, original: "DroppedWeapon_Bounce_038c70", rust: "system::dropped_weapon::bounce", run: |m| coll(m, dropped_weapon::bounce) },
+    SystemPort { entry: 0x03_8CB4, original: "DroppedWeapon_Bounce_038c70+$44", rust: "system::dropped_weapon::bounce_run", run: |m| coll(m, dropped_weapon::bounce_run) },
+    SystemPort { entry: 0x03_8CEE, original: "DroppedWeapon_Free_038cee", rust: "system::dropped_weapon::free", run: |m| dropped_weapon::free(m) },
+    SystemPort { entry: 0x07_7E10, original: "Explosion_Small_077e10", rust: "system::explosion::small", run: |m| explosion::small(m) },
+    SystemPort { entry: 0x07_7E4C, original: "Explosion_Small_077e10+$3C", rust: "system::explosion::small_run", run: |m| explosion::small_run(m) },
+    SystemPort { entry: 0x07_7D88, original: "Spawner_SpawnAtGoal_077d88", rust: "system::explosion::spawn_at_goal",
+                 run: |m| { let t = m.cpu.a[6]; let (e, after) = explosion::spawn_at_goal(m, t); m.cpu.a[0] = e;
+                            if e != mslug_game::layout::task::OVERFLOW_BLOCK { m.cpu.a[1] = after; m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_FF00) | u32::from(m.read_u8(e + mslug_game::layout::task::PRIORITY)); }
+                            else { m.cpu.a[1] = mslug_game::layout::explosion::SMALL; } Flow::Return } },
+    // --- letrero de la escena
+    SystemPort { entry: 0x06_0420, original: "Sign_Tmpl28_060420", rust: "system::sign::start", run: |m| sign::start(m, 0) },
+    SystemPort { entry: 0x06_0440, original: "Sign_Tmpl28_060420+$20", rust: "system::sign::start", run: |m| sign::start(m, 1) },
+    SystemPort { entry: 0x06_0460, original: "Sign_Tmpl28_060420+$40", rust: "system::sign::start", run: |m| sign::start(m, 2) },
+    SystemPort { entry: 0x06_0480, original: "Sign_Tmpl28_060420+$60", rust: "system::sign::start", run: |m| sign::start(m, 3) },
+    SystemPort { entry: 0x06_04A0, original: "Sign_Tmpl28_060420+$80", rust: "system::sign::start", run: |m| sign::start(m, 4) },
+    SystemPort { entry: 0x06_04E4, original: "Sign_Tmpl28_060420+$C4", rust: "system::sign::run", run: |m| sign::run(m) },
+    SystemPort { entry: 0x06_052A, original: "Sign_Idle_06052a", rust: "system::sign::idle", run: |m| sign::idle(m) },
+    SystemPort { entry: 0x06_053E, original: "Offworld_Box2C2314_06053e", rust: "system::sign::off_view",
+                 run: |m| { let t = m.cpu.a[6]; let c = sign::off_view(m, t); m.cpu.a[0] = mslug_game::layout::sign::MARGINS; set_carry(m, c); Flow::Return } },
     // --- ocupante de la choza y su puerta
     SystemPort { entry: 0x05_FA00, original: "HutOccupant_Init_05fa00", rust: "system::hut::occupant", run: |m| coll(m, hut::occupant) },
     SystemPort { entry: 0x05_FA56, original: "HutOccupant_Idle_05fa56", rust: "system::hut::occupant_idle", run: |m| coll(m, hut::occupant_idle) },
