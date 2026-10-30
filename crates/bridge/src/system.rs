@@ -3129,6 +3129,14 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
     SystemPort { entry: 0x03_D842, original: "$03D842", rust: "system::player_death::blood_fx", run: |m| coll(m, player_death::blood_fx) },
     SystemPort { entry: 0x03_D87C, original: "$03D842+$3A", rust: "system::player_death::blood_fx_loop", run: |m| coll(m, player_death::blood_fx_loop) },
     SystemPort { entry: 0x05_DCA4, original: "Entity_NegIfFacing_05dca4", rust: "system::player_death::set_vx_facing", run: |m| { let t = m.cpu.a[6]; let v = player_death::set_vx_facing(m, t, m.cpu.d[0] as u16); m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_0000) | u32::from(v); Flow::Return } },
+    // --- caída del jugador al entrar en escena
+    SystemPort { entry: 0x03_37A8, original: "Player_SpawnFall_0337a8", rust: "system::player_air::spawn_fall", run: |m| coll(m, player_air::spawn_fall) },
+    SystemPort { entry: 0x03_37EA, original: "Player_SpawnFall_0337a8+$42", rust: "system::player_air::spawn_fall_run", run: |m| coll(m, player_air::spawn_fall_run) },
+    SystemPort { entry: 0x03_386E, original: "Player_SpawnLand_03386e", rust: "system::player_air::spawn_land", run: |m| coll(m, player_air::spawn_land) },
+    SystemPort { entry: 0x03_3896, original: "Player_SpawnLand_03386e+$28", rust: "system::player_air::spawn_land_run", run: |m| coll(m, player_air::spawn_land_run) },
+    SystemPort { entry: 0x03_38FA, original: "Player_SpawnLandB_0338fa", rust: "system::player_air::spawn_land_b", run: |m| coll(m, player_air::spawn_land_b) },
+    SystemPort { entry: 0x03_392A, original: "Player_SpawnLandB_0338fa+$30", rust: "system::player_air::spawn_land_b_run", run: |m| coll(m, player_air::spawn_land_b_run) },
+    SystemPort { entry: 0x03_3952, original: "Player_JmpState36C8C_033952", rust: "system::player_air::free_fall", run: |m| coll(m, player_air::free_fall) },
     // --- ocupante de la choza y su puerta
     SystemPort { entry: 0x05_FA00, original: "HutOccupant_Init_05fa00", rust: "system::hut::occupant", run: |m| coll(m, hut::occupant) },
     SystemPort { entry: 0x05_FA56, original: "HutOccupant_Idle_05fa56", rust: "system::hut::occupant_idle", run: |m| coll(m, hut::occupant_idle) },

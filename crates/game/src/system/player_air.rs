@@ -835,3 +835,122 @@ pub fn slug_jump_off_air(m: &mut impl Machine) -> Flow {
     publish_state(m, t);
     Flow::Return
 }
+
+// --- Caída al entrar en escena -------------------------------------------
+
+/// El jugador entra en escena cayendo desde arriba. Original:
+/// `Player_SpawnFall_0337a8`.
+pub fn spawn_fall(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    let y = m.read_u16(t + L::Y).wrapping_add(L::SPAWN_DY);
+    m.write_u16(t + L::Y, y);
+    m.write_u8(t + L::STATE, L::STATE_SPAWN);
+    let pose = m.read_u32(L::SPAWN_SCRIPT - 4);
+    m.write_u32(t + L::POSE, pose);
+    m.write_u8(t + L::BYTE_21, 0xFF);
+    anim::start(m, t, L::SPAWN_SCRIPT);
+    m.write_u16(t + L::VEL_Y, L::SPAWN_VEL_Y);
+    m.write_u32(t + L::HITBOX_CB, L::NO_HITBOX);
+    set_bits(m, t + L::FLAGS_5B, L::ACTIVE_5B, true);
+    set_handler(m, t, L::SPAWN_RUN);
+    spawn_fall_run(m)
+}
+
+/// Cae dos pasos por frame hasta tocar suelo. Original:
+/// `Player_SpawnFall_0337a8+$42`.
+pub fn spawn_fall_run(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    set_bits(m, t + L::FLAGS_13, L::FRESH, true);
+    set_bits(m, t + L::AIR, L::IN_AIR, true);
+    player::frame_common(m, t);
+    landing_sound(m, t);
+    set_handler(m, t, L::SPAWN_LAND);
+    set_bits(m, t + L::AIR, L::IN_AIR, false);
+    if !land(m, t) && !land(m, t) {
+        set_handler(m, t, L::SPAWN_LAND_B);
+        set_bits(m, t + L::AIR, L::IN_AIR, true);
+    }
+    player::anim_done(m, t);
+    let pit = m.read_u8(L::SCENE) == L::PIT_SCENE;
+    if items::out_of_view_seen(m, t, Some(L::PIT_MARGINS[usize::from(pit)])) {
+        set_handler(m, t, L::DEATH_PIT);
+    }
+    death_check(m, t);
+    Flow::Return
+}
+
+/// ¿Ha aterrizado? (`$027BC8`).
+fn land(m: &mut impl Machine, t: u32) -> bool {
+    let row = m.regs().d[4] as u16;
+    motion::on_entity_pos(m, t, |m| slug::move_and_stop(m, t, row))
+}
+
+/// Ha tocado suelo: termina la animación y se pone de pie (con un rato de
+/// invulnerabilidad y su indicador). Original: `Player_SpawnLand_03386e`.
+pub fn spawn_land(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    m.write_u16(t + L::OFFSET_X, 0);
+    m.write_u16(t + L::OFFSET_Y, 0);
+    set_bits(m, t + L::FLAGS_5B, L::ACTIVE_5B, true);
+    m.write_u32(t + L::HIT_HANDLER, L::HIT_ROUTINE);
+    m.write_u16(t + L::VEL_X, 0);
+    m.write_u16(t + L::ACC_X, 0);
+    set_handler(m, t, L::SPAWN_LAND_RUN);
+    spawn_land_run(m)
+}
+
+/// Original: `Player_SpawnLand_03386e+$28`.
+pub fn spawn_land_run(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    player::frame_common(m, t);
+    landing_sound(m, t);
+    super::player_ground::move_ground(m, t);
+    if player::anim_done(m, t) {
+        set_handler(m, t, L::STAND);
+        let marker = if t == L::P1_ENTITY { L::MARKER_TASKS[0] } else { L::MARKER_TASKS[1] };
+        super::tasks::spawn(m, marker, t);
+        for f in L::SPAWN_SHIELD {
+            m.write_u8(t + f, L::SPAWN_SHIELD_TIME);
+        }
+    }
+    let r = m.regs();
+    let floor = collision::probe_floor(m, t, (r.d[3] as u16, r.d[4] as u16));
+    let mut r = m.regs();
+    r.d[3] = (r.d[3] & 0xFFFF_0000) | u32::from(floor.at.0);
+    r.d[4] = (r.d[4] & 0xFFFF_0000) | u32::from(floor.at.1);
+    m.set_regs(r);
+    if floor.in_air {
+        set_handler(m, t, L::FREE_FALL);
+    }
+    publish_state(m, t);
+    Flow::Return
+}
+
+/// No ha tocado suelo al final de la caída: se para y, al acabar la
+/// animación, cae libremente. Original: `Player_SpawnLandB_0338fa`.
+pub fn spawn_land_b(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    m.write_u16(t + L::OFFSET_X, 0);
+    m.write_u16(t + L::OFFSET_Y, 0);
+    set_bits(m, t + L::FLAGS_5B, L::ACTIVE_5B, true);
+    m.write_u32(t + L::HIT_HANDLER, L::HIT_ROUTINE);
+    for f in [L::VEL_X, L::VEL_Y, L::ACC_X, L::ACC_Y] {
+        m.write_u16(t + f, 0);
+    }
+    set_handler(m, t, L::SPAWN_LAND_B_RUN);
+    spawn_land_b_run(m)
+}
+
+/// Original: `Player_SpawnLandB_0338fa+$30`.
+pub fn spawn_land_b_run(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    set_bits(m, t + L::AIR, L::IN_AIR, true);
+    player::frame_common(m, t);
+    landing_sound(m, t);
+    land(m, t);
+    if player::anim_done(m, t) {
+        set_handler(m, t, L::FREE_FALL);
+    }
+    publish_state(m, t);
+    Flow::Return
+}
