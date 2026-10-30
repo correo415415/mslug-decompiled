@@ -2702,6 +2702,21 @@ pub mod items {
     pub const RISE_GFX: u16 = 0x180;
     pub const S_RISE: u32 = 0x2F_674C;
     pub const RISE_LOOP: u32 = 0x09_AEAA;
+    /// Objeto del marcador de depuración de la misión (`$09B872`): sale en
+    /// la posición del marcador (desplazada `d3` según `+$98`), y lo que
+    /// crea pasa antes por una aparición (`APPEAR`) que luego sigue con su
+    /// rutina normal (guardada en `+$5C`).
+    pub const MARK_DY: u16 = 8;
+    pub const MARK_FIELDS: [u32; 3] = [0x98, 0x99, 0x9A];
+    pub const MARK_ARG_FIELD: u16 = 0x99;
+    pub const NEXT_HANDLER: u32 = 0x5C;
+    pub const APPEAR: u32 = 0x09_A8BE;
+    pub const APPEAR_RUN: u32 = 0x09_A8FA;
+    pub const APPEAR_GFX: u16 = 0x180;
+    pub const APPEAR_SCRIPT: u32 = 0x2F_678A;
+    /// Si ya había dos o más objetos en el suelo el frame anterior, no sale.
+    pub const ON_GROUND_PREV: u32 = 0x10_E48A;
+    pub const ON_GROUND_MAX: i8 = 2;
 }
 
 /// Recogida de objetos (`system::pickup`).
@@ -5314,6 +5329,15 @@ pub mod explosion {
     pub const FRONT_ATTR: u16 = 0xC000;
     pub const RUN: u32 = 0x07_810A;
     pub const RUN_BIG: u32 = 0x07_7EB4;
+    /// Explosión pequeña (`Explosion_Small_077e10`): gráfico, guion,
+    /// márgenes y bucle.
+    pub const SMALL: u32 = 0x07_7E10;
+    pub const SMALL_GFX: u16 = 0x4;
+    pub const SMALL_SCRIPT: u32 = 0x2D_D2D4;
+    pub const SMALL_MARGINS: u32 = 0x2D_F1F2;
+    pub const SMALL_RUN: u32 = 0x07_7E4C;
+    /// Punto de destino del lanzador (`+$54`/`+$56`).
+    pub const GOAL: [u32; 2] = [0x54, 0x56];
     /// Trozos en arco (`Explosion_VarTbl_078218` … `Debris_ArcB_07875e`, uno
     /// cada `ARC_STRIDE` bytes): guion, márgenes y gráfico.
     pub const ARC_FIRST: u32 = 0x07_8218;
@@ -7415,4 +7439,65 @@ pub mod continue_count {
     pub const SPRITE_TABLE: u32 = 0x10_82C8;
     pub const SPRITE_SIZE: u16 = 32;
     pub const SPRITE_FIXED: u8 = 1 << 3;
+}
+
+/// Arma que suelta el jugador (`DroppedWeapon_*`).
+pub mod dropped_weapon {
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    pub const VEL_Y: u32 = 0x2A;
+    pub const ACC_X: u32 = 0x2C;
+    pub const ACC_Y: u32 = 0x2E;
+    pub const ATTR: u32 = 0x38;
+    pub const ATTR_KEEP: u16 = 0xFFE3;
+    pub const ATTR_SET: u16 = 0x18;
+    /// Arma del dueño (`+$6D`): con la 2 usa el primer gráfico.
+    pub const OWNER_WEAPON: u32 = 0x6D;
+    pub const WEAPON_ALT: u8 = 2;
+    pub const GFX: (u16, u16) = (0x176, 0x177);
+    pub const SCRIPT: u32 = 0x27_A28E;
+    /// Lanzamiento: velocidad X (hacia delante), Y y gravedad.
+    pub const SPAWN_VEL: (u16, u16) = (0xFEF0, 0x050C);
+    pub const SPAWN_ACC_Y: u16 = 0xFFC9;
+    pub const BOUNCE_VEL: (u16, u16) = (0xFF67, 0x03FC);
+    pub const BOUNCE_ACC_Y: u16 = 0xFFBC;
+    /// Contadores que se cargan al rebotar.
+    pub const BOUNCE_TIMERS: [u32; 2] = [0x45, 0x44];
+    pub const BOUNCE_TIME: u8 = 0x28;
+    /// Parpadeo: bit que alterna cada frame del rebote.
+    pub const BLINK: u32 = 0x12;
+    pub const BLINK_BIT: u8 = 0x08;
+    pub const FLAGS_46: u32 = 0x46;
+    pub const FLAG_46_CLEAR: u8 = 0x01;
+    pub const FLY: u32 = 0x03_8C42;
+    pub const BOUNCE: u32 = 0x03_8C70;
+    pub const BOUNCE_RUN: u32 = 0x03_8CB4;
+    pub const FREE: u32 = 0x03_8CEE;
+}
+
+/// Letrero de la escena (`Sign_Tmpl28_060420`).
+pub mod sign {
+    pub const ATTR: u32 = 0x38;
+    pub const ATTR_INIT: u16 = 0x8000;
+    pub const FACING: u32 = 0x3A;
+    pub const SCALE: [u32; 2] = [0x32, 0x33];
+    pub const GFX: u16 = 0xE;
+    /// Rutina de la tarea hija que deja al acabar.
+    pub const CHILD: u32 = 0x70;
+    /// Datos de colocación que hereda la hija.
+    pub const PLACEMENT: [u32; 2] = [0x98, 0x9C];
+    /// Márgenes de fuera de la vista.
+    pub const MARGINS: u32 = 0x2C_2314;
+    /// Variantes (cada `$20` bytes desde `FIRST`): guion e hija.
+    pub const FIRST: u32 = 0x06_0420;
+    pub const STRIDE: u32 = 0x20;
+    pub const KINDS: [(u32, u32); 5] = [
+        (0x2C_21DC, 0x05_73A2),
+        (0x2C_21DC, 0x05_72BE),
+        (0x2C_09AC, 0x05_73A2),
+        (0x2C_09AC, 0x05_72BE),
+        (0x2C_226A, 0x05_8F58),
+    ];
+    pub const RUN: u32 = 0x06_04E4;
+    pub const IDLE: u32 = 0x06_052A;
 }

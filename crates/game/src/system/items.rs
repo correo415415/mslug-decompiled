@@ -266,3 +266,55 @@ pub fn taken_rise_loop(m: &mut impl Machine) -> Flow {
     }
     cull(m)
 }
+
+/// Objeto del marcador de depuración de la misión: sale en la posición del
+/// marcador, con sus datos, y la tarea acaba. Original:
+/// `Item_SpawnAtOffset_09b872`.
+pub fn spawn_at_mark(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    let mark = super::scroll::mission_mark(m);
+    let x = if m.read_u16(t + L::P_KIND) == 0 {
+        mark.pos.0.wrapping_add(mark.d3)
+    } else {
+        mark.pos.0.wrapping_sub(mark.d3)
+    };
+    m.write_u16(t + L::X, x);
+    m.write_u16(t + L::Y, mark.pos.1.wrapping_add(L::MARK_DY));
+    for (f, b) in L::MARK_FIELDS.into_iter().zip(mark.bytes) {
+        m.write_u8(t + f, b);
+    }
+    let kind = m.read_u8(t + L::P_KIND);
+    if let Some(o) = spawn_here(m, t, kind, L::MARK_ARG_FIELD) {
+        let h = m.read_u32(o + T::HANDLER);
+        m.write_u32(o + L::NEXT_HANDLER, h);
+        m.write_u32(o + T::HANDLER, L::APPEAR);
+    }
+    tasks::finish(m)
+}
+
+/// Aparición del objeto (si no hay ya demasiados en el suelo); al acabar
+/// la animación sigue con su rutina. Original: `$09A8BE`.
+pub fn appear(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    m.write_u8(t + L::STATE, L::ON_GROUND);
+    if m.read_u8(L::ON_GROUND_PREV) as i8 >= L::ON_GROUND_MAX {
+        tasks::kill_children(m, t);
+        return tasks::finish(m);
+    }
+    anim::alloc_entry(m, t, L::APPEAR_GFX);
+    anim::start(m, t, L::APPEAR_SCRIPT);
+    m.write_u32(t + T::HANDLER, L::APPEAR_RUN);
+    appear_run(m)
+}
+
+/// Original: `$09A8FA`.
+pub fn appear_run(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    platforms::move_with_scene(m, t);
+    if anim::step(m, t) {
+        super::video::release_task_entries(m, t);
+        let h = m.read_u32(t + L::NEXT_HANDLER);
+        m.write_u32(t + T::HANDLER, h);
+    }
+    ground_tail(m)
+}
