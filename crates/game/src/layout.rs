@@ -7317,3 +7317,37 @@ pub mod player_death {
     pub const BLOOD_ATTR_SET: u16 = 0x10;
     pub const BLOOD_ATTR_ADD: u16 = 0x200;
 }
+
+/// Fragmentos de las explosiones: cada uno lanza una hija animada que le
+/// sigue (con el sprite que toca en el ciclo de tres).
+pub mod frag {
+    pub const CHILD_RUN: u32 = 0x07_6F42;
+    pub const CHILD_LOOP: u32 = 0x07_6F56;
+    pub const CHILD_SCRIPT: u32 = 0x07_6D96;
+    pub const CHILD_GFX: [u16; 3] = [0x1E1, 0x1E2, 0x1E3];
+    pub const ATTR: u32 = 0x38;
+    /// `+$5C`: posición en el ciclo; `+$14` el sprite en uso y `+$16`
+    /// los tres del ciclo.
+    pub const CYCLE: u32 = 0x5C;
+    pub const CYCLE_LEN: u8 = 3;
+    pub const SPRITE: u32 = 0x14;
+    pub const SPRITES: u32 = 0x16;
+}
+
+/// Utilidades compartidas por muchos enemigos y objetos.
+pub mod shared {
+    /// Tarea de la misión, madre de las que se crean «pendientes».
+    pub const MISSION_TASK: u32 = 0x10_0800;
+    /// Entidades de los jugadores.
+    pub const PLAYERS: [u32; 2] = [0x10_0440, 0x10_04E0];
+    /// Posarse en el suelo: la Y se recorta a 10 bits; si no hay suelo,
+    /// a la posición por defecto.
+    pub const Y: u32 = 0x24;
+    pub const X: u32 = 0x22;
+    pub const Y_MASK: u16 = 0x3FF;
+    pub const DEFAULT_POS: (u16, u16) = (0xA0, 0x180);
+    /// Mejor marca de la demo: `+$98` acotado a `BEST_MAX`, en `BEST`.
+    pub const SCORE: u32 = 0x98;
+    pub const BEST_MAX: u16 = 0x63;
+    pub const BEST: u32 = 0x10_6E92;
+}

@@ -196,3 +196,22 @@ mod tests {
         assert_eq!(clamp_velocity(0xF000, 0x800), (0xF800, 0xF800));
     }
 }
+
+/// Posa la entidad `t` en el suelo: recorta la Y a 10 bits y cae hasta
+/// tocar suelo; si se sale por arriba, la deja en la posición por defecto.
+/// Original: `Entity_SnapToGround_05e7c0` (C = ha tocado suelo).
+pub fn snap_to_ground(m: &mut impl Machine, t: u32) -> bool {
+    use crate::layout::shared as S;
+    let y = m.read_u16(t + S::Y) & S::Y_MASK;
+    m.write_u16(t + S::Y, y);
+    loop {
+        if (m.read_u16(t + S::Y) as i16) < 0 {
+            m.write_u16(t + S::X, S::DEFAULT_POS.0);
+            m.write_u16(t + S::Y, S::DEFAULT_POS.1);
+            return false;
+        }
+        if fall(m, t) {
+            return true;
+        }
+    }
+}

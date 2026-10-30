@@ -159,3 +159,19 @@ mod tests {
         assert_eq!(digits(0), (0, 0));
     }
 }
+
+/// Fin de la demo automática: guarda su marca (`+$98`, como mucho
+/// `BEST_MAX`) si supera la mejor y acaba. Original:
+/// `AutoDemo_RecordBest_07926c`.
+pub fn record_best(m: &mut impl Machine) -> Flow {
+    use crate::layout::shared as S;
+    let t = m.task_register();
+    let v = u16::from(m.read_u8(t + S::SCORE)).min(S::BEST_MAX);
+    if (v as i16) > (m.read_u16(S::BEST) as i16) {
+        m.write_u16(S::BEST, v);
+    }
+    let mut r = m.regs();
+    r.d[0] = (r.d[0] & 0xFFFF_0000) | u32::from(v);
+    m.set_regs(r);
+    tasks::finish(m)
+}
