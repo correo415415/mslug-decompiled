@@ -92,6 +92,7 @@ pub mod barrel;
 pub mod smoke;
 pub mod tower;
 pub mod tower_soldier;
+pub mod player_death;
 pub mod video;
 pub mod wheels;
 
