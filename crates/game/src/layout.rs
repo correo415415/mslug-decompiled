@@ -1823,6 +1823,25 @@ pub mod player_air {
     pub const FREE_FALL_SHIELD: [u32; 2] = [0x59, 0x45];
     pub const FREE_FALL_SHIELD_BITS: u8 = 0x3C;
     pub const FREE_FALL_LANDED: u8 = 0x50;
+    /// Caída al entrar en escena (`$0337A8`): baja `SPAWN_DY` y cae deprisa
+    /// (dos pasos por frame); al tocar suelo, `SPAWN_LAND` (de pie) o, si
+    /// no ha tocado en ninguno de los dos pasos, `SPAWN_LAND_B`.
+    pub const SPAWN_DY: u16 = 3;
+    pub const STATE_SPAWN: u8 = 4;
+    pub const SPAWN_SCRIPT: u32 = 0x27_9F8A;
+    pub const SPAWN_VEL_Y: u16 = 0xFC00;
+    pub const SPAWN_RUN: u32 = 0x03_37EA;
+    pub const SPAWN_LAND: u32 = 0x03_386E;
+    pub const SPAWN_LAND_RUN: u32 = 0x03_3896;
+    pub const SPAWN_LAND_B: u32 = 0x03_38FA;
+    pub const SPAWN_LAND_B_RUN: u32 = 0x03_392A;
+    pub const FLAGS_5B: u32 = 0x5B;
+    pub const ACTIVE_5B: u8 = 1 << 7;
+    pub const STAND: u32 = 0x03_4704;
+    pub const FREE_FALL: u32 = 0x03_6C8C;
+    /// Al ponerse de pie, un rato invulnerable.
+    pub const SPAWN_SHIELD: [u32; 2] = [0x45, 0x59];
+    pub const SPAWN_SHIELD_TIME: u8 = 0x50;
 }
 
 /// Brazo del jugador (`system::player_arm`): tarea hija que dibuja el
