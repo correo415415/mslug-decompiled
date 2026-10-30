@@ -7086,3 +7086,96 @@ pub mod tower {
     pub const COLLAPSE_LOOP: u32 = 0x04_E076;
     pub const PILLAR_LOOP: u32 = 0x04_E188;
 }
+
+/// Soldado de la torre y de los pilares del puente (`system::tower_soldier`).
+pub mod tower_soldier {
+    pub const OWNER: u32 = 0x0C;
+    pub const FLAGS_13: u32 = 0x13;
+    pub const HIT_FLASH: u8 = 1 << 3;
+    pub const ATTACK_HIT: u8 = 1 << 1;
+    /// `+$20` = `ARMED` si dispara granadas desde el principio.
+    pub const MODE: u32 = 0x20;
+    pub const ARMED: u8 = 0x88;
+    /// `+$21`: aviso de la granada (`RELOAD`) o de la pieza rota (`GONE`).
+    pub const STATE: u32 = 0x21;
+    pub const GONE: u8 = 0xFF;
+    pub const RELOAD: u8 = 0xEE;
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    pub const VEL_X: u32 = 0x28;
+    pub const VEL_Y: u32 = 0x2A;
+    pub const ACC_X: u32 = 0x2C;
+    pub const ACC_Y: u32 = 0x2E;
+    pub const SCALE: [u32; 2] = [0x32, 0x33];
+    pub const ATTR: u32 = 0x38;
+    pub const FACING: u32 = 0x3A;
+    pub const ATTACKS: u32 = 0x4C;
+    pub const NO_ATTACKS: u32 = 0xFFFF_FFFF;
+    /// `+$70` = `GONE` cuando ha caído; `+$71` = espera entre granadas.
+    pub const DOWN: u32 = 0x70;
+    pub const COOLDOWN: u32 = 0x71;
+    pub const COOLDOWN_INIT: u8 = 0x1E;
+    pub const GFX: u16 = 0x27;
+    pub const GRENADE_GFX: u16 = 0x1D;
+    pub const ATTR_INIT: u16 = 0x4001;
+    pub const ATTR_FALL: u16 = 0xD000;
+    pub const ATTR_FLEE: u16 = 0x8000;
+    /// Se pone a vigilar al entrar en pantalla.
+    pub const WAKE_X: i16 = 0x160;
+    pub const SCRIPT_IDLE: u32 = 0x2C_0BE2;
+    pub const SCRIPT_DIE: u32 = 0x2C_0C5E;
+    pub const SCRIPT_FALL: u32 = 0x2C_0CC4;
+    pub const SCRIPT_FLEE: u32 = 0x2C_0C98;
+    pub const SCRIPT_B: u32 = 0x2C_0DAA;
+    pub const SCRIPT_GRENADE: u32 = 0x2C_09AC;
+    pub const SCRIPT_BURST: u32 = 0x29_B744;
+    pub const SCRIPT_MUZZLE: u32 = 0x2C_0A3A;
+    pub const SCRIPT_SHELL: u32 = 0x2C_0BB6;
+    pub const DIE_ATTACKS: u32 = 0x2C_0DBA;
+    pub const DIE_ACC_Y: u16 = 0xFF40;
+    /// Cajas de detección del jugador (mirando a la derecha / izquierda).
+    pub const SIGHT: [u32; 2] = [0x2C_0EF2, 0x2C_0EFC];
+    /// Márgenes de fuera de pantalla: soldado, granada y compañero.
+    pub const MARGINS: u32 = 0x2C_0EDE;
+    pub const MARGINS_SHOT: u32 = 0x2C_0ED4;
+    pub const MARGINS_B: u32 = 0x2C_0EE8;
+    /// Huida: sonido, celdas que se pintan y la columna de humo.
+    pub const SND_FLEE: u16 = 0x1053;
+    pub const FLEE_CELLS: u32 = 0x2C_0F06;
+    pub const SMOKE_COLUMN: u32 = 0x07_89F0;
+    /// Rastro de plataforma mientras cae.
+    pub const TRAIL: (u16, u16, u16) = (0xFFE0, 0x10, 0x40);
+    /// Granada: dónde aparece, su velocidad y la del estallido.
+    pub const GRENADE_DX: [u16; 2] = [0x4A, 0xFFC4];
+    pub const GRENADE_DY: u16 = 0x30;
+    pub const GRENADE_VEL_Y: u16 = 0xFF80;
+    pub const BURST_VEL_X: u16 = 0xFE00;
+    pub const MUZZLE_DX: u16 = 0x18;
+    pub const MUZZLE_DY: u16 = 0x10;
+    pub const NEAR: (i16, i16) = (0x0A, 0x30);
+    /// Al caer el soldado, la granada pasa a soldado normal con un fogonazo.
+    pub const TO_SOLDIER: u32 = 0x05_8F82;
+    pub const FLASH: u32 = 0x07_76E2;
+    /// Rutinas.
+    pub const LOOP: u32 = 0x05_F3CA;
+    pub const WATCH: u32 = 0x05_F3F2;
+    pub const WATCH_LOOP: u32 = 0x05_F3FE;
+    pub const FIRE: u32 = 0x05_F482;
+    pub const FIRE_LOOP: u32 = 0x05_F48E;
+    pub const DIE: u32 = 0x05_F508;
+    pub const DIE_LOOP: u32 = 0x05_F55E;
+    pub const FALL: u32 = 0x05_F5AA;
+    pub const FALL_LOOP: u32 = 0x05_F5DA;
+    pub const FLEE: u32 = 0x05_F5FA;
+    pub const FLEE_LOOP: u32 = 0x05_F64C;
+    pub const INIT_B: u32 = 0x05_F668;
+    pub const INIT_B_LOOP: u32 = 0x05_F696;
+    pub const GRENADE: u32 = 0x05_F6C4;
+    pub const GRENADE_LOOP: u32 = 0x05_F722;
+    pub const BURST: u32 = 0x05_F752;
+    pub const BURST_LOOP: u32 = 0x05_F77E;
+    pub const MUZZLE: u32 = 0x05_F7F4;
+    pub const MUZZLE_LOOP: u32 = 0x05_F82C;
+    pub const SHELL: u32 = 0x05_F8A8;
+    pub const SHELL_LOOP: u32 = 0x05_F8C0;
+}

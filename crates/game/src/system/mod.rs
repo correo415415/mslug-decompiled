@@ -91,6 +91,7 @@ pub mod thrown;
 pub mod barrel;
 pub mod smoke;
 pub mod tower;
+pub mod tower_soldier;
 pub mod video;
 pub mod wheels;
 
