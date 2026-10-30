@@ -11,7 +11,7 @@
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
 use mslug_game::system::soldier::Trait;
-use mslug_game::system::{aim_turret, barrel, smoke, tower, tower_soldier, player_death, frag, anim, enemy_grenade, hut, scenery, thrown, autopilot, banner, boot, bullet, burst, charger, collision, contact, critters, debris, events, food, fort, frame, game_over, go_arrow, grenade, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, memcard, mission, msg_select, motion, pads, pickup, platforms, player, pow, player_air, player_arm, player_fire, player_ground, player_hud, player_ride, palette, props, parachute, rank, render, rng, scene, score, script, scroll, slope, slug, slug_arm, slug_drive, slug_fire, slug_hit, human_death, slug_attack, slug_death, spawner, slug_shell, explosion, slug_hunker, slug_idle, slug_jump, soldier, sound, sprite, tasks, title, trig, turret, video, wheels};
+use mslug_game::system::{aim_turret, barrel, smoke, tower, tower_soldier, player_death, frag, continue_count, anim, enemy_grenade, hut, scenery, thrown, autopilot, banner, boot, bullet, burst, charger, collision, contact, critters, debris, events, food, fort, frame, game_over, go_arrow, grenade, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, memcard, mission, msg_select, motion, pads, pickup, platforms, player, pow, player_air, player_arm, player_fire, player_ground, player_hud, player_ride, palette, props, parachute, rank, render, rng, scene, score, script, scroll, slope, slug, slug_arm, slug_drive, slug_fire, slug_hit, human_death, slug_attack, slug_death, spawner, slug_shell, explosion, slug_hunker, slug_idle, slug_jump, soldier, sound, sprite, tasks, title, trig, turret, video, wheels};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use mslug_game::input::{Buttons, Edge};
 use neogeo_hw::cpu::m68k::exec::write_sr;
@@ -3290,6 +3290,21 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
     SystemPort { entry: 0x07_6F42, original: "Frag_Child_Run_076f42", rust: "system::frag::child", run: |m| frag::child(m) },
     SystemPort { entry: 0x07_6F56, original: "Frag_Child_Run_076f42+$14", rust: "system::frag::child_loop", run: |m| frag::child_loop(m) },
     SystemPort { entry: 0x07_6F78, original: "Frag_Child_Run_076f42+$36", rust: "system::frag::child_gfx", run: |m| { let t = m.cpu.a[6]; frag::child_gfx(m, t); Flow::Return } },
+    // --- pantalla de CONTINUE: cuenta grande y cifras de cada jugador
+    SystemPort { entry: 0x04_66F6, original: "ContinueDigits_P1P2_Task_0466f6", rust: "system::continue_count::small(0)", run: |m| continue_count::small(m, 0) },
+    SystemPort { entry: 0x04_6714, original: "ContinueDigits_P1P2_Task_0466f6+$1E", rust: "system::continue_count::small(1)", run: |m| continue_count::small(m, 1) },
+    SystemPort { entry: 0x04_676E, original: "ContinueDigits_P1P2_Task_0466f6+$78", rust: "system::continue_count::small_run", run: |m| continue_count::small_run(m) },
+    SystemPort { entry: 0x04_67F6, original: "ContinueBig_Init_0467f6", rust: "system::continue_count::big(0)", run: |m| continue_count::big(m, 0) },
+    SystemPort { entry: 0x04_6800, original: "ContinueBig_Init_0467f6+$A", rust: "system::continue_count::big(1)", run: |m| continue_count::big(m, 1) },
+    SystemPort { entry: 0x04_6878, original: "ContinueBig_Countdown_046878", rust: "system::continue_count::big_run", run: |m| continue_count::big_run(m) },
+    SystemPort { entry: 0x04_692E, original: "ContinueBig_ClearAndExit_04692e", rust: "system::continue_count::big_exit", run: |m| continue_count::big_exit(m) },
+    SystemPort { entry: 0x04_694A, original: "Continue_IsStartP1_04694a", rust: "system::continue_count::start_pressed(0)", run: |m| { let t = m.cpu.a[6]; let c = continue_count::start_pressed(m, t, 0); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x04_698C, original: "Continue_IsStartP2_04698c", rust: "system::continue_count::start_pressed(1)", run: |m| { let t = m.cpu.a[6]; let c = continue_count::start_pressed(m, t, 1); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x04_69CE, original: "Continue_IsStartAny_0469ce", rust: "system::continue_count::start_any", run: |m| { let t = m.cpu.a[6]; let c = continue_count::start_any(m, t); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x04_7822, original: "$047822", rust: "system::continue_count::big_glyph", run: |m| { let (at, code, pal) = (m.cpu.a[1] as u16, m.cpu.d[0] as u16, m.cpu.d[1] as u16); continue_count::big_glyph(m, at, code, pal); Flow::Return } },
+    SystemPort { entry: 0x04_784C, original: "$04784C", rust: "system::continue_count::big_text", run: |m| { let (at, text, pal) = (m.cpu.a[1] as u16, m.cpu.a[2], m.cpu.d[1] as u16); continue_count::big_text(m, at, text, pal); Flow::Return } },
+    SystemPort { entry: 0x00_2C66, original: "PalSlot_SetBit3_002c66", rust: "system::continue_count::pin_sprite", run: |m| { let k = m.cpu.d[1] as u16; continue_count::pin_sprite(m, k); m.cpu.a[1] = mslug_game::layout::continue_count::SPRITE_TABLE; m.cpu.d[1] = (m.cpu.d[1] & 0xFFFF_0000) | u32::from(k.wrapping_mul(32)); Flow::Return } },
+    SystemPort { entry: 0x00_2C76, original: "$002C76", rust: "system::continue_count::unpin_sprite", run: |m| { let k = m.cpu.d[1] as u16; continue_count::unpin_sprite(m, k); m.cpu.a[1] = mslug_game::layout::continue_count::SPRITE_TABLE; m.cpu.d[1] = (m.cpu.d[1] & 0xFFFF_0000) | u32::from(k.wrapping_mul(32)); Flow::Return } },
     // --- ocupante de la choza y su puerta
     SystemPort { entry: 0x05_FA00, original: "HutOccupant_Init_05fa00", rust: "system::hut::occupant", run: |m| coll(m, hut::occupant) },
     SystemPort { entry: 0x05_FA56, original: "HutOccupant_Idle_05fa56", rust: "system::hut::occupant_idle", run: |m| coll(m, hut::occupant_idle) },

@@ -94,6 +94,7 @@ pub mod tower;
 pub mod tower_soldier;
 pub mod player_death;
 pub mod frag;
+pub mod continue_count;
 pub mod video;
 pub mod wheels;
 

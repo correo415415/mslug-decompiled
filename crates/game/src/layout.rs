@@ -7351,3 +7351,68 @@ pub mod shared {
     pub const BEST_MAX: u16 = 0x63;
     pub const BEST: u32 = 0x10_6E92;
 }
+
+/// Pantalla de CONTINUE: la cuenta atrás grande del centro (con el letrero)
+/// y las cifras pequeñas de cada jugador junto a su «CONTINUE».
+pub mod continue_count {
+    /// `+$74`: jugador (0 = 1P, 1 = 2P).
+    pub const PLAYER: u32 = 0x74;
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    pub const SUB: u32 = 0x26;
+    pub const SPRITE: u32 = 0x14;
+    pub const SCALE: u32 = 0x32;
+    pub const ATTR: u32 = 0x38;
+    pub const FLAGS: u32 = 0x12;
+    pub const FIXED_POS: u8 = 1 << 6;
+    /// `+$5C`: cifra en pantalla (9 → 0); `+$70`: frames que le quedan.
+    pub const DIGIT: u32 = 0x5C;
+    pub const TIMER: u32 = 0x70;
+    pub const START_DIGIT: u16 = 9;
+    pub const DIGIT_FRAMES: u16 = 0x3B;
+    /// `+$72`: acaban de pulsar START (la cifra no se encoge).
+    pub const PRESSED: u32 = 0x72;
+    /// La tarea madre: `+$20` = 0 si ya no hace falta y `+$21` = 0 al
+    /// agotarse la cuenta.
+    pub const OWNER_ACTIVE: u32 = 0x20;
+    pub const OWNER_EXPIRED: u32 = 0x21;
+    /// Cuenta grande.
+    pub const BIG_GFX: u16 = 0x5F;
+    pub const BIG_SCRIPT: u32 = 0x28_DE2A;
+    pub const BIG_POS: (u16, u16) = (0xA0, 0x178);
+    pub const BIG_ATTR: u16 = 0xFFFF;
+    pub const BIG_DIGITS: u32 = 0x28_DD96;
+    /// Escala de la cifra en cada frame (encoge al principio).
+    pub const BIG_SCALE: u32 = 0x28_DE54;
+    pub const BIG_SHRINK_FROM: i16 = 0x37;
+    pub const BIG_RUN: u32 = 0x04_6878;
+    pub const TICK_SOUND: u16 = 0x10D4;
+    /// Letrero «CONTINUE» (y el que lo borra) en la capa fija.
+    pub const SIGN_AT: u16 = 0x716A;
+    pub const SIGN_TEXT: u32 = 0x28_DE36;
+    pub const SIGN_CLEAR: u32 = 0x28_DE40;
+    pub const SIGN_PALETTE: u16 = 4;
+    /// Cifras pequeñas: posición, primer carácter y siguiente fila.
+    pub const SMALL_AT: [u16; 2] = [0x7183, 0x7463];
+    pub const SMALL_CHAR: u16 = 0x3460;
+    pub const SMALL_ROW: u16 = 0x10;
+    pub const SMALL_RUN: u32 = 0x04_676E;
+    /// START: el jugador está esperando (`WAITING`) y pulsa.
+    pub const BIOS_STATE: [u32; 2] = [0x10_FDB6, 0x10_FDB7];
+    pub const WAITING: u8 = 2;
+    pub const PAD_EDGE: [u32; 2] = [0x10_E203, 0x10_E209];
+    pub const START_KEYS: u8 = 0xF0;
+    /// Con la cuenta ya por debajo de esto no se puede continuar.
+    pub const LAST_DIGIT: u16 = 8;
+    /// Caracteres grandes de 2×2 desde un byte: base y bit de la segunda
+    /// mitad del juego de caracteres.
+    pub const GLYPH_BASE: u16 = 0xB00;
+    pub const GLYPH_HIGH: u16 = 0x08;
+    pub const GLYPH_LOW: u16 = 0x77;
+    pub const GLYPH_STEP: u16 = 0x40;
+    pub const END: u8 = 0xFF;
+    /// Entrada de la tabla de sprites que no se recoloca.
+    pub const SPRITE_TABLE: u32 = 0x10_82C8;
+    pub const SPRITE_SIZE: u16 = 32;
+    pub const SPRITE_FIXED: u8 = 1 << 3;
+}
