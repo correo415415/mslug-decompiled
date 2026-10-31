@@ -28,13 +28,15 @@ pub fn award(m: &mut impl Memory, t: u32, points: u32) {
 }
 
 /// Como [`award`], pero antes toma como jugador el dueño del último
-/// ataque que le ha dado (si lo hay). Original: `$051A28`.
+/// ataque que le ha dado. Si nadie le ha dado (`+$50` vacío) no suma nada:
+/// la rutina original sale sin pasar por la suma. Original: `$051A28`.
 pub fn award_attacker(m: &mut impl Memory, t: u32, points: u32) {
     let a = m.read_u32(t + L::ATTACKER);
-    if a != L::NO_ATTACKER {
-        let p = m.read_u8(a + L::PLAYER);
-        m.write_u8(t + L::LAST_PLAYER, p);
+    if a == L::NO_ATTACKER {
+        return;
     }
+    let p = m.read_u8(a + L::PLAYER);
+    m.write_u8(t + L::LAST_PLAYER, p);
     award(m, t, points);
 }
 
@@ -273,4 +275,51 @@ pub fn blink_loop(m: &mut impl Machine) -> Flow {
         set_handler(m, t, L::FREE);
     }
     Flow::Return
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::mem::TestRam;
+
+    const T0: u32 = 0x10_2000;
+    const A0: u32 = 0x10_2100;
+
+    fn score_of(m: &mut TestRam, p: usize) -> [u8; 8] {
+        let mut d = [0; 8];
+        for (i, v) in d.iter_mut().enumerate() {
+            *v = m.read_u8(L::SCORES[p] + i as u32);
+        }
+        d
+    }
+
+    #[test]
+    fn award_attacker_credits_attacker_owner() {
+        let mut m = TestRam::default();
+        m.write_u8(T0 + L::LAST_PLAYER, 0);
+        m.write_u32(T0 + L::ATTACKER, A0);
+        m.write_u8(A0 + L::PLAYER, 1);
+        award_attacker(&mut m, T0, 0x0000_1000);
+        assert_eq!(m.read_u8(T0 + L::LAST_PLAYER), 1);
+        assert_eq!(score_of(&mut m, 1), [0, 0, 0, 0, 1, 0, 0, 0]);
+        assert_eq!(score_of(&mut m, 0), [0; 8]);
+    }
+
+    #[test]
+    fn award_attacker_without_attacker_awards_nothing() {
+        let mut m = TestRam::default();
+        m.write_u8(T0 + L::LAST_PLAYER, 0);
+        m.write_u32(T0 + L::ATTACKER, L::NO_ATTACKER);
+        award_attacker(&mut m, T0, 0x0000_1000);
+        assert_eq!(score_of(&mut m, 0), [0; 8]);
+        assert_eq!(score_of(&mut m, 1), [0; 8]);
+    }
+
+    #[test]
+    fn award_skips_nobody() {
+        let mut m = TestRam::default();
+        m.write_u8(T0 + L::LAST_PLAYER, 0x80);
+        award(&mut m, T0, 0x0000_0100);
+        assert_eq!(score_of(&mut m, 0), [0; 8]);
+    }
 }

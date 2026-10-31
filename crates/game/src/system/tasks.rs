@@ -403,6 +403,20 @@ mod tests {
     use crate::mem::TestMachine;
 
     #[test]
+    fn has_children_compares_next_priority() {
+        let mut m = TestMachine::default();
+        let [t, n] = [0x10_1000, 0x10_1100];
+        m.write_u32(t + T::NEXT, n);
+        m.write_u8(t + T::PRIORITY, 3);
+        m.write_u8(n + T::PRIORITY, 4);
+        assert!(has_children(&mut m, t));
+        m.write_u8(n + T::PRIORITY, 3);
+        assert!(!has_children(&mut m, t));
+        m.write_u8(n + T::PRIORITY, 0);
+        assert!(!has_children(&mut m, t));
+    }
+
+    #[test]
     fn kill_children_frees_descendants_only() {
         let mut m = TestMachine::default();
         m.write_u32(T::FREE_LIST, T::NIL);

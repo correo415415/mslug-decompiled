@@ -11,7 +11,7 @@
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
 use mslug_game::system::soldier::Trait;
-use mslug_game::system::{aim_turret, barrel, smoke, tower, tower_soldier, player_death, frag, continue_count, dropped_weapon, sign, enemy46, melee_guard, nest, anim, enemy_grenade, hut, scenery, thrown, autopilot, banner, boot, bullet, burst, charger, collision, contact, critters, debris, events, food, fort, frame, game_over, go_arrow, grenade, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, memcard, mission, msg_select, motion, pads, pickup, platforms, player, pow, player_air, player_arm, player_fire, player_ground, player_hud, player_ride, palette, props, parachute, rank, render, rng, scene, score, script, scroll, slope, slug, slug_arm, slug_drive, slug_fire, slug_hit, human_death, slug_attack, slug_death, spawner, slug_shell, explosion, slug_hunker, slug_idle, slug_jump, soldier, sound, sprite, tasks, title, trig, turret, video, wheels};
+use mslug_game::system::{aim_turret, barrel, smoke, tower, tower_soldier, player_death, frag, continue_count, dropped_weapon, sign, enemy46, melee_guard, nest, fortress, anim, enemy_grenade, hut, scenery, thrown, autopilot, banner, boot, bullet, burst, charger, collision, contact, critters, debris, events, food, fort, frame, game_over, go_arrow, grenade, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, memcard, mission, msg_select, motion, pads, pickup, platforms, player, pow, player_air, player_arm, player_fire, player_ground, player_hud, player_ride, palette, props, parachute, rank, render, rng, scene, score, script, scroll, slope, slug, slug_arm, slug_drive, slug_fire, slug_hit, human_death, slug_attack, slug_death, spawner, slug_shell, explosion, slug_hunker, slug_idle, slug_jump, soldier, sound, sprite, tasks, title, trig, turret, video, wheels};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use mslug_game::input::{Buttons, Edge};
 use neogeo_hw::cpu::m68k::exec::write_sr;
@@ -3406,6 +3406,47 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
     SystemPort { entry: 0x08_E7DE, original: "Nest_Stage1_Hit_08e7de", rust: "system::nest::hit", run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; nest::hit(m, 0) } },
     SystemPort { entry: 0x08_E86C, original: "Nest_Stage2_Hit_08e86c", rust: "system::nest::hit", run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; nest::hit(m, 1) } },
     SystemPort { entry: 0x08_E8FA, original: "Nest_Stage3_Hit_08e8fa", rust: "system::nest::hit", run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; nest::hit(m, 2) } },
+    // --- nido del enjambre y cobertizo
+    SystemPort { entry: 0x04_E248, original: "Prop_Nest_04e248", rust: "system::tower::nest_prop", run: |m| tower::nest_prop(m) },
+    SystemPort { entry: 0x04_E298, original: "Prop_Nest_04e248+$50", rust: "system::tower::nest_prop_wait", run: |m| tower::nest_prop_wait(m) },
+    SystemPort { entry: 0x04_E2B0, original: "Prop_NestActive_04e2b0", rust: "system::tower::nest_prop_active", run: |m| tower::nest_prop_active(m) },
+    SystemPort { entry: 0x04_E2B6, original: "Prop_NestActive_04e2b0+$6", rust: "system::tower::nest_prop_loop", run: |m| tower::nest_prop_loop(m) },
+    SystemPort { entry: 0x04_E32C, original: "Prop_NestWreck_04e32c", rust: "system::tower::nest_prop_wreck", run: |m| tower::nest_prop_wreck(m) },
+    SystemPort { entry: 0x04_E36E, original: "Prop_NestWreck_04e32c+$42", rust: "system::tower::nest_prop_wreck_loop", run: |m| tower::nest_prop_wreck_loop(m) },
+    SystemPort { entry: 0x04_E38A, original: "Prop_Shed_04e38a", rust: "system::tower::shed", run: |m| tower::shed(m) },
+    SystemPort { entry: 0x04_E3D2, original: "Prop_Shed_04e38a+$48", rust: "system::tower::shed_loop", run: |m| tower::shed_loop(m) },
+    SystemPort { entry: 0x04_E450, original: "Prop_ShedDamaged_04e450", rust: "system::tower::shed_damaged", run: |m| tower::shed_damaged(m) },
+    SystemPort { entry: 0x04_E474, original: "Prop_ShedDamaged_04e450+$24", rust: "system::tower::shed_damaged_loop", run: |m| tower::shed_damaged_loop(m) },
+    SystemPort { entry: 0x04_E50A, original: "Prop_FreeOrRts_04e50a", rust: "system::tasks::finish", run: |m| tasks::finish(m) },
+    // --- barrera de la misión 1 y sus piezas
+    SystemPort { entry: 0x04_E512, original: "Prop_Barrier_04e512", rust: "system::fortress::barrier", run: |m| fortress::barrier(m) },
+    SystemPort { entry: 0x04_E55C, original: "Prop_Barrier_04e512+$4A", rust: "system::fortress::barrier_wait", run: |m| fortress::barrier_wait(m) },
+    SystemPort { entry: 0x04_E580, original: "Prop_BarrierActive_04e580", rust: "system::fortress::barrier_active", run: |m| fortress::barrier_active(m) },
+    SystemPort { entry: 0x04_E5F2, original: "Prop_BarrierActive_04e580+$72", rust: "system::fortress::barrier_loop", run: |m| fortress::barrier_loop(m) },
+    SystemPort { entry: 0x04_E68A, original: "Prop_BarrierDamaged_04e68a", rust: "system::fortress::barrier_damaged", run: |m| fortress::barrier_damaged(m) },
+    SystemPort { entry: 0x04_E6BA, original: "Prop_BarrierDamaged_04e68a+$30", rust: "system::fortress::barrier_damaged_loop", run: |m| fortress::barrier_damaged_loop(m) },
+    SystemPort { entry: 0x04_E74C, original: "Prop_BarrierWreck_04e74c", rust: "system::fortress::barrier_wreck", run: |m| fortress::barrier_wreck(m) },
+    SystemPort { entry: 0x04_E7E2, original: "Prop_BarrierWreck_04e74c+$96", rust: "system::fortress::barrier_wreck_loop", run: |m| fortress::barrier_wreck_loop(m) },
+    SystemPort { entry: 0x04_ED90, original: "Prop_BarrierPost_04ed90", rust: "system::fortress::post", run: |m| fortress::post(m) },
+    SystemPort { entry: 0x04_EDB8, original: "Prop_BarrierPost_04ed90+$28", rust: "system::fortress::post_loop", run: |m| fortress::post_loop(m) },
+    SystemPort { entry: 0x04_EE0A, original: "Prop_BarrierLight_04ee0a", rust: "system::fortress::light", run: |m| fortress::light(m) },
+    SystemPort { entry: 0x04_EE2E, original: "Prop_BarrierLight_04ee0a+$24", rust: "system::fortress::light_loop", run: |m| fortress::light_loop(m) },
+    SystemPort { entry: 0x04_EECA, original: "Prop_BarrierLightWreck_04eeca", rust: "system::fortress::light_wreck", run: |m| fortress::light_wreck(m) },
+    SystemPort { entry: 0x04_EED8, original: "Prop_BarrierLightWreck_04eeca+$E", rust: "system::fortress::light_wreck_loop", run: |m| fortress::light_wreck_loop(m) },
+    SystemPort { entry: 0x04_F1F4, original: "Prop_BlitSequence_04f1f4", rust: "system::fortress::sequence", run: |m| fortress::sequence(m) },
+    SystemPort { entry: 0x04_F206, original: "Prop_BlitSequence_04f1f4+$12", rust: "system::fortress::sequence_loop", run: |m| fortress::sequence_loop(m) },
+    SystemPort { entry: 0x04_FB8A, original: "Barrier_SpawnPiece01_04fb8a", rust: "system::fortress::blit_piece",
+                 run: |m| { let t = m.cpu.a[6]; let p = &mslug_game::layout::fortress::BARRIER_PIECES[0]; fortress::blit_piece(m, t, p); m.cpu.a[0] = p.script; Flow::Return } },
+    SystemPort { entry: 0x04_FBE0, original: "Barrier_SpawnPiece02_04fbe0", rust: "system::fortress::blit_piece",
+                 run: |m| { let t = m.cpu.a[6]; let p = &mslug_game::layout::fortress::BARRIER_PIECES[1]; fortress::blit_piece(m, t, p); m.cpu.a[0] = p.script; Flow::Return } },
+    SystemPort { entry: 0x04_FC36, original: "Barrier_SpawnPiece04_04fc36", rust: "system::fortress::blit_piece",
+                 run: |m| { let t = m.cpu.a[6]; let p = &mslug_game::layout::fortress::BARRIER_PIECES[2]; fortress::blit_piece(m, t, p); m.cpu.a[0] = p.script; Flow::Return } },
+    SystemPort { entry: 0x04_FC8C, original: "Barrier_SpawnPiece08_04fc8c", rust: "system::fortress::blit_piece",
+                 run: |m| { let t = m.cpu.a[6]; let p = &mslug_game::layout::fortress::BARRIER_PIECES[3]; fortress::blit_piece(m, t, p); m.cpu.a[0] = p.script; Flow::Return } },
+    SystemPort { entry: 0x04_FCD8, original: "Barrier_SpawnPieceLeft_04fcd8", rust: "system::fortress::blit_piece",
+                 run: |m| { let t = m.cpu.a[6]; m.cpu.a[0] = fortress::blit_piece(m, t, &mslug_game::layout::fortress::BARRIER_PIECES[4]); Flow::Return } },
+    SystemPort { entry: 0x04_FD2C, original: "Barrier_SpawnPieceRight_04fd2c", rust: "system::fortress::blit_piece",
+                 run: |m| { let t = m.cpu.a[6]; m.cpu.a[0] = fortress::blit_piece(m, t, &mslug_game::layout::fortress::BARRIER_PIECES[5]); Flow::Return } },
     // --- ocupante de la choza y su puerta
     SystemPort { entry: 0x05_FA00, original: "HutOccupant_Init_05fa00", rust: "system::hut::occupant", run: |m| coll(m, hut::occupant) },
     SystemPort { entry: 0x05_FA56, original: "HutOccupant_Idle_05fa56", rust: "system::hut::occupant_idle", run: |m| coll(m, hut::occupant_idle) },
@@ -3729,7 +3770,6 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                      title::draw_message(m, s);
                      Flow::Return
                  } },
-    SystemPort { entry: 0x09_1618, original: "Continue_Text_DrawTitle_091618", rust: "system::title::draw_copyright", run: ret!(title::draw_copyright) },
     SystemPort { entry: 0x09_1630, original: "Continue_Text_DrawCredits_091630", rust: "system::title::banner", run: |m| title::banner(m) },
     SystemPort { entry: 0x05_2328, original: "Credits_State_052328", rust: "system::title::credit_state",
                  run: |m| {

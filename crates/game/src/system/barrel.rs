@@ -492,3 +492,18 @@ pub fn shard_loop(m: &mut impl Machine) -> Flow {
     }
     Flow::Return
 }
+
+#[cfg(test)]
+mod tests {
+    use super::abs16;
+
+    #[test]
+    fn abs16_extremes() {
+        assert_eq!(abs16(0), 0);
+        assert_eq!(abs16(0x0005), 5);
+        assert_eq!(abs16(0xFFFB), 5);
+        assert_eq!(abs16(0x7FFF), 0x7FFF);
+        // Como `neg.w`, $8000 se queda igual.
+        assert_eq!(abs16(0x8000), 0x8000);
+    }
+}
