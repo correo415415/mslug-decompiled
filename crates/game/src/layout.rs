@@ -7128,6 +7128,43 @@ pub mod tower {
     pub const COLLAPSE: u32 = 0x04_E05E;
     pub const COLLAPSE_LOOP: u32 = 0x04_E076;
     pub const PILLAR_LOOP: u32 = 0x04_E188;
+    /// Nido (el que suelta el enjambre): gráfico, margen, vida, guion, su
+    /// generador de bichos (y dónde va), hasta dónde espera quieto, los
+    /// lanzadores al romperse, los puntos, el trozo de ruina y su guion.
+    pub const NEST_GFX: u16 = 0x40;
+    pub const NEST_MARGIN: u16 = 0x70;
+    pub const NEST_HP: u16 = 0x12C;
+    pub const NEST_SCRIPT: u32 = 0x29_441A;
+    pub const NEST_SWARM: (u32, u16, u16) = (0x08_E738, 0x98, 0x38);
+    pub const NEST_WAKE_X: i16 = 0x110;
+    pub const NEST_DEBRIS: [u32; 3] = [0x29_5C56, 0x29_5C68, 0x29_5CE6];
+    pub const NEST_POINTS: u32 = 0x3000;
+    pub const NEST_WRECK_CELLS: u32 = 0x29_5D78;
+    pub const NEST_WRECK_SCRIPT: u32 = 0x29_4430;
+    /// Cobertizo: tejado, margen, vida (la mitad de la normal), guion,
+    /// lanzadores al romperse (con su desplazamiento) y sus pintados.
+    pub const SHED_ROOF: (u32, u16, u16) = (0x04_F2C2, 0x40, 0x49);
+    pub const SHED_MARGIN: u16 = 0x70;
+    pub const SHED_HP: u16 = HP_INIT >> 1;
+    pub const SHED_SCRIPT: u32 = 0x29_44B4;
+    pub const SHED_DEBRIS: [u32; 2] = [0x29_5BA2, 0x29_5CB0];
+    pub const SHED_DEBRIS_AT: (u16, u16) = (0x20, 0x30);
+    pub const SHED_DAMAGED_BLIT: u32 = 0x29_5786;
+    pub const SHED_WRECK_BLIT: u32 = 0x29_579A;
+    /// `FLAGS_13` bit 0: muerta (se borra para que el cobertizo aguante
+    /// una segunda tanda de golpes).
+    pub const DEAD: u8 = 1 << 0;
+    pub const NEST_WAIT: u32 = 0x04_E298;
+    pub const NEST_LOOP: u32 = 0x04_E2B6;
+    pub const NEST_WRECK: u32 = 0x04_E32C;
+    pub const NEST_WRECK_LOOP: u32 = 0x04_E36E;
+    pub const SHED_LOOP: u32 = 0x04_E3D2;
+    pub const SHED_DAMAGED: u32 = 0x04_E450;
+    pub const SHED_DAMAGED_LOOP: u32 = 0x04_E474;
+    /// `jmp $518` (baja) al que llama la ruina del cobertizo, y dónde
+    /// seguiría si volviera.
+    pub const FREE_OR_RTS: u32 = 0x04_E50A;
+    pub const SHED_DAMAGED_AFTER_FREE: u32 = 0x04_E502;
 }
 
 /// Soldado de la torre y de los pilares del puente (`system::tower_soldier`).
@@ -7683,4 +7720,112 @@ pub mod nest {
     pub const SWARMER_RUN: u32 = 0x08_EBF6;
     pub const SWARMER_FLEE: u32 = 0x08_EC50;
     pub const SWARMER_FLEE_RUN: u32 = 0x08_ECB0;
+}
+
+/// Barrera de la misión 1 y sus piezas (`system::fortress`).
+pub mod fortress {
+    /// Pieza que se rompe por tandas: bit con el que avisa a su madre,
+    /// trozos de ruina que pinta (uno por tanda), desplazamiento y guion.
+    pub struct Piece {
+        pub bit: u8,
+        pub blits: &'static [u32],
+        pub at: (u16, u16),
+        pub script: u32,
+    }
+
+    pub const OWNER: u32 = 0x0C;
+    pub const FLAGS: u32 = 0x12;
+    /// `FLAGS` bit 6: los jugadores chocan con ella.
+    pub const FLAGS_SOLID: u8 = 1 << 6;
+    pub const FLAGS_13: u32 = 0x13;
+    pub const DEAD: u8 = 1 << 0;
+    pub const HIT_FLASH: u8 = 1 << 3;
+    /// `+$20`: señal de la barrera a sus hijas (y, en las piezas, el
+    /// trozo por el que van); `+$21`: bits de las piezas rotas (en las
+    /// piezas, su bit).
+    pub const SIGNAL: u32 = 0x20;
+    pub const STATE: u32 = 0x21;
+    pub const SIGNAL_BROKEN: u8 = 0xFF;
+    pub const SIGNAL_WRECKED: u8 = 0x88;
+    pub const ALL_PIECES: u8 = 0x0F;
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    pub const FIELD_38: u32 = 0x38;
+    pub const RECORD: u32 = 0x3C;
+    pub const HITBOX: u32 = 0x48;
+    pub const NO_HITBOX: u32 = 0xFFFF_FFFF;
+    pub const ATTACKS: u32 = 0x4C;
+    /// Tipo del último ataque que le ha dado.
+    pub const HIT_KIND: u32 = 0x58;
+    pub const HIT_KIND_SMASH: u8 = 5;
+    /// Caja con la que chocan los jugadores.
+    pub const CONTACT_BOX: u32 = 0x60;
+    pub const HP: u32 = 0x66;
+    pub const MARGIN: u32 = 0x70;
+    /// Piezas: lista de trozos de ruina (longs desde `+$70`).
+    pub const BLITS: u32 = 0x70;
+    pub const NO_BLIT: u32 = 0xFFFF_FFFF;
+    /// Bandera de la lista de sucesos (`$FF` = se acabó).
+    pub const WATCH_FLAG: u16 = 0x75;
+    pub const WATCH_DONE: u8 = 0xFF;
+    pub const HIT_SOUNDS: u32 = 0x05_E766;
+    pub const SND_PILLAR: u16 = 0x102F;
+    pub const SND_BREAK: u16 = 0x1030;
+    pub const POINTS: u32 = 0x1000;
+    pub const EDGE_ENABLE: u32 = super::scroll::EDGE_ENABLE;
+    pub const SCRIPTED_PAD: u32 = super::mission::SCRIPTED_PAD;
+    pub const CAMERA_X: u32 = 0x10_6F50;
+    /// Barrera.
+    pub const BARRIER_GFX: u16 = 0x40;
+    pub const BARRIER_SCRIPT: u32 = 0x29_44CA;
+    pub const BARRIER_BOX: u32 = 0x29_6272;
+    pub const BARRIER_WAKE_X: i16 = 0xA10;
+    pub const BARRIER_HITBOX: u32 = 0x29_4E7C;
+    pub const BARRIER_MARGIN: u16 = 0x80;
+    pub const BARRIER_HP: u16 = 0x64;
+    pub const BARRIER_WATCH: u32 = 0x0E_9348;
+    pub const BARRIER_DEBRIS: [u32; 3] = [0x29_5C32, 0x29_5C44, 0x29_5CD4];
+    pub const BARRIER_DAMAGED_BLITS: [u32; 2] = [0x29_57C2, 0x29_57EA];
+    pub const BARRIER_FALL_CELLS: u32 = 0x29_5E4E;
+    pub const BARRIER_WRECK_ATTACKS: u32 = 0x29_6102;
+    pub const BARRIER_WRECK_CELLS: u32 = 0x29_5DEE;
+    pub const BARRIER_WRECK_BLITS: [u32; 2] = [0x29_57D6, 0x29_57FE];
+    pub const BARRIER_WRECK_SCRIPT: u32 = 0x29_44DA;
+    /// Hijas: poste, luz y la caseta que aparece tras la ruina (rutina y
+    /// desplazamiento).
+    pub const POST: (u32, u16, u16) = (0x04_ED90, 0, 0x10);
+    pub const LIGHT: (u32, u16, u16) = (0x04_EE0A, 0x20, 0x20);
+    pub const GATEHOUSE: (u32, u16, u16) = (0x04_E7FE, 0x40, 0);
+    pub const POST_GFX: u16 = 0x3F;
+    pub const POST_SCRIPT: u32 = 0x29_44EA;
+    pub const LIGHT_MARGIN: u16 = 0x80;
+    pub const LIGHT_HP: u16 = 0x3C;
+    pub const LIGHT_SCRIPT: u32 = 0x29_4620;
+    pub const LIGHT_GONE_BLIT: u32 = 0x29_5B46;
+    pub const LIGHT_WRECK_BLITS: [u32; 4] = [0x29_5AE2, 0x29_5B0A, 0x29_584E, 0x29_58C6];
+    /// Piezas de la barrera (en el orden en que se crean).
+    pub const PIECE_HP: u16 = 0x1E;
+    pub const PIECE_SCRIPT: u32 = 0x29_46A2;
+    pub const SIDE_SCRIPT: u32 = 0x29_46CE;
+    pub const BARRIER_PIECES: [Piece; 6] = [
+        Piece { bit: 0x01, blits: &[0x29_5826, 0x29_583A], at: (0x40, 0x70), script: PIECE_SCRIPT },
+        Piece { bit: 0x02, blits: &[0x29_5862, 0x29_5876], at: (0x20, 0x50), script: PIECE_SCRIPT },
+        Piece { bit: 0x04, blits: &[0x29_588A, 0x29_589E], at: (0x40, 0x50), script: PIECE_SCRIPT },
+        Piece { bit: 0x08, blits: &[0x29_58B2], at: (0x60, 0x50), script: PIECE_SCRIPT },
+        Piece { bit: 0x00, blits: &[0x29_5AF6], at: (0x20, 0x50), script: SIDE_SCRIPT },
+        Piece { bit: 0x00, blits: &[0x29_5B1E, 0x29_5B32], at: (0x40, 0x30), script: SIDE_SCRIPT },
+    ];
+    /// Rutinas.
+    pub const BLIT_SEQUENCE: u32 = 0x04_F1F4;
+    pub const SEQUENCE_LOOP: u32 = 0x04_F206;
+    pub const BARRIER_WAIT: u32 = 0x04_E55C;
+    pub const BARRIER_LOOP: u32 = 0x04_E5F2;
+    pub const BARRIER_DAMAGED: u32 = 0x04_E68A;
+    pub const BARRIER_DAMAGED_LOOP: u32 = 0x04_E6BA;
+    pub const BARRIER_WRECK: u32 = 0x04_E74C;
+    pub const BARRIER_WRECK_LOOP: u32 = 0x04_E7E2;
+    pub const POST_LOOP: u32 = 0x04_EDB8;
+    pub const LIGHT_LOOP: u32 = 0x04_EE2E;
+    pub const LIGHT_WRECK: u32 = 0x04_EECA;
+    pub const LIGHT_WRECK_LOOP: u32 = 0x04_EED8;
 }

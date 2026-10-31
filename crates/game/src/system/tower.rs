@@ -5,7 +5,9 @@
 //! madre (bits en su `STATE`), que repinta el conjunto según las piezas
 //! que falten. Las que tienen lista de sucesos la cortan al romperse.
 //!
-//! Original: `Prop_Tower_04dad2` … `Prop_BridgePillar_04e12c`
+//! Original: `Prop_Tower_04dad2` … `Prop_BridgePillar_04e12c`, el nido
+//! `Prop_Nest_04e248` … `Prop_NestWreck_04e32c` y el cobertizo
+//! `Prop_Shed_04e38a` / `Prop_ShedDamaged_04e450`
 //! (`asm/enemies/vehicles/turret_car_props_04cbd4.s`) y los pintados
 //! `Prop_TowerBlitState10_04fa8a`, `Prop_BunkerBlitState10_04faf8`,
 //! `Prop_NestBlitByFacing_04fb3c` y `Prop_NestBlitPair_04fb74`
@@ -464,6 +466,154 @@ pub fn pillar_loop(m: &mut impl Machine) -> Flow {
         or8(m, o + L::STATE, L::PILLAR_BITS[usize::from(left)]);
         m.write_u8(t + L::STATE, L::GONE);
         return tasks::finish(m);
+    }
+    if fort::off_left(m, t) {
+        return tasks::finish(m);
+    }
+    Flow::Return
+}
+
+/// Nido del enjambre: su sitio, gráfico, vida, guion y el generador de
+/// bichos encima. Original: `Prop_Nest_04e248`.
+pub fn nest_prop(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    let rec = m.read_u32(t + L::RECORD);
+    fort::place_from_record(m, t, rec);
+    anim::alloc_entry(m, t, L::NEST_GFX);
+    m.write_u16(t + L::MARGIN, L::NEST_MARGIN);
+    m.write_u16(t + L::HP, L::NEST_HP);
+    anim::start(m, t, L::NEST_SCRIPT);
+    let (h, dx, dy) = L::NEST_SWARM;
+    piece(m, t, h, dx, dy);
+    set_handler(m, t, L::NEST_WAIT);
+    nest_prop_wait(m)
+}
+
+/// Quieto con la escena hasta que entra en la pantalla.
+/// Original: `Prop_Nest_04e248+$50`.
+pub fn nest_prop_wait(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    if (m.read_u16(t + L::X) as i16) < L::NEST_WAKE_X {
+        return nest_prop_active(m);
+    }
+    platforms::move_with_scene(m, t);
+    anim::step(m, t);
+    Flow::Return
+}
+
+/// Ya se le puede dar. Original: `Prop_NestActive_04e2b0`.
+pub fn nest_prop_active(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    set_handler(m, t, L::NEST_LOOP);
+    nest_prop_loop(m)
+}
+
+/// Encaja golpes; al romperse suelta sus trozos y pasa a ruina.
+/// Original: `Prop_NestActive_04e2b0+$6`.
+pub fn nest_prop_loop(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    if take_hits(m, t) {
+        sound::play(m, L::SND_PILLAR);
+        for d in L::NEST_DEBRIS {
+            spawner::install(m, t, d);
+        }
+        set_handler(m, t, L::NEST_WRECK);
+    }
+    if fort::off_left(m, t) {
+        return tasks::finish(m);
+    }
+    Flow::Return
+}
+
+/// Ruina del nido: puntos, sin caja de golpe, su trozo pintado, sonido y
+/// guion. Original: `Prop_NestWreck_04e32c`.
+pub fn nest_prop_wreck(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    score::award_attacker(m, t, L::NEST_POINTS);
+    m.write_u32(t + L::HITBOX, L::NO_HITBOX);
+    platforms::move_with_scene(m, t);
+    super::scroll::blit_cells(m, t, L::NEST_WRECK_CELLS);
+    sound::play(m, L::SND_BREAK);
+    anim::start(m, t, L::NEST_WRECK_SCRIPT);
+    set_handler(m, t, L::NEST_WRECK_LOOP);
+    nest_prop_wreck_loop(m)
+}
+
+/// Original: `Prop_NestWreck_04e32c+$42`.
+pub fn nest_prop_wreck_loop(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    platforms::move_with_scene(m, t);
+    anim::step(m, t);
+    if fort::off_left(m, t) {
+        return tasks::finish(m);
+    }
+    Flow::Return
+}
+
+/// Los dos lanzadores del cobertizo al romperse.
+fn shed_debris(m: &mut impl Memory, t: u32) {
+    let (dx, dy) = L::SHED_DEBRIS_AT;
+    for d in L::SHED_DEBRIS {
+        debris(m, t, d, dx, dy);
+    }
+}
+
+/// Cobertizo con su tejado. Original: `Prop_Shed_04e38a`.
+pub fn shed(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    let rec = m.read_u32(t + L::RECORD);
+    fort::place_from_record(m, t, rec);
+    let (h, dx, dy) = L::SHED_ROOF;
+    piece(m, t, h, dx, dy);
+    m.write_u16(t + L::MARGIN, L::SHED_MARGIN);
+    m.write_u16(t + L::HP, L::SHED_HP);
+    anim::start(m, t, L::SHED_SCRIPT);
+    set_handler(m, t, L::SHED_LOOP);
+    shed_loop(m)
+}
+
+/// Primera tanda de golpes: al acabarla revive y pasa a dañado.
+/// Original: `Prop_Shed_04e38a+$48`.
+pub fn shed_loop(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    if take_hits(m, t) {
+        let f = m.read_u8(t + L::FLAGS_13);
+        m.write_u8(t + L::FLAGS_13, f & !L::DEAD);
+        shed_debris(m, t);
+        set_handler(m, t, L::SHED_DAMAGED);
+    }
+    if fort::off_left(m, t) {
+        return tasks::finish(m);
+    }
+    Flow::Return
+}
+
+/// Cobertizo dañado: se derrumba un trozo y vuelve a tener vida.
+/// Original: `Prop_ShedDamaged_04e450`.
+pub fn shed_damaged(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    sound::play(m, L::SND_CRUMBLE);
+    layer::blit(m, L::SHED_DAMAGED_BLIT);
+    m.write_u16(t + L::HP, L::SHED_HP);
+    set_handler(m, t, L::SHED_DAMAGED_LOOP);
+    shed_damaged_loop(m)
+}
+
+/// Segunda tanda: al romperse da puntos, suelta trozos, pinta la ruina y
+/// se da de baja. Original: `Prop_ShedDamaged_04e450+$24`.
+///
+/// La baja la hace como la ROM: *llama* a `Prop_FreeOrRts_04e50a` (que
+/// salta a `$518` y ya no vuelve), así que deja una dirección de vuelta
+/// más en la pila antes de pasar al planificador.
+pub fn shed_damaged_loop(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    if take_hits(m, t) {
+        score::award_attacker(m, t, L::POINTS);
+        sound::play(m, L::SND_BREAK);
+        m.write_u32(t + L::HITBOX, L::NO_HITBOX);
+        shed_debris(m, t);
+        layer::blit(m, L::SHED_WRECK_BLIT);
+        return Flow::Call { routine: L::FREE_OR_RTS, then: L::SHED_DAMAGED_AFTER_FREE };
     }
     if fort::off_left(m, t) {
         return tasks::finish(m);

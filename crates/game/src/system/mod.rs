@@ -100,6 +100,7 @@ pub mod sign;
 pub mod enemy46;
 pub mod melee_guard;
 pub mod nest;
+pub mod fortress;
 pub mod video;
 pub mod wheels;
 

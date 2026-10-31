@@ -250,6 +250,9 @@ mod tests {
     fn brake_x_never_stalls() {
         assert_eq!(brake(0x10, true), 0x0F);
         assert_eq!(brake(0x40, true), 0x3E);
-        assert_eq!(brake(0xFFF0, false), 0xFFF0);
+        // `asr.w #5` redondea hacia −∞: −16 >> 5 = −1, así que −16 − (−1) = −15.
+        assert_eq!(brake(0xFFF0, false), 0xFFF1);
+        // Por debajo de 32 sin mínimo de 1, la velocidad positiva no cambia.
+        assert_eq!(brake(0x10, false), 0x10);
     }
 }
