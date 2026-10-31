@@ -81,6 +81,38 @@ python3 tools/recomp/m68k_recomp.py --static                   # crates/gen/NN +
 cargo build -j1 --release                                      # -j1 si hay poca RAM
 ```
 
+### Reproducir la verificación desde cero
+
+Lo que el proyecto da por bueno ("0 fallos") se puede comprobar en cualquier
+máquina Linux con Rust estable y la ROM:
+
+1. ROM: `mslug.zip` (con la BIOS `asia-s3` dentro o junto a ella) en
+   `internal/mslug.zip`. No está en el repositorio.
+2. Toolchain: `rustup` con el perfil mínimo (`tools/sandbox/setup.sh` hace la
+   instalación, la compilación y el volcado de `build/recomp/prom.bin`; con
+   poca RAM, `-j1` o `-j2`).
+3. Pruebas unitarias: `cargo test -q -p mslug-game`.
+4. Port manual contra la ROM (lo mismo que publica el CI, con los mismos modos
+   que se citan en cada PR):
+
+```bash
+B=./target/release/mslug
+$B verify-system --frames 6000                 # demo con monedas
+$B verify-system --coin 0 --frames 6000        # sin moneda
+$B verify-system --hands-off --frames 4000     # sin tocar nada
+for z in 1 2 3 5; do $B verify-system --fuzz $z --frames 6000; done
+$B verify-system --frames 16000                # partidas largas: llegan más
+$B verify-system --coin 200 --frames 16000     # lejos en la misión 1
+$B verify-system --fuzz 21 --frames 16000
+$B progress                                    # cifras de README / PORT_STATUS
+```
+
+Cada `verify-system` ejecuta cada rutina portada dos veces (ROM y Rust) desde
+el mismo estado y compara RAM, vídeo, sonido y registros; la última línea es
+`total: N llamadas comprobadas, F fallos`. El workflow `port` (sólo manual:
+Actions → port → Run workflow, o `repository_dispatch` de tipo `port`)
+publica esos mismos registros como release.
+
 ## Port manual
 
 ```sh

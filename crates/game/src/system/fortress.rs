@@ -355,3 +355,22 @@ pub fn sequence_loop(m: &mut impl Machine) -> Flow {
     }
     off_left(m, t)
 }
+
+#[cfg(test)]
+mod tests {
+    use crate::layout::fortress as L;
+
+    /// Las cuatro piezas con bit cubren justo `ALL_PIECES`, sin repetir, y
+    /// ninguna lista de trozos pisa la marca de fin (caben antes de `+$7C`).
+    #[test]
+    fn barrier_pieces_cover_all_bits() {
+        let mut seen = 0u8;
+        for p in &L::BARRIER_PIECES {
+            assert_eq!(seen & p.bit, 0);
+            seen |= p.bit;
+            assert!(!p.blits.is_empty() && p.blits.len() <= 2);
+            assert!(p.blits.iter().all(|&b| b != L::NO_BLIT));
+        }
+        assert_eq!(seen, L::ALL_PIECES);
+    }
+}
