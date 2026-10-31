@@ -12,9 +12,7 @@ use neogeo_hw::cpu::m68k::{Bus, Cpu, Size, StatusRegister as SR};
 pub type B<'a, 'b> = &'a mut &'b mut dyn Bus;
 
 // ---- costes de direccionamiento (byte/word, long) ------------------------
-pub const EA_DN: (u32, u32) = (0, 0);
 pub const EA_IND: (u32, u32) = (4, 8);
-pub const EA_PREDEC: (u32, u32) = (6, 10);
 pub const EA_D16: (u32, u32) = (8, 12);
 pub const EA_IDX: (u32, u32) = (10, 14);
 pub const EA_ABSL: (u32, u32) = (12, 16);
@@ -36,9 +34,6 @@ pub fn rts(cpu: &mut Cpu, bus: B) -> u32 {
 }
 
 // ---- flags ---------------------------------------------------------------
-#[inline]
-pub fn mask(s: Size) -> u32 { s.mask() }
-
 /// N,Z según el resultado; V=C=0; X intacto (move, and, or, eor, tst, clr...).
 #[inline]
 pub fn logic(cpu: &mut Cpu, v: u32, s: Size) {
@@ -111,9 +106,6 @@ pub fn wr(bus: B, a: u32, v: u32, s: Size) {
     match s { Size::Byte => w8(bus, a, v), Size::Word => w16(bus, a, v), Size::Long => w32(bus, a, v) }
 }
 
-/// Desplazamiento con signo de 16 bits (`d16(An)`).
-#[inline]
-pub fn d16(base: u32, d: i16) -> u32 { base.wrapping_add(d as i32 as u32) }
 /// Índice `.w` con signo (`(An,Dn.w)`).
 #[inline]
 pub fn idx_w(v: u32) -> u32 { (v as i16) as i32 as u32 }
