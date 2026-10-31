@@ -97,6 +97,9 @@ pub mod frag;
 pub mod continue_count;
 pub mod dropped_weapon;
 pub mod sign;
+pub mod enemy46;
+pub mod melee_guard;
+pub mod nest;
 pub mod video;
 pub mod wheels;
 
