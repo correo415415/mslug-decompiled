@@ -45,7 +45,22 @@ Leyenda: ✅ confirmado en emulador · 🔎 confirmado en el binario (estático)
   (P1 START / D en `$10E200`) salta a `$F76`, que carga la sub-tabla T6[12] →
   T6[13] `BootScr_SoundTest_001566` → `SoundTest_Init_07a456`.
 * Parche reproducible: `bash scripts/apply_patch.sh boot=soundtest --zip internal/mslug.zip`
-  (cambia el `lea BootTblEntry_B92` del arranque por `BootTblEntry_E6E`, 2 bytes en `$F48`).
+  (o `bash scripts/apply_patch.sh` sin parámetros y elegirlo en el menú).
+  Cambia por `BootTblEntry_E6E` los **tres** `lea` del selector de arranque de
+  `SchedulerBootstrap_Boot_000E8E` (6 bytes en `$F2C`, `$F48` y `$F6C`):
+  * `$F48` rama *demo* (`BIOS_USER_REQUEST` 2, sin créditos);
+  * `$F2C` rama *título* (`$10FDAE == 3`: **hay créditos**);
+  * `$F6C` rama *hardstart*.
+  🐞 **Corregido**: la versión anterior sólo parcheaba `$F48`. En pydmg (que
+  arranca sin créditos) funcionaba, pero en MAME/FBNeo la NVRAM conserva los
+  créditos de la sesión anterior: la BIOS entra por la rama de título y salía
+  la pantalla de título normal en vez del sound test. Lo mismo pasaba al echar
+  una moneda estando en el sound test (volvía al título).
+  Verificado en pydmg sin moneda, con moneda en el frame 30 y en el frame
+  1000 (antes este caso volvía al título): los tres se quedan en el sound
+  test, con las 7 BIOS del romset (sp-s2, sp-s, japan-j3, uni-bios 2.3,
+  asia-s3, sp-e, usa_2slt), en MVS y en AES (results/sound_test_credits.png:
+  sin moneda · moneda en el frame 30 · moneda en el frame 1000).
   Captura: results/sound_test.png (4 filas de código `0020`, cursor, leyenda
   completa de P1/P2: Arriba/Abajo ±1, Izq/Der ±$10, A-CSL change, B-bank change,
   C-BGM off, D-SE off; P2 A..D = canales 0..3).

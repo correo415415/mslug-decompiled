@@ -9,6 +9,32 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+### Fixed
+- `apply_patch.sh boot=soundtest` now patches all three boot-selector
+  branches of `SchedulerBootstrap_Boot_000E8E` (demo `$F48`, title `$F2C`,
+  hardstart `$F6C`). Before, only the no-credits branch was redirected, so on
+  MAME/FBNeo (credits kept in NVRAM), or after inserting a coin, the game
+  showed the normal title screen instead of the sound test.
+- `apply_patch.sh lives=N`: the self-check counted pre-existing `#N,d1`
+  operands and failed for some N (e.g. 3).
+- `pow/human_death_049ff2.s`: the 38 bytes at `$4B052` inside
+  `HumanDeath_SpriteTbls_04ac56` are code (state handler reached only through
+  the `.long $0004B052` pointer at table +$3A0), now decoded as instructions
+  (`HumanDeath_SpriteTbls_04ac56__L04b052`). Found by the port's static
+  recompilation; build_rom still IDÉNTICA.
+
+### Added
+- `tools/export_code_map.py`: static instruction/data map of the P-ROM taken
+  from the assembler listings of the decompilation (no emulation):
+  `build/code_map/{insns.txt,funcs.tsv,code.bin}`; `--check` verifies every
+  instruction length against the ROM with capstone (101,141 instructions,
+  0 mismatches). It is the input of the port's pure static recompilation.
+
+### Added
+- `bash scripts/apply_patch.sh` with no arguments opens an interactive menu
+  (`scripts/patch_menu.py`) to pick one or several patches, enter their
+  values and choose the base zip.
+
 ### Changed
 - Renamed Boss_Shadow_Init/Clear -> ScreenNuke_Init_08656e / ScreenNuke_Clear_0865be: the $2ECD80/$2ECEC4 lists are full-screen attack boxes (damage $7FFF) that kill every visible enemy (verified).
 - Renamed MissionStream_Debug_0F260E -> MissionStream_EndingIntl_0F260E, Player_SpawnDebugTask -> Player_SpawnBloodFx, Player_DebugMarker -> Player_DeathBlood, Player_Death_Debug -> Player_Death_Blood.

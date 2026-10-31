@@ -302,6 +302,7 @@ CPU addresses). Verified on a real emulator — the HUD shows reserve lives, so
 #### More patches: `scripts/apply_patch.sh`
 
 ```bash
+bash scripts/apply_patch.sh             # interactive menu: pick one or several patches
 bash scripts/apply_patch.sh --list
 bash scripts/apply_patch.sh hmg-infinite lives=9 --zip /ruta/a/mslug.zip   # combinables
 bash scripts/apply_patch.sh all-infinite bombs=99 --zip /ruta/a/mslug.zip

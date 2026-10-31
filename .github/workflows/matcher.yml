@@ -2,6 +2,7 @@
 #  Metal Slug 1 decomp — matcher en runner local (self-hosted) + release
 # -----------------------------------------------------------------------------
 #  * Corre en el runner self-hosted del propietario (etiqueta "mslug").
+#  * Sólo manual (workflow_dispatch) y nunca en ramas port*.
 #  * NO usa cache de Actions (no disponible): todo se recompila desde cero y
 #    los resultados se publican como assets de una Release (prerelease por
 #    rama, release normal en main).
@@ -14,12 +15,9 @@
 # =============================================================================
 name: matcher
 
+# Activación MANUAL (Actions → matcher → Run workflow). No se dispara con
+# push/PR para no ocupar el runner local (que también compila el port).
 on:
-  push:
-    branches: [main, genspark_ai_developer]
-    paths-ignore: ['docs/**', '**.md']
-  pull_request:
-    branches: [main]
   workflow_dispatch:
     inputs:
       publish_release:
@@ -38,6 +36,8 @@ jobs:
   match:
     name: match_batch (self-hosted)
     runs-on: [self-hosted, Linux, X64]
+    # Nunca en las ramas del port aunque se lance a mano desde ellas.
+    if: ${{ !startsWith(github.ref_name, 'port') }}
     timeout-minutes: 90
     env:
       MSLUG_ROM_DIR: ${{ vars.MSLUG_ROM_DIR || '' }}
