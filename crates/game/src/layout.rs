@@ -7815,8 +7815,96 @@ pub mod fortress {
         Piece { bit: 0x00, blits: &[0x29_5AF6], at: (0x20, 0x50), script: SIDE_SCRIPT },
         Piece { bit: 0x00, blits: &[0x29_5B1E, 0x29_5B32], at: (0x40, 0x30), script: SIDE_SCRIPT },
     ];
+    /// Bloqueo: caja de choque, su bucle y la señal de la madre con la que
+    /// se va.
+    pub struct Blocker {
+        pub contact_box: u32,
+        pub run: u32,
+        pub until: u8,
+    }
+    pub const GATEHOUSE_BLOCK: Blocker = Blocker { contact_box: 0x29_62BE, run: 0x04_EAF6, until: SIGNAL_WRECKED };
+    pub const FORTRESS_BLOCK: Blocker = Blocker { contact_box: 0x29_630A, run: 0x04_EDE8, until: SIGNAL_BROKEN };
+    /// Origen de la pantalla en el mundo (X, Y) y altura que se resta.
+    pub const SCREEN_ORIGIN: (u32, u32) = (0x10_6F70, 0x10_6F74);
+    pub const SCREEN_HEIGHT: u16 = 0x200;
+    pub const SCRATCH_BASE: u32 = super::collision::SCRATCH_BASE;
+    /// Caseta: su bloqueo, cuándo despierta y dónde se pone (en pantalla),
+    /// cascote, margen, vida, piezas, tejado y puerta, guion, lista de
+    /// sucesos, trozos pintados, puntos y la fortaleza que deja detrás.
+    pub const GATEHOUSE_BLOCKER: (u32, u16, u16) = (0x04_EAE8, 0x34, 0);
+    pub const GATEHOUSE_WAKE_X: i16 = 0xA20;
+    pub const GATEHOUSE_AT: (u16, u16) = (0x3A0, 0xE0);
+    pub const BOUNCER: (u32, u16, u16) = (0x04_F5BE, 0x58, 0x15);
+    pub const GATEHOUSE_MARGIN: u16 = 0x70;
+    pub const GATEHOUSE_HP: u16 = 0xB4;
+    pub const GATEHOUSE_FIELD_38: u16 = 0xF000;
+    pub const GATEHOUSE_ALL: u8 = 0xFF;
+    pub const GATEHOUSE_PIECES: [Piece; 8] = [
+        Piece { bit: 0x01, blits: &[0x29_58EE], at: (0x10, 0x90), script: PIECE_SCRIPT },
+        Piece { bit: 0x02, blits: &[0x29_5916], at: (0x30, 0x90), script: PIECE_SCRIPT },
+        Piece { bit: 0x04, blits: &[0x29_593E], at: (0x50, 0x90), script: PIECE_SCRIPT },
+        Piece { bit: 0x08, blits: &[0x29_5966], at: (0x70, 0x90), script: PIECE_SCRIPT },
+        Piece { bit: 0x10, blits: &[0x29_598E], at: (0x10, 0x70), script: PIECE_SCRIPT },
+        Piece { bit: 0x20, blits: &[0x29_59B6], at: (0x30, 0x70), script: PIECE_SCRIPT },
+        Piece { bit: 0x40, blits: &[0x29_59DE], at: (0x50, 0x70), script: PIECE_SCRIPT },
+        Piece { bit: 0x80, blits: &[0x29_5A06], at: (0x70, 0x70), script: PIECE_SCRIPT },
+    ];
+    pub const GATEHOUSE_ROOF: u32 = 0x04_EF0A;
+    pub const GATEHOUSE_DOOR: u32 = 0x04_EFE6;
+    pub const GATEHOUSE_SCRIPT: u32 = 0x29_44FA;
+    pub const GATEHOUSE_WATCH: u32 = 0x0E_93B0;
+    pub const GATEHOUSE_CELLS: u32 = 0x29_5F12;
+    pub const GATEHOUSE_DAMAGED_BLITS: [u32; 8] =
+        [0x29_5902, 0x29_592A, 0x29_5952, 0x29_597A, 0x29_59A2, 0x29_59CA, 0x29_59F2, 0x29_5A1A];
+    pub const GATEHOUSE_DAMAGED_SCRIPT: u32 = 0x29_451C;
+    pub const GATEHOUSE_POINTS: u32 = 0x2000;
+    /// Tras la caseta, la prueba de llegada al borde vuelve con este valor.
+    pub const EDGE_AFTER_GATEHOUSE: u8 = 2;
+    pub const GATEHOUSE_WRECK_CELLS: [u32; 2] = [0x29_5E04, 0x29_5F24];
+    pub const GATEHOUSE_WRECK_BLITS: [u32; 2] = [0x29_5812, 0x29_58DA];
+    pub const GATEHOUSE_WRECK_SCRIPT: u32 = 0x29_453E;
+    pub const FORTRESS: (u32, u16, u16) = (0x04_EB18, 0xA0, 0);
+    /// Tejado y puerta de la caseta.
+    pub const ROOF_MARGIN: u16 = 0x40;
+    pub const ROOF_HP: u16 = 0x78;
+    pub const ROOF_SCRIPT: u32 = 0x29_4636;
+    pub const ROOF_FIELD_38: u16 = 0xBFFF;
+    pub const ROOF_WRECK_BLIT: u32 = 0x29_5A2E;
+    pub const ROOF_WRECK_SCRIPT: u32 = 0x29_464C;
+    pub const DOOR_SCRIPT: u32 = 0x29_465C;
+    /// Cascote que rebota: gráfico, escala, márgenes de vista, guiones,
+    /// velocidades y probabilidad (máscara del azar) de cambiar.
+    pub const SCALE: (u32, u32) = (0x32, 0x33);
+    pub const FULL_SCALE: u8 = 0xFF;
+    pub const FACING: u32 = 0x3A;
+    pub const VEL_X: u32 = 0x28;
+    pub const VEL_Y: u32 = 0x2A;
+    pub const BOUNCER_GFX: u16 = 0x126;
+    pub const BOUNCER_MARGINS: u32 = 0x29_624A;
+    pub const BOUNCER_SCRIPT: u32 = 0x29_48F8;
+    pub const BOUNCER_TWITCH_SCRIPT: u32 = 0x29_4936;
+    pub const BOUNCER_HOP_SCRIPT: u32 = 0x29_494E;
+    pub const BOUNCER_HOP_VY: u16 = 0x400;
+    pub const BOUNCER_ROLL_VX: u16 = 0x80;
+    pub const BOUNCER_IDLE_CHANCE: u16 = 0x7;
+    pub const BOUNCER_ROLL_CHANCE: u16 = 0xF;
     /// Rutinas.
     pub const BLIT_SEQUENCE: u32 = 0x04_F1F4;
+    pub const GATEHOUSE_WAIT: u32 = 0x04_E820;
+    pub const GATEHOUSE_LOOP: u32 = 0x04_E912;
+    pub const GATEHOUSE_DAMAGED: u32 = 0x04_E998;
+    pub const GATEHOUSE_DAMAGED_LOOP: u32 = 0x04_E9C4;
+    pub const GATEHOUSE_WRECK: u32 = 0x04_EA3E;
+    pub const GATEHOUSE_WRECK_LOOP: u32 = 0x04_EACC;
+    pub const ROOF_LOOP: u32 = 0x04_EF38;
+    pub const ROOF_WRECK: u32 = 0x04_EFA2;
+    pub const ROOF_WRECK_LOOP: u32 = 0x04_EFBC;
+    pub const DOOR_LOOP: u32 = 0x04_F00E;
+    pub const BOUNCER_LOOP: u32 = 0x04_F5FE;
+    pub const BOUNCER_HOP: u32 = 0x04_F64C;
+    pub const BOUNCER_HOP_LOOP: u32 = 0x04_F664;
+    pub const BOUNCER_ROLL: u32 = 0x04_F692;
+    pub const BOUNCER_ROLL_LOOP: u32 = 0x04_F6C6;
     pub const SEQUENCE_LOOP: u32 = 0x04_F206;
     pub const BARRIER_WAIT: u32 = 0x04_E55C;
     pub const BARRIER_LOOP: u32 = 0x04_E5F2;

@@ -7,15 +7,25 @@
 //! a ruina, que deja paso a la caseta. El poste y la luz siguen a la
 //! barrera y desaparecen con su ruina.
 //!
+//! Tras la barrera viene la caseta: otro decorado de piezas (ocho, en dos
+//! filas) con su tejado, su puerta y un bloqueo que no deja pasar hasta
+//! su ruina; al romperla suelta un cascote que rebota y da paso a la
+//! fortaleza.
+//!
 //! Original: `Prop_Barrier_04e512` (`asm/enemies/vehicles/turret_car_props_04cbd4.s`),
 //! `Prop_BarrierActive_04e580`, `Prop_BarrierDamaged_04e68a`,
 //! `Prop_BarrierWreck_04e74c`, `Prop_BarrierPost_04ed90`,
 //! `Prop_BarrierLight_04ee0a`, `Prop_BarrierLightWreck_04eeca` y
-//! `Prop_BlitSequence_04f1f4` (`asm/props/fortress_04e580.s`) y
-//! `Barrier_SpawnPiece01_04fb8a` … `Barrier_SpawnPieceRight_04fd2c`
+//! `Prop_BlitSequence_04f1f4`, la caseta `Prop_Gatehouse_04e7fe` …
+//! `Prop_GatehouseDoor_04efe6`, los bloqueos `Prop_GatehouseBlocker_04eae8`
+//! y `Prop_FortressBlocker_04edda` y el cascote `Debris_Bouncer_04f5be` …
+//! `Debris_BouncerRoll_04f692` (`asm/props/fortress_04e580.s`), `$044022`,
+//! `Gatehouse_BlitDamaged_0501d8`,
+//! `Barrier_SpawnPiece01_04fb8a` … `Barrier_SpawnPieceRight_04fd2c` y
+//! `Gatehouse_SpawnPiece01_04fd8a` … `Gatehouse_SpawnPiece80_04ffd6`
 //! (`asm/enemies/bosses/allen_oneil_04fa58.s`).
 
-use super::{anim, contact, events, fort, hits, layer, manual_icons, platforms, score, scroll, slug, sound, spawner, tasks};
+use super::{anim, collision, contact, events, fort, hits, items, layer, manual_icons, platforms, player_ground, rng, score, scroll, slug, sound, spawner, tasks};
 use crate::layout::{fortress as L, task as T};
 use crate::mem::{Flow, Machine, Memory};
 
@@ -354,6 +364,342 @@ pub fn sequence_loop(m: &mut impl Machine) -> Flow {
         return tasks::finish(m);
     }
     off_left(m, t)
+}
+
+/// Con la escena, el guion y el sonido de los golpes. Devuelve si ha
+/// muerto.
+fn take_hits(m: &mut impl Machine, t: u32) -> bool {
+    platforms::move_with_scene(m, t);
+    anim::step(m, t);
+    hit_flash(m, t);
+    fort::dead(m, t)
+}
+
+/// De coordenadas de pantalla (`x`, `y` hacia abajo) a las del mundo.
+/// Original: `$044022`.
+pub fn from_screen(m: &mut impl Memory, x: u16, y: u16) -> (u16, u16) {
+    let wx = x.wrapping_sub(m.read_u16(L::SCREEN_ORIGIN.0));
+    let wy = L::SCREEN_HEIGHT.wrapping_add(m.read_u16(L::SCREEN_ORIGIN.1)).wrapping_sub(y);
+    (wx, wy)
+}
+
+/// Bloqueo: caja con la que chocan los jugadores hasta que su madre da la
+/// señal `until`. Originales: `Prop_GatehouseBlocker_04eae8`,
+/// `Prop_FortressBlocker_04edda`.
+pub fn blocker(m: &mut impl Machine, b: &L::Blocker) -> Flow {
+    let t = m.task_register();
+    m.write_u32(t + L::CONTACT_BOX, b.contact_box);
+    set_handler(m, t, b.run);
+    blocker_run(m, b)
+}
+
+/// Original: `Prop_GatehouseBlocker_04eae8+$E`, `Prop_FortressBlocker_04edda+$E`.
+pub fn blocker_run(m: &mut impl Machine, b: &L::Blocker) -> Flow {
+    let t = m.task_register();
+    contact::touch_players(m, t);
+    platforms::move_with_scene(m, t);
+    if owner_signal(m, t) == b.until {
+        return tasks::finish(m);
+    }
+    Flow::Return
+}
+
+/// Caseta: el bloqueo; espera a que llegue la cámara.
+/// Original: `Prop_Gatehouse_04e7fe`.
+pub fn gatehouse(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    platforms::move_with_scene(m, t);
+    let (h, dx, dy) = L::GATEHOUSE_BLOCKER;
+    child(m, t, h, dx, dy);
+    set_handler(m, t, L::GATEHOUSE_WAIT);
+    gatehouse_wait(m)
+}
+
+/// Al llegar la cámara se coloca en su sitio fijo y monta todo: cascote,
+/// gráfico, vida, sus ocho piezas, tejado, puerta, guion, lista de sucesos
+/// y su trozo pintado. Original: `Prop_Gatehouse_04e7fe+$22`.
+pub fn gatehouse_wait(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    platforms::move_with_scene(m, t);
+    if m.read_u16(L::CAMERA_X) as i16 <= L::GATEHOUSE_WAKE_X {
+        return Flow::Return;
+    }
+    let (x, y) = from_screen(m, L::GATEHOUSE_AT.0, L::GATEHOUSE_AT.1);
+    m.write_u16(t + L::X, x);
+    m.write_u16(t + L::Y, y);
+    m.write_u8(t + L::STATE, 0);
+    m.write_u8(t + L::SIGNAL, 0);
+    let (h, dx, dy) = L::BOUNCER;
+    child(m, t, h, dx, dy);
+    anim::alloc_entry(m, t, L::BARRIER_GFX);
+    m.write_u16(t + L::MARGIN, L::GATEHOUSE_MARGIN);
+    m.write_u16(t + L::HP, L::GATEHOUSE_HP);
+    set8(m, t + L::FLAGS, L::FLAGS_SOLID);
+    m.write_u16(t + L::FIELD_38, L::GATEHOUSE_FIELD_38);
+    for p in &L::GATEHOUSE_PIECES {
+        blit_piece(m, t, p);
+    }
+    for h in [L::GATEHOUSE_ROOF, L::GATEHOUSE_DOOR] {
+        child(m, t, h, 0, 0);
+    }
+    anim::start(m, t, L::GATEHOUSE_SCRIPT);
+    m.write_u8(t + u32::from(L::WATCH_FLAG), 0);
+    events::spawn_watch(m, L::GATEHOUSE_WATCH, L::WATCH_FLAG);
+    platforms::move_with_scene(m, t);
+    scroll::blit_cells(m, t, L::GATEHOUSE_CELLS);
+    set_handler(m, t, L::GATEHOUSE_LOOP);
+    gatehouse_loop(m)
+}
+
+/// Encaja golpes; sin vida, o con las ocho piezas rotas, avisa a sus
+/// hijas, suelta trozos y pasa a dañada. Original: `Prop_Gatehouse_04e7fe+$114`.
+pub fn gatehouse_loop(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    let broken = if take_hits(m, t) {
+        clear8(m, t + L::FLAGS_13, L::DEAD);
+        true
+    } else {
+        m.read_u8(t + L::STATE) == L::GATEHOUSE_ALL
+    };
+    if broken {
+        m.write_u8(t + L::SIGNAL, L::SIGNAL_BROKEN);
+        barrier_debris(m, t);
+        set_handler(m, t, L::GATEHOUSE_DAMAGED);
+    }
+    off_left(m, t)
+}
+
+/// Los ocho trozos de la caseta dañada. Original: `Gatehouse_BlitDamaged_0501d8`.
+pub fn gatehouse_blit_damaged(m: &mut impl Memory) {
+    for b in L::GATEHOUSE_DAMAGED_BLITS {
+        layer::blit(m, b);
+    }
+}
+
+/// Dañada: sonido, vida nueva, sus trozos y su guion.
+/// Original: `Prop_GatehouseDamaged_04e998`.
+pub fn gatehouse_damaged(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    sound::play(m, L::SND_PILLAR);
+    m.write_u16(t + L::HP, L::GATEHOUSE_HP);
+    clear8(m, t + L::FLAGS_13, L::DEAD);
+    gatehouse_blit_damaged(m);
+    anim::start(m, t, L::GATEHOUSE_DAMAGED_SCRIPT);
+    set_handler(m, t, L::GATEHOUSE_DAMAGED_LOOP);
+    gatehouse_damaged_loop(m)
+}
+
+/// Segunda tanda: al romperse suelta trozos, avisa a sus hijas y para el
+/// control del jugador. Original: `Prop_GatehouseDamaged_04e998+$2C`.
+pub fn gatehouse_damaged_loop(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    if take_hits(m, t) {
+        barrier_debris(m, t);
+        m.write_u8(t + L::SIGNAL, L::SIGNAL_WRECKED);
+        m.write_u8(L::SCRIPTED_PAD, 1);
+        set_handler(m, t, L::GATEHOUSE_WRECK);
+    }
+    off_left(m, t)
+}
+
+/// Ruina: puntos, devuelve el control, sus trozos pintados y la fortaleza
+/// que aparece detrás. Original: `Prop_GatehouseWreck_04ea3e`.
+pub fn gatehouse_wreck(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    score::award_attacker(m, t, L::GATEHOUSE_POINTS);
+    m.write_u8(L::EDGE_ENABLE, L::EDGE_AFTER_GATEHOUSE);
+    m.write_u8(L::SCRIPTED_PAD, 0);
+    platforms::move_with_scene(m, t);
+    scroll::blit_cells(m, t, L::GATEHOUSE_WRECK_CELLS[0]);
+    m.write_u32(t + L::HITBOX, L::NO_HITBOX);
+    sound::play(m, L::SND_BREAK);
+    scroll::blit_cells(m, t, L::GATEHOUSE_WRECK_CELLS[1]);
+    for b in L::GATEHOUSE_WRECK_BLITS {
+        layer::blit(m, b);
+    }
+    let (h, dx, dy) = L::FORTRESS;
+    child(m, t, h, dx, dy);
+    anim::start(m, t, L::GATEHOUSE_WRECK_SCRIPT);
+    m.write_u8(t + u32::from(L::WATCH_FLAG), L::WATCH_DONE);
+    set_handler(m, t, L::GATEHOUSE_WRECK_LOOP);
+    gatehouse_wreck_loop(m)
+}
+
+/// Original: `Prop_GatehouseWreck_04ea3e+$8E`.
+pub fn gatehouse_wreck_loop(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    platforms::move_with_scene(m, t);
+    anim::step(m, t);
+    off_left(m, t)
+}
+
+/// Tejado de la caseta. Original: `Prop_GatehouseRoof_04ef0a`.
+pub fn roof(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    anim::alloc_entry(m, t, L::POST_GFX);
+    m.write_u16(t + L::MARGIN, L::ROOF_MARGIN);
+    m.write_u16(t + L::HP, L::ROOF_HP);
+    anim::start(m, t, L::ROOF_SCRIPT);
+    m.write_u16(t + L::FIELD_38, L::ROOF_FIELD_38);
+    set_handler(m, t, L::ROOF_LOOP);
+    roof_loop(m)
+}
+
+/// Se rompe a golpes o cuando la caseta se rompe entera.
+/// Original: `Prop_GatehouseRoof_04ef0a+$2E`.
+pub fn roof_loop(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    platforms::move_with_scene(m, t);
+    anim::step(m, t);
+    let broken = owner_signal(m, t) == L::SIGNAL_BROKEN || {
+        hit_flash(m, t);
+        fort::dead(m, t) && {
+            clear8(m, t + L::FLAGS_13, L::DEAD);
+            true
+        }
+    };
+    if broken {
+        layer::blit(m, L::ROOF_WRECK_BLIT);
+        set_handler(m, t, L::ROOF_WRECK);
+    }
+    off_left(m, t)
+}
+
+/// Tejado roto. Original: `Prop_GatehouseRoofWreck_04efa2`.
+pub fn roof_wreck(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    anim::start(m, t, L::ROOF_WRECK_SCRIPT);
+    m.write_u32(t + L::HITBOX, L::NO_HITBOX);
+    set_handler(m, t, L::ROOF_WRECK_LOOP);
+    roof_wreck_loop(m)
+}
+
+/// Original: `Prop_GatehouseRoofWreck_04efa2+$1A`.
+pub fn roof_wreck_loop(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    platforms::move_with_scene(m, t);
+    anim::step(m, t);
+    if owner_signal(m, t) == L::SIGNAL_WRECKED {
+        return tasks::finish(m);
+    }
+    off_left(m, t)
+}
+
+/// Puerta de la caseta. Original: `Prop_GatehouseDoor_04efe6`.
+pub fn door(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    anim::alloc_entry(m, t, L::BARRIER_GFX);
+    anim::start(m, t, L::DOOR_SCRIPT);
+    set8(m, t + L::FLAGS, L::FLAGS_SOLID);
+    m.write_u16(t + L::FIELD_38, L::ROOF_FIELD_38);
+    set_handler(m, t, L::DOOR_LOOP);
+    post_loop(m)
+}
+
+/// Sondeo del suelo dejando los registros como el original (`$027EBA`).
+/// Devuelve si está en el aire.
+fn probe(m: &mut impl Machine, t: u32) -> bool {
+    let mut r = m.regs();
+    let f = collision::probe_floor(m, t, (r.d[3] as u16, r.d[4] as u16));
+    r.a[1] = f.hit.unwrap_or(f.record);
+    r.d[3] = (r.d[3] & 0xFFFF_0000) | u32::from(f.at.0);
+    r.d[4] = (r.d[4] & 0xFFFF_0000) | u32::from(f.at.1);
+    m.set_regs(r);
+    f.in_air
+}
+
+/// Fuera de la vista (con sus márgenes): se da de baja.
+fn bouncer_cull(m: &mut impl Machine, t: u32) -> Flow {
+    if items::out_of_view(m, t, Some(L::BOUNCER_MARGINS)) {
+        return tasks::finish(m);
+    }
+    Flow::Return
+}
+
+/// A veces (cuando el azar con `mask` da 0) cambia de animación.
+fn bouncer_chance(m: &mut impl Memory, mask: u16) -> bool {
+    rng::next(m).0 & mask == 0
+}
+
+/// Cascote que rebota: se posa, gráfico, escala completa, quieto y su
+/// guion. Original: `Debris_Bouncer_04f5be`.
+pub fn bouncer(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    collision::snap_to_ground(m, t);
+    anim::alloc_entry(m, t, L::BOUNCER_GFX);
+    m.write_u8(t + L::SCALE.0, L::FULL_SCALE);
+    m.write_u8(t + L::SCALE.1, L::FULL_SCALE);
+    m.write_u8(t + L::FACING, 0);
+    manual_icons::stop_motion(m, t);
+    m.write_u16(t + L::FIELD_38, 0);
+    anim::start(m, t, L::BOUNCER_SCRIPT);
+    set_handler(m, t, L::BOUNCER_LOOP);
+    bouncer_loop(m)
+}
+
+/// Quieto en el suelo; si se queda sin suelo, salta.
+/// Original: `Debris_Bouncer_04f5be+$40`.
+pub fn bouncer_loop(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    platforms::move_with_scene(m, t);
+    anim::step(m, t);
+    if probe(m, t) {
+        set_handler(m, t, L::BOUNCER_HOP);
+    }
+    if bouncer_chance(m, L::BOUNCER_IDLE_CHANCE) {
+        anim::start(m, t, L::BOUNCER_TWITCH_SCRIPT);
+    }
+    bouncer_cull(m, t)
+}
+
+/// Salto hacia arriba. Original: `Debris_BouncerHop_04f64c`.
+pub fn bouncer_hop(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    m.write_u16(t + L::VEL_Y, L::BOUNCER_HOP_VY);
+    anim::start(m, t, L::BOUNCER_HOP_SCRIPT);
+    set_handler(m, t, L::BOUNCER_HOP_LOOP);
+    bouncer_hop_loop(m)
+}
+
+/// Cae hasta tocar suelo y rueda. Original: `Debris_BouncerHop_04f64c+$18`.
+pub fn bouncer_hop_loop(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    if collision::fall(m, t) {
+        set_handler(m, t, L::BOUNCER_ROLL);
+    }
+    anim::step(m, t);
+    bouncer_cull(m, t)
+}
+
+/// Rueda por el suelo. Original: `Debris_BouncerRoll_04f692`.
+pub fn bouncer_roll(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    manual_icons::stop_motion(m, t);
+    m.write_u16(t + L::VEL_X, L::BOUNCER_ROLL_VX);
+    anim::start(m, t, L::BOUNCER_SCRIPT);
+    if m.read_u8(t + L::FACING) & 1 == 0 {
+        anim::start(m, t, L::BOUNCER_TWITCH_SCRIPT);
+    }
+    set_handler(m, t, L::BOUNCER_ROLL_LOOP);
+    bouncer_roll_loop(m)
+}
+
+/// Sin suelo, o de vez en cuando, vuelve a saltar.
+/// Original: `Debris_BouncerRoll_04f692+$34`.
+pub fn bouncer_roll_loop(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    let mut r = m.regs();
+    r.a[5] = L::SCRATCH_BASE;
+    m.set_regs(r);
+    player_ground::move_ground(m, t);
+    anim::step(m, t);
+    if probe(m, t) {
+        set_handler(m, t, L::BOUNCER_HOP);
+    }
+    if bouncer_chance(m, L::BOUNCER_ROLL_CHANCE) {
+        set_handler(m, t, L::BOUNCER_HOP);
+    }
+    bouncer_cull(m, t)
 }
 
 #[cfg(test)]
