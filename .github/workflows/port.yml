@@ -142,8 +142,8 @@ jobs:
         shell: bash
         run: |
           set -o pipefail
-          cargo test -q -p mslug-game 2>&1 | tee ci_out/game_tests.txt
           rc=0
+          cargo test -q -p mslug-game 2>&1 | tee ci_out/game_tests.txt || rc=1
           for z in 1 2 3; do
             "$CARGO_TARGET_DIR/release/mslug" verify-manual --frames 15000 --fuzz $z 2>&1 | tee -a ci_out/verify_manual.txt || rc=1
           done
