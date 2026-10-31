@@ -7501,3 +7501,186 @@ pub mod sign {
     pub const RUN: u32 = 0x06_04E4;
     pub const IDLE: u32 = 0x06_052A;
 }
+
+/// Enemigo de tipo `$46` (`Enemy46_*`).
+pub mod enemy46 {
+    pub const Y: u32 = 0x24;
+    pub const VEL_X: u32 = 0x28;
+    pub const ATTR: u32 = 0x38;
+    pub const ATTR_INIT: u16 = 0x8000;
+    pub const ATTR_KEEP: u16 = 0xFFE3;
+    pub const ATTR_SET: u16 = 0x18;
+    pub const FACING: u32 = 0x3A;
+    /// `+$5A` bit 5: ha llegado a un borde.
+    pub const FLAGS_5A: u32 = 0x5A;
+    pub const AT_EDGE: u8 = 1 << 5;
+    pub const TIMER: u32 = 0x70;
+    pub const TURNS: u32 = 0x80;
+    /// Parámetros de colocación: giro inicial, variante (objeto y muerte) y
+    /// si hace la entrada.
+    pub const P_FACING: u32 = 0x99;
+    pub const ALT: u32 = 0x9A;
+    pub const P_INTRO: u32 = 0x9D;
+    pub const GFX: (u16, u16) = (0x1A, 0x19F);
+    pub const SPEED_TABLE: u32 = 0x2B_7716;
+    pub const S_INTRO: u32 = 0x2E_2286;
+    pub const S_WALK: u32 = 0x29_B744;
+    pub const S_STOP: u32 = 0x29_B7C8;
+    pub const S_TURN: u32 = 0x29_BFB8;
+    /// Poses de espera (4 punteros; `$FFFFFFFF` = mantener la actual).
+    pub const WAIT_SCRIPTS: u32 = 0x28_DC36;
+    pub const WAIT_RAND: u16 = 0x1F;
+    pub const WAIT_MIN: u16 = 0x14;
+    /// Objeto soltado: campo de la tarea con sus datos y empuje hacia abajo.
+    pub const DROP_FIELD: u16 = 0x9B;
+    pub const DROP_DY: u16 = 4;
+    pub const INTRO: u32 = 0x04_6192;
+    pub const WALK: u32 = 0x04_61BC;
+    pub const WALK_RUN: u32 = 0x04_61EA;
+    pub const STOP: u32 = 0x04_6260;
+    pub const STOP_RUN: u32 = 0x04_6272;
+    pub const TURN: u32 = 0x04_628A;
+    pub const TURN_RUN: u32 = 0x04_62A0;
+    pub const WAIT: u32 = 0x04_62C0;
+    pub const WAIT_RUN: u32 = 0x04_62FE;
+    pub const FREE: u32 = 0x04_63BA;
+    pub const SMOKE_DEATH: u32 = 0x04_ABC0;
+}
+
+/// Muerte entre dos humos (`HumanDeath_SpawnSmokePair_04abc0`).
+pub mod human_smoke {
+    pub const Y: u32 = 0x24;
+    pub const CHILD: u32 = 0x04_AC3A;
+    pub const CHILD_DY: u16 = 0x18;
+    /// Gráfico de la nube (con sangre, sin sangre).
+    pub const GFX: (u16, u16) = (0x19F, 0x1A3);
+    pub const SCRIPT: u32 = 0x04_BB44;
+    pub const CHILD_GFX: u16 = 0xD;
+    pub const CHILD_SCRIPT: u32 = 0x04_BB4A;
+    pub const RUN: u32 = 0x04_AC04;
+    pub const FREE: u32 = 0x04_AC32;
+}
+
+/// Guardia cuerpo a cuerpo (`MeleeGuard_*`).
+pub mod melee_guard {
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    pub const ATTR: u32 = 0x38;
+    pub const ATTR_INIT: u16 = 0x8000;
+    pub const ATTR_KEEP: u16 = 0xFFE3;
+    pub const ATTR_SET: u16 = 0x18;
+    pub const FACING: u32 = 0x3A;
+    pub const ANIM_SLOT: u32 = 0x5C;
+    /// Guion base y alterno (el de ataque), marca de apoyado, seguimiento
+    /// activo, despierto, enfriamiento (palabra; su byte bajo es también el
+    /// temporizador del ataque), vida, rutina de salida, ataque elegido,
+    /// variante y objetivo.
+    pub const BASE_SCRIPT: u32 = 0x70;
+    pub const ALT_SCRIPT: u32 = 0x74;
+    pub const GROUNDED: u32 = 0x78;
+    pub const TRACKING: u32 = 0x79;
+    pub const AWAKE: u32 = 0x7A;
+    pub const COOLDOWN: u32 = 0x7C;
+    pub const ATTACK_TIMER: u32 = 0x7D;
+    pub const LIFE: u32 = 0x7E;
+    pub const EXIT: u32 = 0x80;
+    pub const ATTACK: u32 = 0x84;
+    pub const VARIANT: u32 = 0x85;
+    pub const TARGET: u32 = 0x86;
+    /// Parámetros de colocación: zona, enfriamiento, ataque y vida.
+    pub const P_ZONE: u32 = 0x98;
+    pub const P_COOLDOWN: u32 = 0x99;
+    pub const P_ATTACK: u32 = 0x9A;
+    pub const P_LIFE: u32 = 0x9B;
+    pub const GFX: u16 = 0xE;
+    pub const SHADOW: u32 = 0x07_76E2;
+    /// Variantes: guion base, guion alterno, seguimiento y salida.
+    pub const VARIANTS: [(u32, u32, u8, u32); 2] = [
+        (0x29_B8EE, 0x29_BB4C, 1, 0x05_8FC2),
+        (0x28_8394, 0x2B_6596, 0, 0x05_8F82),
+    ];
+    /// Variante B: guion y ataque (de cara / de espaldas al jugador).
+    pub const FACE_ATTACK: [(u32, u8); 2] = [(0x2B_6596, 7), (0x2B_6644, 8)];
+    pub const COOLDOWN_TABLE: u32 = 0x2B_74EC;
+    pub const ATTACK_TABLE: u32 = 0x2B_746A;
+    /// Borde de la zona: `ZONE_EDGE` − zona · 8.
+    pub const ZONE_EDGE: u16 = 0x140;
+    /// En pantalla: `x − VIEW_X.0 < VIEW_X.1`.
+    pub const VIEW_X: (u16, u16) = (0x30, 0xF0);
+    /// Caja cuerpo a cuerpo: semiancho en X y alto en Y.
+    pub const MELEE_BOX: (u16, u16) = (0x20, 0x40);
+    pub const NEAR_DY: i16 = 0x40;
+    pub const ATTACK_NEAR: u8 = 6;
+    pub const ATTACK_FAR: u8 = 0x10;
+    pub const FRAME: u32 = 0x10_6F28;
+    pub const THINK_MASK: u8 = 0x1F;
+    pub const S_IDLE: u32 = 0x29_B956;
+    pub const S_RECOVER: u32 = 0x28_8414;
+    pub const S_RETREAT: u32 = 0x28_83F4;
+    pub const REAPPLY: u32 = 0x04_2682;
+    pub const RUN: u32 = 0x04_2692;
+    pub const IDLE: u32 = 0x04_26D8;
+    pub const IDLE_RUN: u32 = 0x04_26EA;
+    pub const RECOVER: u32 = 0x04_2710;
+    pub const RECOVER_RUN: u32 = 0x04_2722;
+    pub const APPROACH: u32 = 0x04_2740;
+    pub const APPROACH_RUN: u32 = 0x04_2756;
+    pub const RETREAT: u32 = 0x04_2794;
+    pub const RETREAT_RUN: u32 = 0x04_27A6;
+    pub const EXIT_A: u32 = 0x05_8FC2;
+    pub const SOLDIER: u32 = 0x05_8F1E;
+}
+
+/// Nido de bichos y su enjambre (`Nest_*`, `Swarmer_*`).
+pub mod nest {
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    pub const VEL_X: u32 = 0x28;
+    pub const VEL_Y: u32 = 0x2A;
+    pub const ACC_Y: u32 = 0x2E;
+    pub const ANGLE: u32 = 0x34;
+    pub const FACING: u32 = 0x3A;
+    pub const HITBOX: u32 = 0x48;
+    pub const NO_HITBOX: u32 = 0xFFFF_FFFF;
+    pub const HITBOX_BOX: u32 = 0x2F_414A;
+    /// `+$20` del nido distinto de 0: el enjambre huye.
+    pub const ALARM: u32 = 0x20;
+    /// `FLAGS2` bit 3: no acepta golpes.
+    pub const NO_HIT: u8 = 1 << 3;
+    pub const HEALTH: u32 = 0x66;
+    pub const HEALTH_INIT: u16 = 0x64;
+    /// `+$5C` = 0: vigila la caja de golpe de su dueño.
+    pub const FREE_STANDING: u32 = 0x5C;
+    pub const TIMER: u32 = 0x70;
+    /// Bichos que quedan por soltar (parámetro).
+    pub const SWARM: u32 = 0x9A;
+    pub const SWARM_DEFAULT: u8 = 3;
+    pub const GFX: u16 = 0x125;
+    pub const S_IDLE: u32 = 0x2F_41F2;
+    pub const S_HIT: [u32; 3] = [0x2F_4202, 0x2F_4284, 0x2F_4306];
+    pub const S_DESTROYED: u32 = 0x2F_4388;
+    pub const S_SWARMER: u32 = 0x2F_440A;
+    pub const FALL_VEL_Y: u16 = 0xFF80;
+    pub const FALL_ACC_Y: u16 = 0xFFC0;
+    /// Centro del nido respecto a su posición (resta X, resta Y).
+    pub const NEST_CENTER: (u16, u16) = (0xC, 0x18);
+    /// Rapidez base del vuelo (más 0..255) y la de la huida.
+    pub const SWARM_SPEED: u16 = 0x180;
+    pub const FLEE_SPEED: u16 = 0x300;
+    pub const FLEE_FRAMES: u16 = 4;
+    /// Bucles de espera (entero y tras cada golpe) y sus golpes.
+    pub const STAGE: [u32; 4] = [0x08_E7A6, 0x08_E822, 0x08_E8B0, 0x08_E93E];
+    pub const STAGE_RUN: [u32; 4] = [0x08_E7A6, 0x08_E834, 0x08_E8C2, 0x08_E950];
+    pub const HIT: [u32; 4] = [0x08_E7DE, 0x08_E86C, 0x08_E8FA, 0x08_E988];
+    pub const HIT_RUN: [u32; 3] = [0x08_E7F0, 0x08_E87E, 0x08_E90C];
+    pub const AFTER_HIT: [u32; 3] = [0x08_E822, 0x08_E8B0, 0x08_E93E];
+    pub const DESTROYED_RUN: u32 = 0x08_E9A2;
+    pub const DESTROYED_WAIT: u32 = 0x08_E9D4;
+    pub const FALL_RUN: u32 = 0x08_EA16;
+    pub const SWARMER: u32 = 0x08_EB56;
+    pub const SWARMER_AIM_PARENT: u32 = 0x08_EB6C;
+    pub const SWARMER_AIM_RANDOM: u32 = 0x08_EB96;
+    pub const SWARMER_RUN: u32 = 0x08_EBF6;
+    pub const SWARMER_FLEE: u32 = 0x08_EC50;
+    pub const SWARMER_FLEE_RUN: u32 = 0x08_ECB0;
+}

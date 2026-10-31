@@ -907,3 +907,50 @@ pub fn blood_loop(m: &mut impl Machine) -> Flow {
     }
     Flow::Return
 }
+
+/// Muerte entre dos humos: deja un humo hijo un poco más abajo, cambia sus
+/// gráficos por los de la nube (según la sangre) y desaparece al acabar.
+/// Original: `HumanDeath_SpawnSmokePair_04abc0`.
+pub fn smoke_pair(m: &mut impl Machine) -> Flow {
+    use crate::layout::human_smoke as S;
+    let t = m.task_register();
+    let c = tasks::spawn(m, S::CHILD, t);
+    anim::copy_sprite_pos(m, t, c);
+    let y = m.read_u16(c + S::Y);
+    m.write_u16(c + S::Y, y.wrapping_add(S::CHILD_DY));
+    video::release_task_entries(m, t);
+    let gfx = blood_gfx(m, S::GFX);
+    anim::alloc_entry(m, t, gfx);
+    anim::start(m, t, S::SCRIPT);
+    m.write_u32(t + T::HANDLER, S::RUN);
+    smoke_run(m)
+}
+
+/// Humo hijo. Original: `HumanDeath_SmokeChild_04ac3a`.
+pub fn smoke_child(m: &mut impl Machine) -> Flow {
+    use crate::layout::human_smoke as S;
+    let t = m.task_register();
+    anim::alloc_entry(m, t, S::CHILD_GFX);
+    anim::start(m, t, S::CHILD_SCRIPT);
+    m.write_u32(t + T::HANDLER, S::RUN);
+    smoke_run(m)
+}
+
+/// Bucle de los dos humos. Original: `HumanDeath_SpawnSmokePair_04abc0+$44`.
+pub fn smoke_run(m: &mut impl Machine) -> Flow {
+    use crate::layout::human_smoke as S;
+    let t = m.task_register();
+    platforms::move_with_scene(m, t);
+    if anim::step(m, t) {
+        m.write_u32(t + T::HANDLER, S::FREE);
+    }
+    if super::items::out_of_view_seen(m, t, None) {
+        m.write_u32(t + T::HANDLER, S::FREE);
+    }
+    Flow::Return
+}
+
+/// Baja. Original: `HumanDeath_SpawnSmokePair_04abc0+$72`.
+pub fn smoke_free(m: &mut impl Machine) -> Flow {
+    tasks::finish(m)
+}
