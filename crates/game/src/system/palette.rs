@@ -432,3 +432,76 @@ pub fn fade_loop(m: &mut impl Machine, out: bool) -> Flow {
     m.write_u8(FD::READY, 0xFF);
     super::tasks::finish(m)
 }
+
+/// Crea, hija de `parent`, la tarea que funde toda la pantalla hacia el
+/// color `(r, g, b)` (niveles de 0 a `$1F`) en `frames` frames. Devuelve
+/// la tarea. Original: `$052580`.
+pub fn spawn_to_color(m: &mut impl Memory, parent: u32, color: (u16, u16, u16), frames: u16) -> u32 {
+    use crate::layout::fade as FD;
+    let t = super::tasks::spawn(m, FD::TO_COLOR_TASK, parent);
+    for (f, v) in FD::TC_TARGET.into_iter().zip([color.0, color.1, color.2]) {
+        m.write_u16(t + f, v);
+    }
+    m.write_u16(t + FD::TC_FRAMES, frames);
+    t
+}
+
+/// Fundido hacia un color: toma los niveles de partida y calcula el paso
+/// de cada componente (8.8 con signo). Original: `PalFade_ToColor_Task_0525a4`.
+pub fn to_color(m: &mut impl Machine) -> Flow {
+    use crate::layout::fade as FD;
+    let t = m.task_register();
+    m.write_u8(P::FADE_MODE, FD::MODE_COLOR);
+    for k in 0..3 {
+        let v = m.read_u8(P::FADE_LEVEL[k]);
+        m.write_u8(t + FD::TC_START[k], v);
+    }
+    for f in FD::TC_ACC {
+        m.write_u16(t + f, 0);
+    }
+    let frames = i32::from(m.read_u16(t + FD::TC_FRAMES) as i16);
+    for k in 0..3 {
+        let level = u16::from(m.read_u8(P::FADE_LEVEL[k])) << 8;
+        let target = m.read_u16(t + FD::TC_TARGET[k]) << 8;
+        let d = i32::from(level.wrapping_sub(target) as i16);
+        // `divs.w`: si el cociente no cabe (o se divide por 0) queda el dividendo.
+        let q = if frames != 0 { d / frames } else { d };
+        let step = if (-0x8000..0x8000).contains(&q) { q as u16 } else { d as u16 };
+        m.write_u16(t + FD::TC_STEP[k], step);
+    }
+    m.write_u32(t + crate::layout::task::HANDLER, FD::TO_COLOR_LOOP);
+    to_color_loop(m)
+}
+
+/// Cada frame avanza los niveles; en el último pone el color exacto y
+/// pasa al final. Original: `PalFade_ToColor_Task_0525a4+$88`.
+pub fn to_color_loop(m: &mut impl Machine) -> Flow {
+    use crate::layout::fade as FD;
+    let t = m.task_register();
+    let n = m.read_u16(t + FD::TC_FRAMES).wrapping_sub(1);
+    m.write_u16(t + FD::TC_FRAMES, n);
+    if n == 0 {
+        for k in 0..3 {
+            let v = m.read_u16(t + FD::TC_TARGET[k]) as u8;
+            m.write_u8(P::FADE_LEVEL[k], v);
+        }
+        m.write_u32(t + crate::layout::task::HANDLER, FD::TO_COLOR_END);
+        return Flow::Return;
+    }
+    for k in 0..3 {
+        let a = m.read_u16(t + FD::TC_ACC[k]).wrapping_add(m.read_u16(t + FD::TC_STEP[k]));
+        m.write_u16(t + FD::TC_ACC[k], a);
+    }
+    for k in 0..3 {
+        let a = ((m.read_u16(t + FD::TC_ACC[k]) as i16) >> 8) as u8;
+        let s = m.read_u8(t + FD::TC_START[k]);
+        m.write_u8(P::FADE_LEVEL[k], s.wrapping_sub(a));
+    }
+    Flow::Return
+}
+
+/// Quita el modo de fundido y termina. Original: `$0526AA`.
+pub fn to_color_end(m: &mut impl Machine) -> Flow {
+    m.write_u8(P::FADE_MODE, 0);
+    super::tasks::finish(m)
+}

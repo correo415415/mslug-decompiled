@@ -11,7 +11,7 @@
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
 use mslug_game::system::soldier::Trait;
-use mslug_game::system::{aim_turret, barrel, smoke, tower, tower_soldier, player_death, frag, continue_count, dropped_weapon, sign, enemy46, melee_guard, nest, fortress, anim, enemy_grenade, hut, scenery, thrown, autopilot, banner, boot, bullet, burst, charger, collision, contact, critters, debris, events, food, fort, frame, game_over, go_arrow, grenade, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, memcard, mission, msg_select, motion, pads, pickup, platforms, player, pow, player_air, player_arm, player_fire, player_ground, player_hud, player_ride, palette, props, parachute, rank, render, rng, scene, score, script, scroll, slope, slug, slug_arm, slug_drive, slug_fire, slug_hit, human_death, slug_attack, slug_death, spawner, slug_shell, explosion, slug_hunker, slug_idle, slug_jump, soldier, sound, sprite, tasks, title, trig, turret, video, wheels};
+use mslug_game::system::{aim_turret, attract, barrel, smoke, tower, tower_soldier, player_death, frag, continue_count, dropped_weapon, sign, enemy46, melee_guard, nest, fortress, anim, enemy_grenade, hut, scenery, thrown, autopilot, banner, boot, bullet, burst, charger, collision, contact, critters, debris, events, food, fort, frame, game_over, go_arrow, grenade, ground_fx, grunt, hiscore, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, memcard, mission, msg_select, motion, pads, pickup, platforms, player, pow, player_air, player_arm, player_fire, player_ground, player_hud, player_ride, palette, props, parachute, rank, render, rng, scene, score, script, scroll, slope, slug, slug_arm, slug_drive, slug_fire, slug_hit, human_death, slug_attack, slug_death, spawner, slug_shell, explosion, slug_hunker, slug_idle, slug_jump, soldier, sound, sprite, tasks, title, trig, turret, video, wheels};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use mslug_game::input::{Buttons, Edge};
 use neogeo_hw::cpu::m68k::exec::write_sr;
@@ -273,6 +273,21 @@ fn hook_port(m: &mut CpuMachine, p: Paint) -> Flow {
         }
     }
     set_carry(m, w.is_some());
+    Flow::Return
+}
+
+/// Registros que dejan `HiScore_DrawHeader*` / `HiScore_TryEnter_*`:
+/// a1 = posición de la cabecera, d0 = puntuación empaquetada, d1 =
+/// jugador (1 o 2) y a0 = tarea del nombre (o la puntuación del jugador).
+fn hiscore_regs(m: &mut CpuMachine, p: usize, vram: Option<u32>) -> Flow {
+    use mslug_game::layout::hiscore as H;
+    let t = m.cpu.a[6];
+    let vram = vram.unwrap_or(H::HEADER_VRAM[p]);
+    let (score, o) = hiscore::try_enter(m, t, p, vram);
+    m.cpu.a[1] = vram;
+    m.cpu.d[0] = score;
+    m.cpu.d[1] = p as u32 + 1;
+    m.cpu.a[0] = o.unwrap_or(H::SCORES[p]);
     Flow::Return
 }
 
@@ -564,6 +579,42 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
     SystemPort { entry: 0x00_097A, original: "Init_Subsystems_00097A", rust: "system::boot::init_subsystems", run: ret!(boot::init_subsystems) },
     SystemPort { entry: 0x00_20E2, original: "Init_MasterSubsystems_0020E2", rust: "system::boot::init_master", run: ret!(boot::init_master) },
     SystemPort { entry: 0x02_4E38, original: "TitleModeInit_024E38", rust: "system::boot::title_mode_init", run: ret!(boot::title_mode_init) },
+    SystemPort { entry: 0x09_77EA, original: "HiScore_Tpl_Loader_0977ea", rust: "system::hiscore::table", run: |m| hiscore::table(m) },
+    SystemPort { entry: 0x09_7816, original: "HiScore_Tpl_Common_097816", rust: "system::hiscore::table_common", run: |m| hiscore::table_common(m) },
+    SystemPort { entry: 0x09_7852, original: "HiScore_WaitLogo_097852", rust: "system::hiscore::wait_logo", run: |m| hiscore::wait_logo(m) },
+    SystemPort { entry: 0x09_788C, original: "HiScore_WaitLogo_097852+$3A", rust: "system::hiscore::rows_delay", run: |m| hiscore::rows_delay(m) },
+    SystemPort { entry: 0x09_78AC, original: "HiScore_WaitLogo_097852+$5A", rust: "system::hiscore::rows_step", run: |m| hiscore::rows_step(m) },
+    SystemPort { entry: 0x09_78FA, original: "HiScore_WaitLogo_097852+$A8", rust: "system::hiscore::rows_all", run: |m| hiscore::rows_all(m) },
+    SystemPort { entry: 0x09_792E, original: "HiScore_WaitLogo_097852+$DC", rust: "system::hiscore::hold", run: |m| hiscore::hold(m) },
+    SystemPort { entry: 0x09_794C, original: "HiScore_Logo_FadeIn_09794c", rust: "system::hiscore::logo", run: |m| hiscore::logo(m, 0) },
+    SystemPort { entry: 0x09_7962, original: "HiScore_Logo_Static_097962", rust: "system::hiscore::logo", run: |m| hiscore::logo(m, 1) },
+    SystemPort { entry: 0x09_79BC, original: "HiScore_Logo_Static_097962+$5A", rust: "system::hiscore::logo_loop", run: |m| hiscore::logo_loop(m) },
+    SystemPort { entry: 0x09_79F8, original: "HiScore_DrawHeaders_0979f8", rust: "system::hiscore::draw_headers", run: |m| { hiscore::draw_headers(m); Flow::Return } },
+    SystemPort { entry: 0x09_7B74, original: "HiScore_DrawRow_097b74", rust: "system::hiscore::draw_row",
+                 run: |m| { let (t, e, v) = (m.cpu.a[6], m.cpu.a[0], m.cpu.a[1]); hiscore::draw_row(m, t, e, v); m.cpu.a[0] = e + 12; Flow::Return } },
+    SystemPort { entry: 0x09_7C02, original: "$097C02", rust: "system::hiscore::draw_rank",
+                 run: |m| { let (at, r) = (m.cpu.a[1] as u16, m.cpu.d[0] as u8); hiscore::draw_rank(m, at, r); Flow::Return } },
+    SystemPort { entry: 0x05_DB1A, original: "$05DB1A", rust: "system::hud::draw_glyph_list",
+                 run: |m| { let d = m.cpu.d; let (at, list) = (m.cpu.a[1] as u16, m.cpu.a[2]);
+                            let (end, next) = hud::draw_glyph_list(m, at, list, d[0] as u16, d[1] as u16, d[2] as u16);
+                            m.cpu.d[3] = (d[3] & 0xFFFF_0000) | (d[0] & 0xFFFF); m.cpu.d[0] = (d[0] & 0xFFFF_0000) | 0xFFFF;
+                            m.cpu.a[1] = (m.cpu.a[1] & 0xFFFF_0000) | u32::from(end); m.cpu.a[2] = next; Flow::Return } },
+    SystemPort { entry: 0x05_D7BE, original: "$05D7BE", rust: "system::hud::draw_number",
+                 run: |m| { let (v, a, at) = (m.cpu.d[0], ((m.cpu.d[1] as u16) & 0xF) << 12, m.cpu.a[1] as u16);
+                            let end = hud::draw_number(m, at, v, 8, a); m.cpu.a[1] = (m.cpu.a[1] & 0xFFFF_0000) | u32::from(end); Flow::Return } },
+    SystemPort { entry: 0x05_D7D8, original: "$05D7D8", rust: "system::hud::draw_number",
+                 run: |m| { let (v, a, at) = (m.cpu.d[0], ((m.cpu.d[1] as u16) & 0xF) << 12, m.cpu.a[1] as u16);
+                            let end = hud::draw_number(m, at, v, 4, a); m.cpu.a[1] = (m.cpu.a[1] & 0xFFFF_0000) | u32::from(end); Flow::Return } },
+    SystemPort { entry: 0x09_7A48, original: "HiScore_DrawHeaderA_097a48", rust: "system::hiscore::enter", run: |m| hiscore_regs(m, 0, None) },
+    SystemPort { entry: 0x09_7A54, original: "HiScore_DrawHeaderB_097a54", rust: "system::hiscore::enter", run: |m| hiscore_regs(m, 1, None) },
+    SystemPort { entry: 0x09_7A60, original: "HiScore_TryEnter_P1_097a60", rust: "system::hiscore::try_enter", run: |m| { let v = m.cpu.a[1]; hiscore_regs(m, 0, Some(v)) } },
+    SystemPort { entry: 0x09_7A72, original: "HiScore_TryEnter_P2_097a72", rust: "system::hiscore::try_enter", run: |m| { let v = m.cpu.a[1]; hiscore_regs(m, 1, Some(v)) } },
+    SystemPort { entry: 0x09_7AAA, original: "HiScore_InsertScore_097aaa", rust: "system::hiscore::insert_score",
+                 run: |m| { let t = m.cpu.a[6]; let (d0, d1) = (m.cpu.d[0], m.cpu.d[1] as u8); let c = hiscore::insert_score(m, t, d0, d1); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x09_8176, original: "HiScore_RankOfPlayer_098176", rust: "system::hiscore::rank_of_player",
+                 run: |m| { let p = m.cpu.d[0] as u8; let (r, e) = hiscore::rank_of_player(m, p); m.cpu.d[1] = (m.cpu.d[1] & 0xFFFF_0000) | u32::from(r); m.cpu.a[1] = e; Flow::Return } },
+    SystemPort { entry: 0x05_1AA4, original: "$051AA4", rust: "system::hiscore::packed_score",
+                 run: |m| { let a = m.cpu.a[0]; m.cpu.d[0] = hiscore::packed_score(m, a); Flow::Return } },
     SystemPort { entry: 0x09_773C, original: "HiScore_LoadDefaults_09773c", rust: "system::boot::load_default_hiscores",
                  run: ret!(boot::load_default_hiscores) },
     SystemPort { entry: 0x01_3D12, original: "Pause_Clear_013d12", rust: "system::boot::clear_pause", run: ret!(boot::clear_pause) },
@@ -792,6 +843,24 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
     SystemPort { entry: 0x09_83F6, original: "MemCard_Dialog_ExitDelay_0983f6", rust: "system::memcard::exit_delay", run: |m| memcard::exit_delay(m) },
     SystemPort { entry: 0x09_8578, original: "MemCard_BiosRead_098578", rust: "system::memcard::read",
                  run: |m| { m.cpu.a[7] += 4; let c = memcard::read(m); m.cpu.a[7] -= 4; set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x00_1526, original: "BootScr_MemCardSave_001526", rust: "system::memcard::save_scene", run: |m| memcard::save_scene(m) },
+    SystemPort { entry: 0x00_1544, original: "BootScr_WaitHudDirty_001544", rust: "system::memcard::save_scene_wait", run: |m| memcard::save_scene_wait(m) },
+    SystemPort { entry: 0x05_1660, original: "MemCard_DetectAndSave_051660", rust: "system::memcard::detect_and_save",
+                 run: |m| { if let Some(o) = memcard::detect_and_save(m) { m.cpu.a[0] = o; } Flow::Return } },
+    SystemPort { entry: 0x09_826E, original: "MemCard_Detect_09826e", rust: "system::memcard::present",
+                 run: |m| { let c = memcard::present(m); let d = m.read_u8(mslug_game::layout::memcard::CARD_STATUS) & mslug_game::layout::memcard::CARD_ABSENT;
+                            m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_FF00) | u32::from(d); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x09_840C, original: "MemCard_SaveDialog_Init_09840c", rust: "system::memcard::save_dialog", run: |m| memcard::save_dialog(m) },
+    SystemPort { entry: 0x09_8482, original: "MemCard_SaveDialog_Run_098482", rust: "system::memcard::save_dialog_run", run: |m| memcard::save_dialog_run(m) },
+    SystemPort { entry: 0x09_8562, original: "MemCard_SaveDialog_Run_098482+$E0", rust: "system::memcard::exit_delay", run: |m| memcard::exit_delay(m) },
+    SystemPort { entry: 0x09_866A, original: "MemCard_BiosCreate_09866a", rust: "system::memcard::create",
+                 run: |m| { m.cpu.a[7] += 4; memcard::create(m); m.cpu.a[7] -= 4; Flow::Return } },
+    SystemPort { entry: 0x09_85CA, original: "MemCard_BiosWrite_0985ca", rust: "system::memcard::write",
+                 run: |m| { m.cpu.a[7] += 4; let c = memcard::write(m); m.cpu.a[7] -= 4; set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x09_820E, original: "Fix_DrawGlyphList_09820e", rust: "system::memcard::draw_glyphs",
+                 run: |m| { let (at, list) = (m.cpu.a[1] as u16, m.cpu.a[0]); let (end, next) = memcard::draw_glyphs(m, at, list);
+                            m.cpu.a[1] = (m.cpu.a[1] & 0xFFFF_0000) | u32::from(end); m.cpu.a[0] = next;
+                            m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_0000) | 0xFFFF; Flow::Return } },
     SystemPort { entry: 0x09_8232, original: "Input_EdgePressedPlayers_098232", rust: "system::memcard::pressed_keys",
                  run: |m| { let t = m.cpu.a[6]; let before = m.read_u8(t + 0x74); let k = memcard::pressed_keys(m, t);
                             let now = m.read_u8(t + 0x74);
@@ -814,6 +883,22 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                  run: |m| { memcard::copy_start_keys(m); script::scene_play_started(m) } },
     SystemPort { entry: 0x00_1ABC, original: "Attract_PostStart_Cleanup_001AB6 (+$06)", rust: "system::script::scene_play_started", run: |m| script::scene_play_started(m) },
     SystemPort { entry: 0x00_1E0A, original: "Set106ECC_CD_001e0a", rust: "system::script::reset_title_keys", run: ret!(script::reset_title_keys) },
+    SystemPort { entry: 0x00_17E6, original: "Attract_InitShow27_TaskAdd_0017E6", rust: "system::script::scene_flash", run: |m| script::scene_flash(m) },
+    SystemPort { entry: 0x00_1812, original: "Attract_SetTimers2_And_Gate21_001812", rust: "system::script::scene_flash_wait", run: |m| script::scene_flash_wait(m) },
+    SystemPort { entry: 0x00_182C, original: "Attract_TailChain_1CD4_1DA4_00182C", rust: "system::script::scene_flash_done", run: |m| script::scene_flash_done(m) },
+    SystemPort { entry: 0x00_1744, original: "Attract_InitBIOS_001744", rust: "system::script::scene_reload", run: |m| script::scene_reload(m) },
+    SystemPort { entry: 0x00_179A, original: "Attract_InitBIOS_001744+$56", rust: "system::script::scene_reload_wait", run: |m| script::scene_reload_wait(m) },
+    SystemPort { entry: 0x04_6608, original: "Fade_WhiteFlash_Task_046608", rust: "system::attract::white_flash", run: |m| attract::white_flash(m) },
+    SystemPort { entry: 0x04_6632, original: "Fade_WhiteFlash_Task_046608+$2A", rust: "system::attract::white_flash_loop", run: |m| attract::white_flash_loop(m) },
+    SystemPort { entry: 0x04_6664, original: "Fade_WhiteFlash_Done_046664", rust: "system::attract::white_flash_done", run: |m| attract::white_flash_done(m) },
+    SystemPort { entry: 0x04_6682, original: "SceneC_Load_Task_046682", rust: "system::attract::scene_c", run: |m| attract::scene_c(m) },
+    SystemPort { entry: 0x04_66B4, original: "SceneC_Load_Spawn2_0466b4", rust: "system::attract::scene_c_fade", run: |m| attract::scene_c_fade(m) },
+    SystemPort { entry: 0x04_66DA, original: "SceneC_Load_Finish_0466da", rust: "system::attract::scene_c_finish", run: |m| attract::scene_c_finish(m) },
+    SystemPort { entry: 0x05_2580, original: "PalFade_SpeedTable_052570+$10", rust: "system::palette::spawn_to_color",
+                 run: |m| { use mslug_game::layout::task as T; let t = m.cpu.a[6]; let next = m.read_u32(t + T::NEXT); let d = m.cpu.d; let o = palette::spawn_to_color(m, t, (d[0] as u16, d[1] as u16, d[2] as u16), d[3] as u16); m.cpu.a[0] = o; m.cpu.a[1] = if o != T::OVERFLOW_BLOCK { next } else { mslug_game::layout::fade::TO_COLOR_TASK }; Flow::Return } },
+    SystemPort { entry: 0x05_25A4, original: "PalFade_ToColor_Task_0525a4", rust: "system::palette::to_color", run: |m| palette::to_color(m) },
+    SystemPort { entry: 0x05_262C, original: "PalFade_ToColor_Task_0525a4+$88", rust: "system::palette::to_color_loop", run: |m| palette::to_color_loop(m) },
+    SystemPort { entry: 0x05_26AA, original: "$0526AA", rust: "system::palette::to_color_end", run: |m| palette::to_color_end(m) },
     SystemPort { entry: 0x00_17C8, original: "Attract_InitTaskAdd_3DBC8_0017C8", rust: "system::script::scene_ending", run: |m| script::scene_ending(m) },
     SystemPort { entry: 0x00_1554, original: "$001554", rust: "system::script::step_next_selection", run: |m| script::step_next_selection(m) },
     SystemPort { entry: 0x05_16BA, original: "$0516BA", rust: "system::script::save_selection",

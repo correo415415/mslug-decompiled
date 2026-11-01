@@ -252,3 +252,43 @@ pub fn put_hex4(m: &mut impl Memory, at: u16, v: u16) {
         put(m, at.wrapping_add(k as u16 * H::COLUMN), u16::from(ch));
     }
 }
+
+/// Lista de glifos de `cols` × `rows` tiles (terminada en `GLYPH_END`)
+/// con los atributos `attr`, uno tras otro desde `at`. Devuelve la
+/// posición final y la lista tras la marca. Original: `$05DB1A`.
+pub fn draw_glyph_list(m: &mut impl Memory, mut at: u16, list: u32, attr: u16, cols: u16, rows: u16) -> (u16, u32) {
+    let mut p = list;
+    loop {
+        let g = m.read_u16(p);
+        p += 2;
+        if g == H::GLYPH_END {
+            return (at, p);
+        }
+        fill_tiles(m, at, g | attr, cols, rows);
+        at = at.wrapping_add(H::GLYPH_STEP);
+    }
+}
+
+/// Las `digits` cifras hexadecimales de `value` con glifos de 2 × 2 desde
+/// `at` y los atributos `attr`; los ceros de la izquierda (salvo la última
+/// cifra) van en blanco. Deja las cifras en `HEX_DIGITS` y devuelve la
+/// posición final. Original: `$05D7BE` (8 cifras) / `$05D7D8` (4).
+pub fn draw_number(m: &mut impl Memory, mut at: u16, value: u32, digits: u32, attr: u16) -> u16 {
+    for k in 0..digits {
+        let d = ((value >> (4 * (digits - 1 - k))) & 0xF) as u16;
+        m.write_u16(H::HEX_DIGITS + 2 * k, d);
+    }
+    let mut seen = false;
+    for k in 0..digits {
+        let mut d = m.read_u16(H::HEX_DIGITS + 2 * k);
+        if d == 0 && !seen && k != digits - 1 {
+            d = H::NUMBER_BLANK;
+        } else {
+            seen = true;
+        }
+        let g = m.read_u16(H::NUMBER_GLYPHS + u32::from(d) * 2).wrapping_add(attr);
+        fill_tiles(m, at, g, 2, 2);
+        at = at.wrapping_add(H::GLYPH_STEP);
+    }
+    at
+}

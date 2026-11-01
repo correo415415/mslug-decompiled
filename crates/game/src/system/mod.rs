@@ -10,6 +10,7 @@
 pub mod aim_turret;
 pub mod enemy_grenade;
 pub mod anim;
+pub mod attract;
 pub mod autopilot;
 pub mod banner;
 pub mod boot;
@@ -29,6 +30,7 @@ pub mod critters;
 pub mod grunt;
 pub mod ground_fx;
 pub mod contact;
+pub mod hiscore;
 pub mod hits;
 pub mod human_death;
 pub mod hut;
