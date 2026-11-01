@@ -158,6 +158,8 @@ pub mod bios {
     pub const FIX_CLEAR: u32 = 0xC0_04C2;
     /// Acceso a la tarjeta de memoria (parámetros en `bios_ram::CARD_*`).
     pub const CARD: u32 = 0xC0_0468;
+    /// Muestra el error de la tarjeta de memoria y espera.
+    pub const CARD_ERROR: u32 = 0xC0_046E;
     /// Mensajes de la BIOS en la capa fija.
     pub const MESS_OUT: u32 = 0xC0_04CE;
     /// Comprueba (o descuenta) créditos según `bios_ram::CREDIT_REQUEST`.
@@ -259,6 +261,127 @@ pub mod system {
     pub const HISCORES: u32 = 0x10_0002;
     pub const DEFAULT_HISCORES: u32 = 0x2F_53B2;
     pub const HISCORES_LEN: u32 = 120;
+}
+
+/// Tabla de récords: entrada de un jugador al acabar la partida.
+pub mod hiscore {
+    /// Puntuación de cada jugador (8 cifras, una por byte).
+    pub const SCORES: [u32; 2] = [0x10_6E94, 0x10_6E9C];
+    /// Donde queda la puntuación empaquetada (4 bytes BCD).
+    pub const PACKED: u32 = 0x10_81B6;
+    /// Tabla de récords: 10 entradas de 12 bytes {jugador, puesto,
+    /// puntuación (long), nombre (3 palabras)}.
+    pub const TABLE: u32 = 0x10_0002;
+    pub const ENTRIES: u32 = 10;
+    pub const ENTRY_LEN: u32 = 12;
+    pub const E_PLAYER: u32 = 0;
+    pub const E_RANK: u32 = 1;
+    pub const E_SCORE: u32 = 2;
+    pub const E_NAME: [u32; 3] = [6, 8, 0xA];
+    /// Letra en blanco del nombre recién entrado.
+    pub const NAME_BLANK: u16 = 0x0B40;
+    /// Tarea de introducir el nombre y sus campos.
+    pub const NAME_ENTRY: u32 = 0x09_7D24;
+    pub const NE_VRAM: u32 = 0x80;
+    pub const NE_PLAYER: u32 = 0x88;
+    /// Posición en la capa fija de la cabecera de cada jugador.
+    pub const HEADER_VRAM: [u32; 2] = [0x7063, 0x7323];
+    /// Campo de la tarea que llama que se borra si no hay récord.
+    pub const PENDING: u32 = 0x21;
+
+    // --- pantalla de la tabla de récords
+    pub const TABLE_END: u32 = 0x10_007A;
+    /// Campos de la tarea: filas con nombre por entrar, estado del logo
+    /// (lo copia el logo al acabar: `$FF` = filas de una en una), cuenta,
+    /// fila siguiente (entrada y posición) y espera final.
+    pub const ROWS_PENDING: u32 = 0x20;
+    pub const LOGO_STATE: u32 = 0x21;
+    pub const ONE_BY_ONE: u8 = 0xFF;
+    pub const TIMER: u32 = 0x70;
+    pub const ROW_PTR: u32 = 0x72;
+    pub const ROW_VRAM: u32 = 0x76;
+    pub const HOLD: u32 = 0x80;
+    pub const HOLD_FRAMES: u16 = 0x3C;
+    pub const SCENE: u8 = 0xB;
+    pub const TITLE: (u16, u32, u16) = (0x719B, 0x2F_54A0, 0x4300);
+    pub const LOGO_FADE_IN: u32 = 0x09_794C;
+    pub const WAIT_LOGO: u32 = 0x09_7852;
+    pub const ROWS_DELAY: u32 = 0x09_788C;
+    pub const ROWS_STEP: u32 = 0x09_78AC;
+    pub const ROWS_ALL: u32 = 0x09_78FA;
+    pub const HOLD_LOOP: u32 = 0x09_792E;
+    pub const DONE: u32 = 0x09_794A;
+    pub const ROWS_START_DELAY: i16 = 0x10;
+    pub const ROW_DELAY: i16 = 2;
+    pub const FIRST_ROW_VRAM: u32 = 0x70A6;
+    pub const ROW_VRAM_STEP: u32 = 2;
+    /// Cabeceras (posición, lista de glifos) y sus atributos.
+    pub const HEADERS: [(u16, u32); 3] = [(0x7083, 0x2F_547C), (0x71A3, 0x2F_5486), (0x72C3, 0x2F_5490)];
+    pub const HEADER_ATTR: u16 = 0x4000;
+    /// Fila: tarea de parpadeo del nombre recién entrado, desplazamientos
+    /// de la puntuación y del nombre, y atributos.
+    pub const NAME_BLINK: u32 = 0x09_7CC4;
+    pub const ROW_SCORE_DX: u32 = 0xC0;
+    pub const ROW_NAME_DX: u32 = 0x240;
+    pub const NAME_ATTR: u16 = 0x4000;
+    pub const NAME_STEP: u16 = 0x40;
+    pub const SCORE_DIGITS: u32 = 8;
+    pub const SCORE_ATTR: u16 = 0x4000;
+    /// Puesto: glifo y texto (1.º … 11.º; otro valor = el primero).
+    pub const RANK_GLYPHS: u32 = 0x2F_542A;
+    pub const RANK_TEXTS: u32 = 0x2F_5440;
+    pub const RANK_MAX: u16 = 10;
+    pub const RANK_ATTR: u16 = 0x4000;
+    pub const RANK_TEXT_DX: u16 = 0x41;
+    pub const RANK_TEXT_ATTR: u16 = 0x4300;
+    /// Logo de la tabla: sprite, posición, guiones (uno al azar), bucle y
+    /// campos (acabado, transparencia y nivel, que suben de `$20` en `$20`).
+    pub const LOGO_GFX: u16 = 0x15F;
+    pub const LOGO_POS: (u16, u16) = (0xA0, 0x180);
+    pub const LOGO_SCRIPTS: u32 = 0x2F_5504;
+    pub const NO_SCRIPT: u32 = 0xFFFF_FFFF;
+    pub const LOGO_LOOP: u32 = 0x09_79BC;
+    pub const LOGO_DONE: u32 = 0x20;
+    pub const LOGO_ALPHA: u32 = 0x32;
+    pub const LOGO_LEVEL: u32 = 0x70;
+    pub const LOGO_STEP: u8 = 0x20;
+    pub const LOGO_FULL: u16 = 0xFF;
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    /// Estados de partida del logo (estado, transparencia, nivel): con
+    /// fundido y ya visible.
+    pub const LOGO_STARTS: [(u8, u8, u16); 2] = [(0xFF, 0, 0), (0x7F, 0xFF, 0xFF)];
+}
+
+/// Escenas del modo atracción tras la partida (destello y escena C).
+pub mod attract {
+    pub const TIMER: u32 = 0x70;
+    /// Campo de la tarea del guion que el destello pone a 0 al acabar.
+    pub const FLASH_PENDING: u32 = 0x21;
+    /// Temporizadores de la tarea del guion durante la espera.
+    pub const TIMER_A: u32 = 0x44;
+    pub const TIMER_B: u32 = 0x45;
+    pub const TIMERS_START: u8 = 2;
+    pub const FLASH_SOUND: u16 = 0x27;
+    pub const WHITE_FLASH_TASK: u32 = 0x04_6608;
+    pub const WHITE_FLASH_LOOP: u32 = 0x04_6632;
+    pub const WHITE_FLASH_DONE: u32 = 0x04_6664;
+    /// Colores del destello (cian y blanco) y frames de cada fundido.
+    pub const FLASH_COLORS: [(u16, u16, u16); 2] = [(0, 0x1F, 0x1F), (0x1F, 0x1F, 0x1F)];
+    pub const FLASH_FRAMES: u16 = 0x10;
+    pub const FLASH_WAIT: u16 = 0x20;
+    pub const FLASH_DONE_WAIT: u16 = 0x10;
+    pub const MISSION_FLAG_B1: u32 = 0x10_81B1;
+    pub const SCENE_C_TASK: u32 = 0x04_6682;
+    pub const SCENE_C_FADE: u32 = 0x04_66B4;
+    pub const SCENE_C_FINISH: u32 = 0x04_66DA;
+    pub const SCENE_C: u8 = 0xC;
+    /// Fundidos (tipo de `fade::SPAWNERS`, parámetro) y esperas.
+    pub const SCENE_C_FADES: [(usize, u16); 2] = [(1, 3), (0, 2)];
+    pub const SCENE_C_WAITS: [u16; 2] = [0x78, 0x3C];
+    /// Desde esta misión de la demo se lanza además la espera del final.
+    pub const PEACE_MIN_MISSION: u8 = 6;
+    pub const PEACE_TASK: u32 = 0x05_9B6A;
 }
 
 /// Cola de órdenes al driver de sonido (Z80).
@@ -3090,6 +3213,12 @@ pub mod hud {
     /// Cifras del último número en hexadecimal y sus caracteres.
     pub const HEX_DIGITS: u32 = 0x10_E21E;
     pub const HEX_CHARS: u32 = 0x05_D71C;
+    /// Glifos 2 × 2 de las cifras (`NUMBER_BLANK` = en blanco) y el paso
+    /// entre glifos de una lista.
+    pub const NUMBER_GLYPHS: u32 = 0x05_D864;
+    pub const NUMBER_BLANK: u16 = 0x10;
+    pub const GLYPH_STEP: u16 = 0x40;
+    pub const GLYPH_END: u16 = 0xFFFF;
     /// Qué hay que dibujar: bit 0 = créditos, bit 1 = borrar créditos,
     /// bit 2 = nivel, bit 3 = borrar nivel.
     pub const FLAGS: u32 = 0x10_81BE;
@@ -5025,6 +5154,17 @@ pub mod fade {
     pub const MODE_WHITE: u8 = 0xFF;
     /// `palette::FADE_READY`: `$FF` al acabar; 0 mientras se funde.
     pub const READY: u32 = 0x10_A2CF;
+    /// Fundido hacia un color: tarea, bucle y final; campos (color destino,
+    /// paso, acumulado y nivel de partida por componente; frames).
+    pub const TO_COLOR_TASK: u32 = 0x05_25A4;
+    pub const TO_COLOR_LOOP: u32 = 0x05_262C;
+    pub const TO_COLOR_END: u32 = 0x05_26AA;
+    pub const TC_TARGET: [u32; 3] = [0x7C, 0x7E, 0x80];
+    pub const TC_STEP: [u32; 3] = [0x76, 0x78, 0x7A];
+    pub const TC_ACC: [u32; 3] = [0x82, 0x84, 0x86];
+    pub const TC_START: [u32; 3] = [0x88, 0x89, 0x8A];
+    pub const TC_FRAMES: u32 = 0x70;
+    pub const MODE_COLOR: u8 = 0x80;
 }
 
 /// Listas de la misión que se renuevan cada frame (algunas tienen dos
@@ -6098,6 +6238,33 @@ pub mod memcard {
     pub const KEY_A: u8 = 1 << 4;
     pub const RUN: u32 = 0x09_8308;
     pub const EXIT_DELAY: u32 = 0x09_83F6;
+    /// Estado de la ranura (`REG_STATUS_B`): con alguno de estos bits a 1
+    /// no hay tarjeta.
+    pub const CARD_STATUS: u32 = 0x38_0000;
+    pub const CARD_ABSENT: u8 = 0x30;
+    /// Registros de la ranura que se ponen a 0 antes de grabar (bloqueo,
+    /// selección de registro, modo normal y banco).
+    pub const CARD_UNLOCK: [u32; 4] = [0x3A_0005, 0x3A_0017, 0x3A_0019, 0x38_0011];
+    /// Órdenes de la BIOS: crear el fichero y escribirlo.
+    pub const CARD_WRITE: u8 = 3;
+    pub const CARD_CREATE: u8 = 4;
+    /// Nombre del fichero (20 bytes) que va al principio de los datos.
+    pub const FILE_NAME: u32 = 0x09_81E8;
+    pub const FILE_NAME_LEN: u32 = 20;
+    /// Byte de la BIOS que se pone a 0 mientras muestra el error de tarjeta.
+    pub const CARD_ERROR_MODE: u32 = 0x10_FDC2;
+    /// Pila extra al llamar al error de tarjeta (el byte guardado ocupa
+    /// una palabra).
+    pub const CARD_ERROR_FRAME: u32 = 2;
+    /// Hay datos de la tarjeta pendientes (se pone a `$FF` al guardar).
+    pub const SAVE_PENDING: u32 = 0x10_E3B6;
+    /// Diálogo de guardar: tarea, bucle, espera, textos y aviso de hecho.
+    pub const SAVE_DIALOG: u32 = 0x09_840C;
+    pub const SAVE_RUN: u32 = 0x09_8482;
+    pub const SAVE_DELAY: u32 = 0x09_8562;
+    pub const SAVE_TEXTS: [(u16, u32); 4] = [(0x7204, 0x09_86DE), (0x724A, 0x09_869E), (0x724E, 0x09_86A6), (0x7116, 0x09_86AC)];
+    pub const SAVE_DONE_TEXT: (u16, u32) = (0x7152, 0x09_86EA);
+    pub const SAVE_CHOICE: u16 = 1;
 }
 
 /// Rótulo «MISSION START» / «MISSION COMPLETE» (`system::banner`).

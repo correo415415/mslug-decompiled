@@ -622,6 +622,73 @@ pub fn scene_ending(m: &mut impl Machine) -> Flow {
     next(m)
 }
 
+/// Destello blanco tras la partida: pide su sonido, lanza el destello y
+/// marca `+$21` hasta que acabe. Original: `Attract_InitShow27_TaskAdd_0017E6`.
+pub fn scene_flash(m: &mut impl Machine) -> Flow {
+    use crate::layout::attract as A;
+    reset_title_keys(m);
+    m.write_u8(S::SCENE_BUSY, 0xFF);
+    play(m, A::FLASH_SOUND);
+    let me = m.task_register();
+    tasks::spawn(m, A::WHITE_FLASH_TASK, me);
+    m.write_u8(me + A::FLASH_PENDING, 0xFF);
+    next(m)
+}
+
+/// Espera del destello: HUD y temporizadores; cuando acaba sigue con
+/// [`scene_flash_done`]. Original: `Attract_SetTimers2_And_Gate21_001812`.
+pub fn scene_flash_wait(m: &mut impl Machine) -> Flow {
+    use crate::layout::attract as A;
+    hud::draw(m);
+    let me = m.task_register();
+    m.write_u8(me + A::TIMER_B, A::TIMERS_START);
+    m.write_u8(me + A::TIMER_A, A::TIMERS_START);
+    if m.read_u8(me + A::FLASH_PENDING) != 0 {
+        return Flow::Return;
+    }
+    scene_flash_done(m)
+}
+
+/// Para la escena, recarga las entradas fijas y sigue.
+/// Original: `Attract_TailChain_1CD4_1DA4_00182C`.
+pub fn scene_flash_done(m: &mut impl Machine) -> Flow {
+    stop_scene(m);
+    video::load_fixed_entries(m);
+    next(m)
+}
+
+/// Escena C del modo atracción (desde la misión 6 de la demo, también la
+/// espera del final). Original: `Attract_InitBIOS_001744`.
+pub fn scene_reload(m: &mut impl Machine) -> Flow {
+    use crate::layout::attract as A;
+    clear_screen(m);
+    spawn_scene_task(m, A::SCENE_C_TASK);
+    if m.read_u8(S::DEMO_MISSION) >= A::PEACE_MIN_MISSION {
+        spawn_scene_task(m, A::PEACE_TASK);
+    }
+    hud::clear_border(m);
+    for k in S::KEY_LATCH {
+        m.write_u8(k, 0xFF);
+    }
+    m.write_u8(S::SCENE_BUSY, 0xFF);
+    reset_title_keys(m);
+    next(m)
+}
+
+/// Espera de la escena C; al acabar da de baja sus tareas, recarga las
+/// entradas altas y la cola de sonido. Original: `Attract_InitBIOS_001744+$56`.
+pub fn scene_reload_wait(m: &mut impl Machine) -> Flow {
+    hud::draw(m);
+    if scene_running(m) {
+        return Flow::Return;
+    }
+    let me = m.task_register();
+    tasks::kill_children(m, me);
+    video::load_high_entries(m, crate::layout::sprites::HIGH_LIST);
+    sound::init_queue(m);
+    next(m)
+}
+
 /// Siguiente índice del selector y lo guarda. Original: `$001554`.
 pub fn step_next_selection(m: &mut impl Machine) -> Flow {
     let i = m.read_u8(S::SELECTION).wrapping_add(1);

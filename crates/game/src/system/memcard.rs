@@ -9,6 +9,13 @@
 //! `MemCard_Dialog_ExitDelay_0983f6`, `MemCard_BiosRead_098578`,
 //! `Fix_DrawGlyphList_09820e` e `Input_EdgePressedPlayers_098232`
 //! (`asm/frontend/hiscore_memcard_options_09773c.s`).
+//!
+//! También la escena de guardar al acabar la partida: si hay tarjeta
+//! pregunta si grabar (por defecto «no») y la graba con la BIOS.
+//! Original: `BootScr_MemCardSave_001526`, `BootScr_WaitHudDirty_001544`
+//! (`asm/boot/`), `MemCard_DetectAndSave_051660`, `MemCard_Detect_09826e`,
+//! `MemCard_SaveDialog_Init_09840c`, `MemCard_SaveDialog_Run_098482`,
+//! `MemCard_BiosWrite_0985ca` y `MemCard_BiosCreate_09866a`.
 
 use super::{hud, scene, script, scroll, tasks};
 use crate::layout::{bios, memcard as L};
@@ -64,33 +71,80 @@ pub fn idle_backdrop(m: &mut impl Machine) {
     scroll::frame(m, (0, 0));
 }
 
+/// Llama a la rutina `routine` de la BIOS con el mismo marco de pila que
+/// el original (dirección de vuelta, 15 registros guardados y `extra`
+/// bytes más): la BIOS guarda el puntero de pila en su RAM.
+fn call_bios(m: &mut impl Machine, routine: u32, extra: u32) {
+    let r = m.regs();
+    let sp = m.stack_pointer();
+    m.set_stack_pointer(sp - L::CARD_FRAME - extra);
+    m.call(routine);
+    m.set_stack_pointer(sp);
+    m.set_regs(r);
+}
+
+/// Prepara una orden de la tarjeta (modo de juego, sin opción).
+fn card_command(m: &mut impl Memory, command: u8) {
+    m.write_u8(L::CARD_COMMAND, command);
+    m.write_u16(L::CARD_MODE, L::CARD_MODE_GAME);
+    m.write_u8(L::CARD_OPTION, 0);
+}
+
 /// Lee la tarjeta de memoria en `SAVE`. Devuelve si ha fallado (no hay
 /// tarjeta o no tiene datos). Original: `MemCard_BiosRead_098578` (C = error).
 pub fn read(m: &mut impl Machine) -> bool {
-    m.write_u8(L::CARD_COMMAND, L::CARD_READ);
-    m.write_u16(L::CARD_MODE, L::CARD_MODE_GAME);
-    m.write_u8(L::CARD_OPTION, 0);
+    card_command(m, L::CARD_READ);
     m.write_u32(L::CARD_BUFFER, L::SAVE);
     m.write_u16(L::CARD_SIZE, L::SAVE_LEN);
-    // La BIOS guarda el puntero de pila en su RAM: se reserva el mismo
-    // marco que el original (dirección de vuelta y registros guardados).
-    let r = m.regs();
-    let sp = m.stack_pointer();
-    m.set_stack_pointer(sp - L::CARD_FRAME);
-    m.call(bios::CARD);
-    m.set_stack_pointer(sp);
-    m.set_regs(r);
+    call_bios(m, bios::CARD, 0);
     m.read_u8(L::CARD_ERROR) != 0
 }
 
+/// Crea el fichero del juego en la tarjeta. Original:
+/// `MemCard_BiosCreate_09866a`.
+pub fn create(m: &mut impl Machine) {
+    card_command(m, L::CARD_CREATE);
+    call_bios(m, bios::CARD, 0);
+}
+
+/// Graba `SAVE` (con el nombre del fichero delante) en la tarjeta; si
+/// falla, borra la pantalla y deja que la BIOS muestre el error. Devuelve
+/// si sigue fallando. Original: `MemCard_BiosWrite_0985ca` (C = error).
+pub fn write(m: &mut impl Machine) -> bool {
+    card_command(m, L::CARD_WRITE);
+    for k in 0..L::FILE_NAME_LEN {
+        let b = m.read_u8(L::FILE_NAME + k);
+        m.write_u8(L::SAVE + k, b);
+    }
+    m.write_u32(L::CARD_BUFFER, L::SAVE);
+    m.write_u16(L::CARD_SIZE, L::SAVE_LEN);
+    call_bios(m, bios::CARD, 0);
+    if m.read_u8(L::CARD_ERROR) == 0 {
+        return false;
+    }
+    hud::fill_rect(m, L::FIX_ORIGIN, L::BLANK, L::BG_SIZE.0, L::BG_SIZE.1);
+    let mode = m.read_u8(L::CARD_ERROR_MODE);
+    m.write_u8(L::CARD_ERROR_MODE, 0);
+    call_bios(m, bios::CARD_ERROR, L::CARD_ERROR_FRAME);
+    m.write_u8(L::CARD_ERROR_MODE, mode);
+    m.read_u8(L::CARD_ERROR) != 0
+}
+
+/// ¿Hay una tarjeta en la ranura? Original: `MemCard_Detect_09826e`
+/// (C = sí).
+pub fn present(m: &mut impl Memory) -> bool {
+    m.read_u8(L::CARD_STATUS) & L::CARD_ABSENT == 0
+}
+
 /// Escribe una lista de glifos (2 × 2 tiles cada uno, terminada en
-/// `GLYPH_END`) desde `at`. Original: `Fix_DrawGlyphList_09820e`.
-pub fn draw_glyphs(m: &mut impl Memory, mut at: u16, list: u32) {
+/// `GLYPH_END`) desde `at`. Devuelve dónde acaba (posición y lista tras
+/// la marca). Original: `Fix_DrawGlyphList_09820e`.
+pub fn draw_glyphs(m: &mut impl Memory, mut at: u16, list: u32) -> (u16, u32) {
     let mut p = list;
     loop {
         let g = m.read_u16(p);
         if g == L::GLYPH_END {
-            return;
+            return (at, p + 2);
         }
         hud::fill_tiles(m, at, g, 2, 2);
         at = at.wrapping_add(L::GLYPH_STEP);
@@ -192,4 +246,100 @@ pub fn exit_delay(m: &mut impl Machine) -> Flow {
         return exit(m);
     }
     Flow::Return
+}
+
+/// Escena de guardar al acabar la partida: borra la pantalla, marca la
+/// escena ocupada y, si hay tarjeta, abre el diálogo. Original:
+/// `BootScr_MemCardSave_001526`.
+pub fn save_scene(m: &mut impl Machine) -> Flow {
+    m.call(bios::FIX_CLEAR);
+    hud::clear_border(m);
+    m.write_u8(L::BUSY, 1);
+    detect_and_save(m);
+    script::next(m)
+}
+
+/// Espera a que acabe el diálogo de guardar. Original:
+/// `BootScr_WaitHudDirty_001544`.
+pub fn save_scene_wait(m: &mut impl Machine) -> Flow {
+    hud::draw(m);
+    if m.read_u8(L::BUSY) == 0 {
+        return script::next(m);
+    }
+    Flow::Return
+}
+
+/// Con tarjeta: carga la escena de fondo, marca los datos pendientes y
+/// lanza el diálogo de guardar (que devuelve); sin ella, la escena ya ha
+/// acabado. Original: `MemCard_DetectAndSave_051660`.
+pub fn detect_and_save(m: &mut impl Machine) -> Option<u32> {
+    if !present(m) {
+        m.write_u8(L::BUSY, 0);
+        return None;
+    }
+    m.write_u8(L::BUSY, 1);
+    backdrop(m);
+    m.write_u8(L::SAVE_PENDING, 0xFF);
+    let parent = m.task_register();
+    Some(tasks::spawn(m, L::SAVE_DIALOG, parent))
+}
+
+/// Entrada del diálogo de guardar: si no hay tarjeta se acaba; si no,
+/// dibuja la pregunta con «no» elegido y un límite de tiempo; la pregunta
+/// empieza a correr en el frame siguiente.
+/// Original: `MemCard_SaveDialog_Init_09840c`.
+pub fn save_dialog(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    if !present(m) {
+        return exit(m);
+    }
+    hud::fill_rect(m, L::FIX_ORIGIN, L::BLANK, L::BG_SIZE.0, L::BG_SIZE.1);
+    for (at, text) in L::SAVE_TEXTS {
+        draw_glyphs(m, at, text);
+    }
+    m.write_u16(t + L::CHOICE, L::SAVE_CHOICE);
+    m.write_u16(t + L::TIMER, L::TIMEOUT);
+    // A diferencia del de cargar, el bucle empieza en el frame siguiente.
+    m.write_u32(t + crate::layout::task::HANDLER, L::SAVE_RUN);
+    Flow::Return
+}
+
+/// Pregunta de guardar: como la de cargar; «sí» abre la ranura, crea el
+/// fichero, lo graba y avisa. Original: `MemCard_SaveDialog_Run_098482`.
+pub fn save_dialog_run(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    let choice = m.read_u16(t + L::CHOICE);
+    for (at, c) in L::CURSORS.into_iter().zip([choice, choice ^ 1]) {
+        let g = m.read_u16(L::CURSOR_GLYPHS + u32::from(c) * 2);
+        hud::fill_tiles(m, at, g, 2, 2);
+    }
+    let n = m.read_u16(t + L::TIMER).wrapping_sub(1);
+    m.write_u16(t + L::TIMER, n);
+    if n != 0 {
+        let keys = pressed_keys(m, t);
+        if keys & L::KEY_A == 0 {
+            if keys & L::KEY_UP != 0 {
+                m.write_u16(t + L::CHOICE, 0);
+            }
+            if keys & L::KEY_DOWN != 0 {
+                m.write_u16(t + L::CHOICE, 1);
+            }
+            return Flow::Return;
+        }
+    }
+    hud::fill_rect(m, L::PROMPT, L::BLANK, L::PROMPT_SIZE.0, L::PROMPT_SIZE.1);
+    if m.read_u16(t + L::CHOICE) != 0 {
+        return exit(m);
+    }
+    for r in L::CARD_UNLOCK {
+        m.write_u8(r, 0);
+    }
+    create(m);
+    if write(m) {
+        return exit(m);
+    }
+    draw_glyphs(m, L::SAVE_DONE_TEXT.0, L::SAVE_DONE_TEXT.1);
+    m.write_u16(t + L::TIMER, L::DONE_DELAY);
+    m.write_u32(t + crate::layout::task::HANDLER, L::SAVE_DELAY);
+    exit_delay(m)
 }
