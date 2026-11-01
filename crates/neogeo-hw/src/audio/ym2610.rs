@@ -591,24 +591,6 @@ impl Ssg {
         }
     }
 
-    /// Reset the SSG core to the ymfm/MAME power-on state.
-    fn reset(&mut self) {
-        self.tone_period = [0; 3];
-        self.noise_period = 0;
-        self.mixer = 0xFF;
-        self.vol = [0; 3];
-        self.env_period = 0;
-        self.env_shape = 0;
-        self.tone_count = [0; 3];
-        self.tone_state = [0; 3];
-        self.noise_count = 0;
-        self.noise_state = 1;
-        self.env_count = 0;
-        self.env_state = 0;
-        self.tick_frac = 0;
-        self.dc_estimator_q16 = 0;
-    }
-
     /// Write a register (0x00..0x0F).
     fn write_reg(&mut self, reg: u8, val: u8) {
         match reg {

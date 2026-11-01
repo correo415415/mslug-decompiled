@@ -2717,6 +2717,36 @@ pub mod items {
     /// Si ya había dos o más objetos en el suelo el frame anterior, no sale.
     pub const ON_GROUND_PREV: u32 = 0x10_E48A;
     pub const ON_GROUND_MAX: i8 = 2;
+
+    // Arma, cambio de arma y bombas (plantillas 289–291).
+    pub const KIND_GFX: [(u16, u16); 3] = [(0x17F, 0x1A7), (0x17E, 0x1A8), (0x180, 0x1A9)];
+    pub const KIND_SCRIPTS: [u32; 3] = [0x2F_680C, 0x2F_685C, 0x2F_68AC];
+    pub const KIND_LOOPS: [u32; 3] = [0x09_AC20, 0x09_ACB0, 0x09_AD96];
+    /// Cantidades por defecto de `+$98` / `+$99` (si valen 0).
+    pub const KIND_DEFAULTS: [Option<(u8, u8)>; 3] = [Some((0x0A, 0x64)), Some((0x0A, 0x0A)), None];
+    pub const SND_TAKEN: u16 = 0x1124;
+    pub const ITEM_PLAYER: u32 = 0x68;
+    /// Estado del jugador (`+$70`) cuando va en el Slug.
+    pub const IN_SLUG: u8 = 2;
+    pub const PLAYER_WEAPON: u32 = 0x71;
+    pub const PLAYER_BOMBS: u32 = 0x80;
+    pub const PLAYER_AMMO: u32 = 0x82;
+    pub const WEAPON_PISTOL: u8 = 0;
+    /// Arma que toma la cantidad de `+$99` en vez de `+$98`.
+    pub const WEAPON_USES_ARG: u8 = 4;
+    pub const NO_AMOUNT: u8 = 0xFF;
+    pub const MAX_AMMO: u16 = 999;
+    pub const MAX_BOMBS: u16 = 99;
+    pub const SLUG: u32 = 0x10_0580;
+    pub const SLUG_SHELLS: u32 = 0x90;
+    pub const SLUG_HP: u32 = 0x66;
+    pub const SLUG_MAX_HP: i16 = 0x30;
+    pub const SND_REPAIR: u16 = 0x1083;
+    // Tipos del marcador de tabla.
+    pub const POPUP_BOMBS: u8 = 0;
+    pub const POPUP_SHELLS: u8 = 1;
+    pub const POPUP_AMMO: u8 = 2;
+    pub const POPUP_REPAIR: u8 = 3;
 }
 
 /// Recogida de objetos (`system::pickup`).
@@ -3769,6 +3799,16 @@ pub mod score {
     pub const FRAME_COUNTER: u32 = 0x10_6F28;
     /// Rutinas de una tarea que ya no está.
     pub const INACTIVE: [u32; 3] = [0xFFFF_FFFF, 0x00_052A, 0x00_0400];
+
+    // Marcador de tabla (las cifras vienen ya en la tabla, sin puntos).
+    pub const TABLE_DIGITS: u32 = 0x2F_79A4;
+    pub const TABLE_KIND_MASK: u8 = 3;
+    pub const DIGIT_PTR: u32 = 0x5C;
+    pub const TABLE_POPUP: u32 = 0x09_B48A;
+    pub const VALUE_POPUP: u32 = 0x09_B51E;
+    pub const KIND_POINTS: u8 = 3;
+    pub const KIND_AMMO: u8 = 2;
+    pub const PLAYERS: [u32; 2] = [0x10_0440, 0x10_04E0];
 }
 
 pub mod focus {
@@ -5154,6 +5194,67 @@ pub mod slug_drive {
     /// (byte ≠ 0) o cuesta (0), indexada con signo.
     pub const SLOPE: u32 = 0x80;
     pub const FLAT_BY_SLOPE: u32 = 0x02_A558;
+    /// Parado en cuesta (`Slug_IdleSlope_02b4d2`): velocidad pedida
+    /// (`+$36`), aceleración (`+$2C`), el bit 5 de `+$8C`, el bit 2 de
+    /// `+$8D`, el bloqueo de empuje (`+$92`), el freno de ataques (`+$3B`)
+    /// y la inclinación del sprite (guiones por índice, centro y tope).
+    pub const SPEED: u32 = 0x36;
+    pub const ACC_X: u32 = 0x2C;
+    pub const FLAGS_8C: u32 = 0x8C;
+    pub const BIT_8C_5: u8 = 1 << 5;
+    pub const FLAGS_8D: u32 = 0x8D;
+    pub const BIT_8D_2: u8 = 1 << 2;
+    pub const PUSH_LOCK: u32 = 0x92;
+    pub const NO_ATTACKS: u32 = 0x3B;
+    pub const LAYOUT_BOOST: u8 = 3;
+    pub const TILT_SCRIPTS: u32 = 0x2B_0C30;
+    pub const TILT_CENTER: u16 = 0x20;
+    pub const TILT_MAX: u16 = 0x40;
+    pub const SLOPE_LOOP: u32 = 0x02_B544;
+    pub const SLOPE_CROUCH: u32 = 0x02_B6F4;
+    pub const FALL_START: u32 = 0x02_CFFA;
+    pub const FIRE_SLOPE: u32 = 0x02_C71E;
+    pub const DESTROYED: u32 = 0x02_FC70;
+    /// Crucero a la derecha / izquierda (`Slug_CruiseRightB_02bf64`,
+    /// `Slug_CruiseLeftB_02c07a`): guiones por pendiente, base de `+$20`,
+    /// bucles, a dónde pasa en cuesta (las dos entradas de
+    /// `Slug_IdleSlopeJmp_02b4ca`) y al soltar (frenada).
+    pub const CRUISE_RIGHT_SCRIPTS: u32 = 0x27_93D0;
+    pub const CRUISE_LEFT_SCRIPTS: u32 = 0x27_9524;
+    pub const CRUISE_RIGHT_BYTE_20: u8 = 0;
+    pub const CRUISE_LEFT_BYTE_20: u8 = 5;
+    pub const CRUISE_RIGHT_LOOP: u32 = 0x02_BFB0;
+    pub const CRUISE_LEFT_LOOP: u32 = 0x02_C0C6;
+    pub const SLOPE_FROM_RIGHT: u32 = 0x02_B4CA;
+    pub const SLOPE_FROM_LEFT: u32 = 0x02_B4CE;
+    pub const BRAKE_RIGHT: u32 = 0x02_BD00;
+    pub const BRAKE_LEFT: u32 = 0x02_BE32;
+    /// Aceleración (`Slug_AccelRightB_02b8d8`, `Slug_AccelLeftB_02ba3e`):
+    /// frames que dura (`+$91`), guiones y sonidos por pendiente, base de
+    /// `+$20`, bucles (cuenta y resto).
+    pub const ACCEL_TIMER: u32 = 0x91;
+    pub const ACCEL_FRAMES: u8 = 8;
+    pub const NO_SOUND: u16 = 0xFFFF;
+    pub const ACCEL_RIGHT_SCRIPTS: u32 = 0x27_945C;
+    pub const ACCEL_LEFT_SCRIPTS: u32 = 0x27_9538;
+    pub const ACCEL_RIGHT_SOUNDS: u32 = 0x02_B8CE;
+    pub const ACCEL_LEFT_SOUNDS: u32 = 0x02_BA34;
+    pub const ACCEL_RIGHT_BYTE_20: u8 = 0x19;
+    pub const ACCEL_LEFT_BYTE_20: u8 = 0x1E;
+    pub const ACCEL_RIGHT_LOOP: u32 = 0x02_B948;
+    pub const ACCEL_LEFT_LOOP: u32 = 0x02_BAAE;
+    pub const ACCEL_RIGHT_RUN: u32 = 0x02_B960;
+    pub const ACCEL_LEFT_RUN: u32 = 0x02_BAC6;
+    /// Frenada (`Slug_BrakeRight_02bd00`, `Slug_BrakeLeft_02be32`): guiones
+    /// por pendiente, base de `+$20` y bucles (cuenta y resto).
+    pub const BRAKE_RIGHT_SCRIPTS: u32 = 0x27_9358;
+    pub const BRAKE_LEFT_SCRIPTS: u32 = 0x27_94FC;
+    pub const BRAKE_RIGHT_BYTE_20: u8 = 0x0A;
+    pub const BRAKE_LEFT_BYTE_20: u8 = 0x0F;
+    pub const BRAKE_RIGHT_LOOP: u32 = 0x02_BD48;
+    pub const BRAKE_LEFT_LOOP: u32 = 0x02_BE7A;
+    pub const BRAKE_RIGHT_RUN: u32 = 0x02_BD5E;
+    pub const BRAKE_LEFT_RUN: u32 = 0x02_BE90;
 }
 
 /// Disparo del cañón del Slug (`Slug_FireIdle_02c190` …
@@ -5860,6 +5961,18 @@ pub mod slug_jump {
     pub const JUMP_BY_DIR: u32 = 0x02_C9B0;
     pub const MARGINS: u32 = 0x27_964E;
     pub const DEATH_FINISH: u32 = 0x02_DCBC;
+    /// Caída (`Slug_FallStart_02cffa`, `Slug_Fall_02d02e`): gravedad, lo
+    /// que baja la Y de apoyo, bucles, el disparo en el aire y las
+    /// configuraciones de controles con las que se puede volver a saltar
+    /// al aterrizar.
+    pub const FALL_ACC_Y: u16 = 0xFFE0;
+    pub const FALL_BASE_STEP: u16 = 4;
+    pub const FALL_START_LOOP: u32 = 0x02_D024;
+    pub const FALL_LOOP: u32 = 0x02_D0C4;
+    pub const FALL_FIRE: u32 = 0x02_D26E;
+    pub const FIRE_AIR: u32 = 0x02_D394;
+    pub const CONTROL_LAYOUT: u32 = 0x10_6F2A;
+    pub const REJUMP_LAYOUTS: [u8; 2] = [3, 2];
 }
 
 /// Escena de mensaje y diálogo de la tarjeta de memoria
@@ -7815,8 +7928,157 @@ pub mod fortress {
         Piece { bit: 0x00, blits: &[0x29_5AF6], at: (0x20, 0x50), script: SIDE_SCRIPT },
         Piece { bit: 0x00, blits: &[0x29_5B1E, 0x29_5B32], at: (0x40, 0x30), script: SIDE_SCRIPT },
     ];
+    /// Bloqueo: caja de choque, su bucle y la señal de la madre con la que
+    /// se va.
+    pub struct Blocker {
+        pub contact_box: u32,
+        pub run: u32,
+        pub until: u8,
+    }
+    pub const GATEHOUSE_BLOCK: Blocker = Blocker { contact_box: 0x29_62BE, run: 0x04_EAF6, until: SIGNAL_WRECKED };
+    pub const FORTRESS_BLOCK: Blocker = Blocker { contact_box: 0x29_630A, run: 0x04_EDE8, until: SIGNAL_BROKEN };
+    /// Origen de la pantalla en el mundo (X, Y) y altura que se resta.
+    pub const SCREEN_ORIGIN: (u32, u32) = (0x10_6F70, 0x10_6F74);
+    pub const SCREEN_HEIGHT: u16 = 0x200;
+    pub const SCRATCH_BASE: u32 = super::collision::SCRATCH_BASE;
+    /// Caseta: su bloqueo, cuándo despierta y dónde se pone (en pantalla),
+    /// cascote, margen, vida, piezas, tejado y puerta, guion, lista de
+    /// sucesos, trozos pintados, puntos y la fortaleza que deja detrás.
+    pub const GATEHOUSE_BLOCKER: (u32, u16, u16) = (0x04_EAE8, 0x34, 0);
+    pub const GATEHOUSE_WAKE_X: i16 = 0xA20;
+    pub const GATEHOUSE_AT: (u16, u16) = (0x3A0, 0xE0);
+    pub const BOUNCER: (u32, u16, u16) = (0x04_F5BE, 0x58, 0x15);
+    pub const GATEHOUSE_MARGIN: u16 = 0x70;
+    pub const GATEHOUSE_HP: u16 = 0xB4;
+    pub const GATEHOUSE_FIELD_38: u16 = 0xF000;
+    pub const GATEHOUSE_ALL: u8 = 0xFF;
+    pub const GATEHOUSE_PIECES: [Piece; 8] = [
+        Piece { bit: 0x01, blits: &[0x29_58EE], at: (0x10, 0x90), script: PIECE_SCRIPT },
+        Piece { bit: 0x02, blits: &[0x29_5916], at: (0x30, 0x90), script: PIECE_SCRIPT },
+        Piece { bit: 0x04, blits: &[0x29_593E], at: (0x50, 0x90), script: PIECE_SCRIPT },
+        Piece { bit: 0x08, blits: &[0x29_5966], at: (0x70, 0x90), script: PIECE_SCRIPT },
+        Piece { bit: 0x10, blits: &[0x29_598E], at: (0x10, 0x70), script: PIECE_SCRIPT },
+        Piece { bit: 0x20, blits: &[0x29_59B6], at: (0x30, 0x70), script: PIECE_SCRIPT },
+        Piece { bit: 0x40, blits: &[0x29_59DE], at: (0x50, 0x70), script: PIECE_SCRIPT },
+        Piece { bit: 0x80, blits: &[0x29_5A06], at: (0x70, 0x70), script: PIECE_SCRIPT },
+    ];
+    pub const GATEHOUSE_ROOF: u32 = 0x04_EF0A;
+    pub const GATEHOUSE_DOOR: u32 = 0x04_EFE6;
+    pub const GATEHOUSE_SCRIPT: u32 = 0x29_44FA;
+    pub const GATEHOUSE_WATCH: u32 = 0x0E_93B0;
+    pub const GATEHOUSE_CELLS: u32 = 0x29_5F12;
+    pub const GATEHOUSE_DAMAGED_BLITS: [u32; 8] =
+        [0x29_5902, 0x29_592A, 0x29_5952, 0x29_597A, 0x29_59A2, 0x29_59CA, 0x29_59F2, 0x29_5A1A];
+    pub const GATEHOUSE_DAMAGED_SCRIPT: u32 = 0x29_451C;
+    pub const GATEHOUSE_POINTS: u32 = 0x2000;
+    /// Tras la caseta, la prueba de llegada al borde vuelve con este valor.
+    pub const EDGE_AFTER_GATEHOUSE: u8 = 2;
+    pub const GATEHOUSE_WRECK_CELLS: [u32; 2] = [0x29_5E04, 0x29_5F24];
+    pub const GATEHOUSE_WRECK_BLITS: [u32; 2] = [0x29_5812, 0x29_58DA];
+    pub const GATEHOUSE_WRECK_SCRIPT: u32 = 0x29_453E;
+    pub const FORTRESS: (u32, u16, u16) = (0x04_EB18, 0xA0, 0);
+    /// Tejado y puerta de la caseta.
+    pub const ROOF_MARGIN: u16 = 0x40;
+    pub const ROOF_HP: u16 = 0x78;
+    pub const ROOF_SCRIPT: u32 = 0x29_4636;
+    pub const ROOF_FIELD_38: u16 = 0xBFFF;
+    pub const ROOF_WRECK_BLIT: u32 = 0x29_5A2E;
+    pub const ROOF_WRECK_SCRIPT: u32 = 0x29_464C;
+    pub const DOOR_SCRIPT: u32 = 0x29_465C;
+    /// Cascote que rebota: gráfico, escala, márgenes de vista, guiones,
+    /// velocidades y probabilidad (máscara del azar) de cambiar.
+    pub const SCALE: (u32, u32) = (0x32, 0x33);
+    pub const FULL_SCALE: u8 = 0xFF;
+    pub const FACING: u32 = 0x3A;
+    pub const VEL_X: u32 = 0x28;
+    pub const VEL_Y: u32 = 0x2A;
+    pub const BOUNCER_GFX: u16 = 0x126;
+    pub const BOUNCER_MARGINS: u32 = 0x29_624A;
+    pub const BOUNCER_SCRIPT: u32 = 0x29_48F8;
+    pub const BOUNCER_TWITCH_SCRIPT: u32 = 0x29_4936;
+    pub const BOUNCER_HOP_SCRIPT: u32 = 0x29_494E;
+    pub const BOUNCER_HOP_VY: u16 = 0x400;
+    pub const BOUNCER_ROLL_VX: u16 = 0x80;
+    pub const BOUNCER_IDLE_CHANCE: u16 = 0x7;
+    pub const BOUNCER_ROLL_CHANCE: u16 = 0xF;
+    // Fortaleza (tras la caseta).
+    pub const FORTRESS_AT: (u16, u16) = (0x440, 0xE0);
+    pub const FORTRESS_GFX: u16 = 0x40;
+    /// Fase (golpes encajados hasta cambiar de guion) y sus guiones.
+    pub const PHASE: u32 = 0x72;
+    pub const PHASE_MASK: u16 = 3;
+    pub const FORTRESS_PHASES: u8 = 3;
+    pub const FORTRESS_PHASE_SCRIPTS: u32 = 0x29_45C4;
+    pub const NO_SCRIPT: u32 = 0xFFFF_FFFF;
+    pub const FORTRESS_TURRET: (u32, u16, u16) = (0x04_F030, 0xFFF0, 0x51);
+    pub const FORTRESS_WAKE_X: i16 = 0x130;
+    pub const FORTRESS_STEP_X: i16 = 0xD0;
+    pub const FORTRESS_MARGIN: u16 = 0x120;
+    pub const FORTRESS_HP: u32 = 0x2C_0010;
+    pub const FORTRESS_FIELD_38: u16 = 0xF000;
+    pub const FORTRESS_ALL: u8 = 0x1F;
+    pub const FORTRESS_WATCH: u32 = 0x0E_9442;
+    pub const FORTRESS_BLOCKER: (u32, u16, u16) = (0x04_EDDA, 0x78, 0);
+    pub const FORTRESS_PIECES: [Piece; 5] = [
+        Piece { bit: 0x01, blits: &[0x29_5A6A], at: (0, 0x90), script: 0x29_46FA },
+        Piece { bit: 0x02, blits: &[0x29_5A7E], at: (0x20, 0x90), script: 0x29_4710 },
+        Piece { bit: 0x04, blits: &[0x29_5A92], at: (0x20, 0x70), script: 0x29_4726 },
+        Piece { bit: 0x08, blits: &[0x29_5AA6], at: (0x40, 0x70), script: 0x29_473C },
+        Piece { bit: 0x10, blits: &[0x29_5ABA, 0x29_5ACE], at: (0x60, 0x10), script: 0x29_46B8 },
+    ];
+    pub const FORTRESS_POINTS: u32 = 0x5000;
+    /// Lo que queda tras la fortaleza (siguiente tramo de la misión).
+    pub const FORTRESS_NEXT: u32 = 0x08_6586;
+    pub const FORTRESS_WRECK_CELLS: [u32; 2] = [0x29_5E14, 0x29_5E38];
+    pub const SND_FORTRESS: u16 = 0x1023;
+    pub const FORTRESS_WRECK_BLITS: [u32; 2] = [0x29_5A42, 0x29_5A56];
+    pub const FORTRESS_WRECK_SCRIPT: u32 = 0x29_45B4;
+    // Soporte de la torreta de la fortaleza.
+    pub const MOUNT_GFX: u16 = 0x40;
+    pub const MOUNT_MARGIN: u16 = 0x60;
+    pub const MOUNT_SCRIPT: u32 = 0x29_466C;
+    pub const MOUNT_FIELD_38: u16 = 0xBFFF;
+    pub const MOUNT_STEP_CAMERA: i16 = 0xA70;
+    pub const MOUNT_DEBRIS: [u32; 2] = [0x29_5C32, 0x29_5CD4];
+    pub const MOUNT_FALL_SCRIPT: u32 = 0x29_467C;
+    pub const VEL_Y_2E: u32 = 0x2E;
+    pub const MOUNT_FALL_VY: u16 = 0xFFF0;
+    pub const MOUNT_FLOOR_Y: i16 = 0x160;
+    pub const MOUNT_BLAST_DY: u16 = 0x20;
+    // Lateral de la fortaleza.
+    pub const SIDE_GFX: u16 = 0x24;
+    pub const SIDE_MARGIN: u16 = 0x60;
+    pub const SIDE_DX: u16 = 0xA8;
+    pub const SIDE_PHASE_SCRIPTS: u32 = 0x29_4610;
+    pub const SIDE_STEP_X: i16 = 0x190;
+    pub const SIDE_WRECK_CELLS: u32 = 0x29_5F4A;
+    pub const SIDE_WRECK_DX: u16 = 0x50;
+    pub const SIDE_DEBRIS: [u32; 3] = [0x29_5B5A, 0x29_5B6C, 0x29_5CB0];
     /// Rutinas.
     pub const BLIT_SEQUENCE: u32 = 0x04_F1F4;
+    pub const FORTRESS_WAIT: u32 = 0x04_EB94;
+    pub const FORTRESS_LOOP: u32 = 0x04_EC24;
+    pub const FORTRESS_WRECK: u32 = 0x04_ED00;
+    pub const FORTRESS_WRECK_LOOP: u32 = 0x04_ED74;
+    pub const MOUNT_LOOP: u32 = 0x04_F058;
+    pub const MOUNT_FALL: u32 = 0x04_F0B0;
+    pub const MOUNT_FALL_LOOP: u32 = 0x04_F0CE;
+    pub const SIDE_LOOP: u32 = 0x04_F160;
+    pub const GATEHOUSE_WAIT: u32 = 0x04_E820;
+    pub const GATEHOUSE_LOOP: u32 = 0x04_E912;
+    pub const GATEHOUSE_DAMAGED: u32 = 0x04_E998;
+    pub const GATEHOUSE_DAMAGED_LOOP: u32 = 0x04_E9C4;
+    pub const GATEHOUSE_WRECK: u32 = 0x04_EA3E;
+    pub const GATEHOUSE_WRECK_LOOP: u32 = 0x04_EACC;
+    pub const ROOF_LOOP: u32 = 0x04_EF38;
+    pub const ROOF_WRECK: u32 = 0x04_EFA2;
+    pub const ROOF_WRECK_LOOP: u32 = 0x04_EFBC;
+    pub const DOOR_LOOP: u32 = 0x04_F00E;
+    pub const BOUNCER_LOOP: u32 = 0x04_F5FE;
+    pub const BOUNCER_HOP: u32 = 0x04_F64C;
+    pub const BOUNCER_HOP_LOOP: u32 = 0x04_F664;
+    pub const BOUNCER_ROLL: u32 = 0x04_F692;
+    pub const BOUNCER_ROLL_LOOP: u32 = 0x04_F6C6;
     pub const SEQUENCE_LOOP: u32 = 0x04_F206;
     pub const BARRIER_WAIT: u32 = 0x04_E55C;
     pub const BARRIER_LOOP: u32 = 0x04_E5F2;

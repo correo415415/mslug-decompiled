@@ -83,6 +83,95 @@ pub fn popup_value(m: &mut impl Machine) -> Flow {
     popup_run(m, t)
 }
 
+/// Marcador de tabla: como [`popup_value`], pero sin sumar puntos; las
+/// cifras salen de la tabla del tipo `+$98` (la primera es cuántas hay).
+/// Original: `Score_Popup_Table_09b48a`.
+pub fn popup_table(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    let player = m.read_u8(t + L::PLAYER);
+    m.write_u8(t + L::LAST_PLAYER, player);
+    let kind = u32::from(m.read_u8(t + L::KIND) & L::TABLE_KIND_MASK);
+    let table = m.read_u32(L::TABLE_DIGITS + kind * 4);
+    let n = m.read_u8(table);
+    m.write_u32(t + L::DIGIT_PTR, table + 1);
+    m.write_u8(t + L::DIGITS_LEFT, n);
+    m.write_u8(t + L::FALLING, n);
+    let x = m.read_u16(t + L::X).wrapping_add(L::DIGIT_STEP * u16::from(n & 0xF));
+    m.write_u16(t + L::X, x);
+    m.write_u8(t + L::FACING, 0);
+    let (r, _) = rng::next(m);
+    let y = m.read_u16(t + L::Y).wrapping_add((r & L::Y_JITTER) + L::Y_BASE);
+    m.write_u16(t + L::Y, y);
+    loop {
+        let d = tasks::spawn(m, L::DIGIT, t);
+        anim::copy_sprite_pos(m, t, d);
+        m.write_u8(d + L::PLAYER, player);
+        let x = m.read_u16(t + L::X).wrapping_sub(L::DIGIT_STEP);
+        m.write_u16(t + L::X, x);
+        let ptr = m.read_u32(t + L::DIGIT_PTR);
+        m.write_u32(t + L::DIGIT_PTR, ptr + 1);
+        let value = m.read_u8(ptr);
+        m.write_u16(d + L::DIGIT_VALUE, u16::from(value));
+        let left = m.read_u8(t + L::DIGITS_LEFT);
+        m.write_u16(d + L::DIGIT_DELAY, u16::from(left & 7) * 2);
+        let left = left.wrapping_sub(1);
+        m.write_u8(t + L::DIGITS_LEFT, left);
+        if (left as i8) <= 0 {
+            break;
+        }
+    }
+    popup_run(m, t)
+}
+
+/// Crea sobre `t` un marcador de tabla del tipo `kind` para el jugador
+/// `player`. Devuelve la tarea nueva.
+pub fn table_popup(m: &mut impl Memory, t: u32, player: u8, kind: u8) -> u32 {
+    let o = tasks::spawn(m, L::TABLE_POPUP, t);
+    anim::copy_sprite_pos(m, t, o);
+    m.write_u8(o + L::PLAYER, player);
+    m.write_u8(o + L::KIND, kind);
+    o
+}
+
+/// Crea sobre `t` el marcador de puntos del tipo 3 (tabla normal) para el
+/// jugador `player`. Devuelve la tarea nueva.
+fn kind3_popup(m: &mut impl Memory, t: u32, player: u8) -> u32 {
+    let o = tasks::spawn(m, L::VALUE_POPUP, t);
+    anim::copy_sprite_pos(m, t, o);
+    m.write_u8(o + L::PLAYER, player);
+    m.write_u8(o + L::KIND, L::KIND_POINTS);
+    m.write_u8(o + L::ALT, 0);
+    o
+}
+
+/// Marcador de puntos del tipo 3 para el jugador de `t` (`+$68`).
+/// Original: `Score_Popup_Kind3_09ba34`.
+pub fn points_popup(m: &mut impl Memory, t: u32) -> u32 {
+    let player = m.read_u8(t + L::PLAYER);
+    kind3_popup(m, t, player)
+}
+
+/// Índice del jugador cuya entidad es `e`, si es uno de los dos.
+fn player_of(e: u32) -> Option<u8> {
+    L::PLAYERS.iter().position(|&p| p == e).map(|i| i as u8)
+}
+
+/// Marcador de munición (tabla, tipo 2) sobre `t` para el jugador de la
+/// entidad `e` (nada si no es un jugador). Original:
+/// `Score_Popup_ForPlayer_09b9ba`.
+pub fn ammo_popup_for(m: &mut impl Memory, t: u32, e: u32) -> Option<u32> {
+    let p = player_of(e)?;
+    Some(table_popup(m, t, p, L::KIND_AMMO))
+}
+
+/// Marcador de puntos del tipo 3 sobre `t` para el jugador de la entidad
+/// `e` (nada si no es un jugador). Original:
+/// `Entity_AllocByPlayerSlot_09B9F6`.
+pub fn points_popup_for(m: &mut impl Memory, t: u32, e: u32) -> Option<u32> {
+    let p = player_of(e)?;
+    Some(kind3_popup(m, t, p))
+}
+
 /// Espera a que caigan las cifras y luego cuenta un rato antes de que
 /// parpadeen; también hay un tiempo máximo de vida.
 /// Original: `Score_Popup_Run_09b5e4`.

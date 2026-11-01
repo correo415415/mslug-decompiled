@@ -206,6 +206,130 @@ pub fn ammo_loop(m: &mut impl Machine, k: usize) -> Flow {
     ground_tail(m)
 }
 
+/// Arma, cambio de arma o bombas (`k` 0–2, plantillas 289–291): sprites,
+/// unos frames sin poder recogerse, prioridad, guion, cantidades por
+/// defecto y el bucle. Original: `Item_Tmpl289_Weapon_09abc2`,
+/// `Item_Tmpl290_WeaponSwap_09ac52`, `Item_Tmpl291_Bombs_09ad54`.
+pub fn supply(m: &mut impl Machine, k: usize) -> Flow {
+    let t = m.task_register();
+    let (a, b) = L::KIND_GFX[k];
+    anim::alloc_entry(m, t, a);
+    anim::alloc_entry(m, t, b);
+    m.write_u8(t + L::NO_PICKUP, L::AMMO_NO_PICKUP);
+    anim::set_attr(m, t, L::POW_ATTR);
+    let attr = m.read_u16(t + L::ATTR);
+    m.write_u16(t + L::ATTR, attr & L::ATTR_KEEP);
+    anim::start(m, t, L::KIND_SCRIPTS[k]);
+    if let Some((kind, arg)) = L::KIND_DEFAULTS[k] {
+        if m.read_u8(t + L::P_KIND) == 0 {
+            m.write_u8(t + L::P_KIND, kind);
+        }
+        if m.read_u8(t + L::P_ARG) == 0 {
+            m.write_u8(t + L::P_ARG, arg);
+        }
+    }
+    m.write_u32(t + T::HANDLER, L::KIND_LOOPS[k]);
+    supply_loop(m, k)
+}
+
+/// Bucle de [`supply`]: cae, anima y, si lo toca un jugador, le da lo que
+/// lleva (munición; proyectiles o bombas; reparación del Slug o puntos),
+/// saca el marcador y pasa a recogido.
+/// Original: `Item_Tmpl289_Weapon_09abc2+$5E` (y los otros dos).
+pub fn supply_loop(m: &mut impl Machine, k: usize) -> Flow {
+    let t = m.task_register();
+    collision::fall(m, t);
+    anim::step(m, t);
+    if let Some((p, _)) = pickup::item_toucher(m, t, L::PICKBOX_A) {
+        m.write_u8(t + L::ITEM_PLAYER, p);
+        let in_slug = m.read_u8(L::PLAYERS[usize::from(p != 0)] + L::PLAYER_STATE) == L::IN_SLUG;
+        match k {
+            0 => give_ammo(m, t, p),
+            1 if in_slug => {
+                let arg = m.read_u8(t + L::P_ARG);
+                m.write_u8(t + L::P_KIND, arg);
+                slug_add_shells(m, t);
+                super::score::table_popup(m, t, p, L::POPUP_SHELLS);
+            }
+            1 => {
+                give_bombs(m, t, p);
+                super::score::table_popup(m, t, p, L::POPUP_BOMBS);
+            }
+            _ => {
+                let amount = u16::from(m.read_u8(t + L::P_KIND));
+                if in_slug && !slug_repair(m, amount) {
+                    super::score::table_popup(m, t, p, L::POPUP_REPAIR);
+                } else {
+                    super::score::points_popup(m, t);
+                }
+            }
+        }
+        m.write_u32(t + T::HANDLER, L::TAKEN[[2, 1, 3][k]]);
+        sound::play(m, L::SND_TAKEN);
+    }
+    ground_tail(m)
+}
+
+/// Munición para el arma que lleva el jugador `p` (`+$99` si es la 4,
+/// si no `+$98`; $FF = nada), hasta 999, con su marcador; con la pistola
+/// solo da puntos. Original: `Item_GiveAmmo_ToPlayer_032c12`.
+pub fn give_ammo(m: &mut impl Memory, t: u32, p: u8) {
+    let e = L::PLAYERS[usize::from(p != 0)];
+    let weapon = m.read_u8(e + L::PLAYER_WEAPON);
+    let field = if weapon == L::WEAPON_USES_ARG { L::P_ARG } else { L::P_KIND };
+    let amount = m.read_u8(t + field);
+    if amount == L::NO_AMOUNT {
+        return;
+    }
+    if weapon == L::WEAPON_PISTOL {
+        super::score::points_popup_for(m, t, e);
+        return;
+    }
+    let mut ammo = m.read_u16(e + L::PLAYER_AMMO).wrapping_add(u16::from(amount));
+    if ammo as i16 > L::MAX_AMMO as i16 {
+        ammo = L::MAX_AMMO;
+    }
+    m.write_u16(e + L::PLAYER_AMMO, ammo);
+    super::score::ammo_popup_for(m, t, e);
+}
+
+/// Suma `+$98` bombas al jugador `p` (salvo $FF), hasta 99.
+/// Original: `Item_GiveBombs_ToPlayer_032c7e`.
+pub fn give_bombs(m: &mut impl Memory, t: u32, p: u8) {
+    let e = L::PLAYERS[usize::from(p != 0)];
+    let amount = m.read_u8(t + L::P_KIND);
+    if amount == L::NO_AMOUNT {
+        return;
+    }
+    let n = m.read_u8(e + L::PLAYER_BOMBS).wrapping_add(amount);
+    m.write_u8(e + L::PLAYER_BOMBS, n.min(L::MAX_BOMBS as u8));
+}
+
+/// Suma `+$98` proyectiles al Slug (salvo $FF).
+/// Original: `Slug_AddGaugeFromField98_02a28e`.
+pub fn slug_add_shells(m: &mut impl Memory, t: u32) {
+    let amount = m.read_u8(t + L::P_KIND);
+    if amount == L::NO_AMOUNT {
+        return;
+    }
+    let n = m.read_u8(L::SLUG + L::SLUG_SHELLS).wrapping_add(amount);
+    m.write_u8(L::SLUG + L::SLUG_SHELLS, n);
+}
+
+/// Repara el Slug `amount` puntos (hasta $30) con su sonido. Devuelve
+/// `true` (C) si ya estaba entero y no hace nada.
+/// Original: `Slug_AddHP_02a2ba`.
+pub fn slug_repair(m: &mut impl Memory, amount: u16) -> bool {
+    let hp = m.read_u16(L::SLUG + L::SLUG_HP) as i16;
+    if hp >= L::SLUG_MAX_HP {
+        return true;
+    }
+    let hp = hp.wrapping_add(amount as i16).min(L::SLUG_MAX_HP);
+    m.write_u16(L::SLUG + L::SLUG_HP, hp as u16);
+    sound::play(m, L::SND_REPAIR);
+    false
+}
+
 /// Da al jugador el arma `weapon` con `amount`; si está en el estado 2
 /// suena el aviso; y marca el arma nueva con su parpadeo.
 /// Original: `Item_GiveAmmo_09a858` (con `$032CBA`).

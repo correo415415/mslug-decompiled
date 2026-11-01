@@ -180,15 +180,7 @@ fn tilt_to_slope(m: &mut impl Memory, t: u32) -> bool {
     if d2 == m.read_u16(t + L::SLOPE) {
         return false;
     }
-    m.write_u16(t + L::SLOPE, d2);
-    let k = (0x20u16.wrapping_sub(((d2 as i16) >> 1) as u16)).min(L::TILT_MAX);
-    let s = slug::angle_sprite(m, k);
-    let script = m.read_u32(L::TILT_SCRIPTS.wrapping_add(s.wrapping_mul(4) as i16 as u32));
-    if script != L::NO_SCRIPT {
-        anim::start(m, t, script);
-    }
-    m.write_u8(t + L::BYTE_20, (k >> 2) as u8);
-    set_bits(m, t + L::FLAGS_8D, L::TILTED, true);
+    tilt_to(m, t, d2);
     true
 }
 
@@ -306,5 +298,121 @@ pub fn land_loop(m: &mut impl Machine) -> Flow {
         set_handler(m, t, L::EJECT);
     }
     hit_table(m, t, L::HIT_HANDLERS);
+    Flow::Return
+}
+
+/// Preparación común de la caída: sin el bit 5 de `+$8C`, gravedad, sin
+/// aceleración y la Y de apoyo baja (sin quedar por encima del sprite).
+fn fall_setup(m: &mut impl Memory, t: u32) {
+    set_bits(m, t + L::FLAGS_8C, L::BIT_8C_5, false);
+    m.write_u16(t + L::ACC_Y, L::FALL_ACC_Y);
+    m.write_u16(t + L::ACC_X, 0);
+    let base = m.read_u16(t + L::BASE_Y).wrapping_add(L::FALL_BASE_STEP);
+    m.write_u16(t + L::BASE_Y, base);
+    let y = m.read_u16(t + L::Y);
+    if (y as i16) > (base as i16) {
+        m.write_u16(t + L::BASE_Y, y);
+    }
+}
+
+/// Inclina el sprite a la pendiente `d2` (guardándola) y marca `TILTED`.
+fn tilt_to(m: &mut impl Memory, t: u32, d2: u16) {
+    m.write_u16(t + L::SLOPE, d2);
+    let k = (0x20u16.wrapping_sub(((d2 as i16) >> 1) as u16)).min(L::TILT_MAX);
+    let s = slug::angle_sprite(m, k);
+    let script = m.read_u32(L::TILT_SCRIPTS.wrapping_add(s.wrapping_mul(4) as i16 as u32));
+    if script != L::NO_SCRIPT {
+        anim::start(m, t, script);
+    }
+    m.write_u8(t + L::BYTE_20, (k >> 2) as u8);
+    set_bits(m, t + L::FLAGS_8D, L::TILTED, true);
+}
+
+/// Empieza a caer sin cambiar el sprite. Original: `Slug_FallStart_02cffa`.
+pub fn fall_start(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    fall_setup(m, t);
+    set_handler(m, t, L::FALL_START_LOOP);
+    fall_start_loop(m)
+}
+
+/// Original: `Slug_FallStart_02cffa+$2A`.
+pub fn fall_start_loop(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    set_bits(m, t + L::FLAGS_8D, L::TILTED, true);
+    fall_loop(m)
+}
+
+/// Empieza a caer con el sprite inclinado a la pendiente.
+/// Original: `Slug_Fall_02d02e`.
+pub fn fall(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    fall_setup(m, t);
+    let (_, _, d2) = slug::terrain_slope(m, t);
+    tilt_to(m, t, d2);
+    set_handler(m, t, L::FALL_LOOP);
+    fall_loop(m)
+}
+
+/// Caída ya disparando. Original: `Slug_FallFire_02d26e`.
+pub fn fall_fire(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    set_bits(m, t + L::FLAGS_8D, L::TILTED, true);
+    if slug_drive::can_fire(m, t) {
+        set_handler(m, t, L::FIRE_AIR_B);
+    }
+    fall_loop(m)
+}
+
+/// Cayendo: control en el aire, topes de velocidad, disparo, aterrizaje
+/// (agachado si abajo y, con algunas configuraciones, saltando otra vez),
+/// inclinación al pisar cuesta, golpes y fuera de pantalla.
+/// Original: `Slug_Fall_Loop_02d0c4`.
+pub fn fall_loop(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    steer(m, t);
+    clamp_vel_x(m, t);
+    let vy = player_air::clamp(m.read_u16(t + L::VEL_Y), L::MAX_VEL_Y);
+    m.write_u16(t + L::VEL_Y, vy);
+    set_bits(m, t + L::FLAGS_8D, L::IN_AIR, true);
+    slug::update_anim_keep_idx(m, t);
+    slug_idle::leave_chassis_regs(m, t);
+    if slug_drive::can_fire(m, t) {
+        set_handler(m, t, L::FIRE_AIR);
+    }
+    let row = m.regs().d[4] as u16;
+    if slug::physics_air(m, t, row) {
+        set_handler(m, t, L::LAND);
+        if slug_drive::down_held(m, t) {
+            let idx = slug::slope_anim_idx(m, t) & 0xFF;
+            tasks::goto_by_table(m, t, L::CROUCH_LAND, idx, None);
+        }
+        for layout in L::REJUMP_LAYOUTS {
+            if m.read_u8(L::CONTROL_LAYOUT) == layout {
+                let dir = jump_pressed_dir(m, t).unwrap_or(0);
+                tasks::goto_by_table(m, t, L::JUMP_BY_DIR, u16::from(dir), None);
+            }
+        }
+    }
+    slug::update_steering(m, t);
+    anim::step(m, t);
+    if (m.read_u16(t + L::VEL_Y) as i16) <= 0 {
+        if slug::ground_contact(m, t).wheels > 0 {
+            m.write_u16(t + L::VEL_X, 0);
+            m.write_u16(t + L::ACC_X, 0);
+        }
+        let (_, _, d2) = slug::terrain_slope(m, t);
+        if d2 != m.read_u16(t + L::SLOPE) {
+            tilt_to(m, t, d2);
+            if m.read_u32(t + T::HANDLER) == L::FALL_LOOP {
+                set_handler(m, t, L::FALL_FIRE);
+            }
+        }
+    }
+    let table = if m.read_u8(t + L::FLAGS_8D) & L::IN_AIR != 0 { L::HIT_HANDLERS_AIR } else { L::HIT_HANDLERS };
+    hit_table(m, t, table);
+    if items::out_of_view_seen(m, t, Some(L::MARGINS)) {
+        return Flow::Goto(L::DEATH_FINISH);
+    }
     Flow::Return
 }
