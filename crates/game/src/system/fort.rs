@@ -12,7 +12,7 @@
 //! `Fort_Init_Common_086738`, `Fort_SpawnChildren_V0…V4`) y `$02942A`,
 //! `$02870A`, `$04FA70`, `$05DD22`, `$05E770`.
 
-use super::{anim, events, platforms, sound, tasks};
+use super::{anim, events, layer, manual_icons, motion, platforms, score, scroll, sound, spawner, tasks};
 use crate::layout::{fort as L, task as T};
 use crate::mem::{Flow, Machine, Memory};
 
@@ -436,6 +436,238 @@ pub fn crate_run(m: &mut impl Machine) -> Flow {
     }
     pulse_hitbox(m, t, true);
     Flow::Return
+}
+
+// ---------------------------------------------------------------------
+// Casamatas del fuerte: cuatro estados de daño (cada uno con su guion),
+// pasan el daño al fuerte y, al morir, o revientan del todo o (las de
+// variante impar) se desmoronan con un trozo que cae antes de reventar.
+// Original: `Pillbox_Init_08686a` … `Pillbox_Fragment_086c62`.
+// ---------------------------------------------------------------------
+
+/// Arranca el guion `k` (0 = intacta, 1 y 2 = dañada) de la casamata
+/// según la fila de su estado (`STATE >> 4`).
+fn pillbox_script(m: &mut impl Memory, t: u32, k: u32) {
+    let row = u32::from(m.read_u8(t + L::STATE)) >> 4;
+    let s = m.read_u32(L::PILLBOX_SCRIPTS + (row + k) * 4);
+    if s != L::NO_ANIM {
+        anim::start(m, t, s);
+    }
+}
+
+/// Alta de una casamata (variante `v`, ver `PILLBOX_INITS`).
+/// Original: `Pillbox_Init_08686a` (+ las variantes) y `.L0868E2`.
+pub fn pillbox_start(m: &mut impl Machine, v: usize) -> Flow {
+    let t = m.task_register();
+    let (gfx, state) = L::PILLBOX_INITS[v];
+    anim::alloc_entry(m, t, gfx);
+    m.write_u8(t + L::STATE, state);
+    m.write_u8(t + L::SHRINK_Y, L::FULL_SIZE);
+    m.write_u8(t + L::SHRINK_X, L::FULL_SIZE);
+    m.write_u8(t + L::FLIP, 0);
+    m.write_u16(t + L::HP, L::PILLBOX_HP);
+    m.write_u16(t + L::LAST_HP, L::PILLBOX_HP);
+    m.write_u16(t + L::ATTR, L::PILLBOX_ATTR);
+    manual_icons::stop_motion(m, t);
+    let r = m.regs();
+    let at = (r.d[3] as u16, r.d[4] as u16);
+    motion::on_entity_pos(m, t, |m| motion::move_e_probe(m, t, at));
+    pillbox_script(m, t, 0);
+    let i = m.read_u16(t + L::INDEX) as u8;
+    m.write_u8(t + L::SLOT, i);
+    m.write_u32(t + T::HANDLER, L::PILLBOX_RUN);
+    pillbox_run(m)
+}
+
+/// Se borra del mapa de colisión y se da de baja.
+fn pillbox_gone(m: &mut impl Machine, t: u32) -> Flow {
+    scroll::blit_cells(m, t, L::PILLBOX_CELLS);
+    tasks::finish(m)
+}
+
+/// Frame común: si el fuerte ha caído se va; si no, se mueve con la
+/// escena, anima y, si le dan, suena y pasa el daño al fuerte.
+fn pillbox_frame(m: &mut impl Machine, t: u32) -> Option<Flow> {
+    if parent_gone(m, t) {
+        return Some(pillbox_gone(m, t));
+    }
+    platforms::move_with_scene(m, t);
+    anim::step(m, t);
+    if hit_side(m, t).is_some() {
+        sound::play(m, L::PILLBOX_SND_HIT);
+        let f = m.read_u8(t + L::FLAGS2) & !L::HIT;
+        m.write_u8(t + L::FLAGS2, f);
+        pass_damage_to_parent(m, t);
+    }
+    None
+}
+
+/// Bucle del estado `k`: con la vida por debajo de su umbral pasa al
+/// siguiente.
+fn pillbox_stage(m: &mut impl Machine, k: usize) -> Flow {
+    let t = m.task_register();
+    if let Some(f) = pillbox_frame(m, t) {
+        return f;
+    }
+    if m.read_u16(t + L::HP) as i16 <= L::PILLBOX_THRESHOLDS[k] {
+        m.write_u32(t + T::HANDLER, L::PILLBOX_NEXT[k]);
+    }
+    Flow::Return
+}
+
+/// Intacta. Original: `$086944`.
+pub fn pillbox_run(m: &mut impl Machine) -> Flow {
+    pillbox_stage(m, 0)
+}
+
+/// Primer daño: su guion y su bucle. Original: `Pillbox_Damaged1_0869a4`.
+pub fn pillbox_damaged1(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    pillbox_script(m, t, 1);
+    m.write_u32(t + T::HANDLER, L::PILLBOX_DAMAGED1_RUN);
+    pillbox_damaged1_run(m)
+}
+
+/// Original: `$0869D0`.
+pub fn pillbox_damaged1_run(m: &mut impl Machine) -> Flow {
+    pillbox_stage(m, 1)
+}
+
+/// Segundo daño. Original: `Pillbox_Damaged2_086a30`.
+pub fn pillbox_damaged2(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    pillbox_script(m, t, 2);
+    m.write_u32(t + T::HANDLER, L::PILLBOX_DAMAGED2_RUN);
+    pillbox_damaged2_run(m)
+}
+
+/// Original: `$086A5C`.
+pub fn pillbox_damaged2_run(m: &mut impl Machine) -> Flow {
+    pillbox_stage(m, 2)
+}
+
+/// Destruida: puntos, sonido `snd`, explosión, ruina pintada en la capa,
+/// humo, la oleada que tenga asignada y baja.
+fn pillbox_destroyed(m: &mut impl Machine, t: u32, snd: u16) -> Flow {
+    score::award_attacker(m, t, L::PILLBOX_POINTS);
+    sound::play(m, snd);
+    let c = tasks::spawn(m, L::PILLBOX_BOOM, t);
+    place_child(m, t, c);
+    lower(m, c, L::PILLBOX_BOOM_DY);
+    let cmd = m.read_u32(t + L::BLIT);
+    layer::blit(m, cmd);
+    let s = spawner::install(m, t, L::PILLBOX_SMOKE);
+    lower(m, s, L::PILLBOX_BOOM_DY);
+    let w = m.read_u32(t + L::WATCH);
+    if w != L::NO_WATCH {
+        m.write_u8(t + L::WATCH_FLAG_BYTE, 0);
+        events::spawn_watch(m, w, L::WATCH_FLAG);
+    }
+    pillbox_gone(m, t)
+}
+
+fn lower(m: &mut impl Memory, t: u32, dy: u16) {
+    let y = m.read_u16(t + L::Y).wrapping_add(dy);
+    m.write_u16(t + L::Y, y);
+}
+
+/// Crítica: al morir apaga su caja de golpe y revienta (o se desmorona,
+/// las de estado impar). Original: `Pillbox_Critical_086abc`.
+pub fn pillbox_critical(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    m.write_u32(t + T::HANDLER, L::PILLBOX_CRITICAL_RUN);
+    pillbox_critical_run(m)
+}
+
+/// Original: `$086AC2`.
+pub fn pillbox_critical_run(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    if let Some(f) = pillbox_frame(m, t) {
+        return f;
+    }
+    if !dead(m, t) {
+        return Flow::Return;
+    }
+    let f = m.read_u8(t + L::FLAGS2) & !L::DEAD;
+    m.write_u8(t + L::FLAGS2, f);
+    m.write_u32(t + L::HITBOX, L::NO_HITBOX);
+    if m.read_u8(t + L::STATE) & L::PILLBOX_COLLAPSES != 0 {
+        m.write_u32(t + T::HANDLER, L::PILLBOX_COLLAPSE);
+        return Flow::Return;
+    }
+    pillbox_destroyed(m, t, L::PILLBOX_SND_DOWN)
+}
+
+/// Se desmorona: suelta el trozo que cae y espera a que éste avise
+/// (`STATE` con los cuatro bits bajos a 1). Original: `Pillbox_Collapse_086ba4`.
+pub fn pillbox_collapse(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    let c = tasks::spawn(m, L::PILLBOX_FRAGMENT, t);
+    place_child(m, t, c);
+    m.write_u32(t + T::HANDLER, L::PILLBOX_COLLAPSE_RUN);
+    pillbox_collapse_run(m)
+}
+
+/// Original: `$086BBA`.
+pub fn pillbox_collapse_run(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    if parent_gone(m, t) {
+        return pillbox_gone(m, t);
+    }
+    platforms::move_with_scene(m, t);
+    anim::step(m, t);
+    if m.read_u8(t + L::STATE) & L::PILLBOX_FALLEN != L::PILLBOX_FALLEN {
+        return Flow::Return;
+    }
+    pillbox_destroyed(m, t, L::PILLBOX_SND_COLLAPSE)
+}
+
+/// Trozo que cae de la casamata. Original: `Pillbox_Fragment_086c62`.
+pub fn pillbox_fragment(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    anim::alloc_entry(m, t, L::FRAGMENT_GFX);
+    m.write_u8(t + L::SHRINK_Y, L::FULL_SIZE);
+    m.write_u8(t + L::SHRINK_X, L::FULL_SIZE);
+    m.write_u8(t + L::FLIP, 0);
+    m.write_u16(t + L::ATTR, 0);
+    lower(m, t, L::FRAGMENT_DY);
+    anim::start(m, t, L::FRAGMENT_SCRIPT);
+    m.write_u32(t + T::HANDLER, L::PILLBOX_FRAGMENT_RUN);
+    pillbox_fragment_run(m)
+}
+
+/// Cae con su guion; al acabar avisa a la casamata. Se va también si
+/// cae el fuerte. Original: `$086C9C`.
+pub fn pillbox_fragment_run(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    let owner = m.read_u32(t + T::OWNER);
+    if parent_gone(m, owner) {
+        return tasks::finish(m);
+    }
+    platforms::move_with_scene(m, t);
+    if anim::step(m, t) {
+        let s = m.read_u8(owner + L::STATE) | L::PILLBOX_FALLEN;
+        m.write_u8(owner + L::STATE, s);
+        return tasks::finish(m);
+    }
+    Flow::Return
+}
+
+/// Pinta en la capa la ruina del fuerte según su variante.
+/// Original: `Fort_BlitWreck_088a28` (y `$088A64`…`$088B00`).
+pub fn blit_wreck(m: &mut impl Memory, t: u32) {
+    let v = usize::from(m.read_u8(t + L::VARIANT));
+    if let Some(list) = L::WRECK_BLITS.get(v) {
+        for &cmd in list.iter() {
+            layer::blit(m, cmd);
+        }
+    }
+}
+
+/// Pinta el trozo de ruina `k` (ver `PIECE_BLITS`).
+/// Original: las rutinas de un solo blit de `$088B3E` a `$088F4A`.
+pub fn blit_piece(m: &mut impl Memory, k: usize) {
+    layer::blit(m, L::PIECE_BLITS[k]);
 }
 
 #[cfg(test)]

@@ -773,6 +773,21 @@ pub mod pads {
     pub const DEMO_PTR: u32 = 0x10_6EBE;
     pub const DEMO_WORDS: [u32; 3] = [0x10_6EC2, 0x10_6EC4, 0x10_6EBC];
     pub const DEMO_BYTE: u32 = 0x10_6EC6;
+    /// Demo: posición del último cambio (sus 4 bits altos dicen qué botón
+    /// cambia), posición de escritura / lectura, frames de la racha actual
+    /// y botones mantenidos de cada mando. Con la demo acabada (o el búfer
+    /// lleno) el modo pasa a `DEMO_DONE` y los mandos quedan a cero.
+    pub const DEMO_TOGGLE_POS: u32 = 0x10_6EC2;
+    pub const DEMO_POS: u32 = 0x10_6EC4;
+    pub const DEMO_RUN: u32 = 0x10_6EC6;
+    pub const DEMO_HELD: [u32; 2] = [0x10_6EBC, 0x10_6EBD];
+    pub const DEMO_PLAYING: u8 = 1;
+    pub const DEMO_DONE: u8 = 2;
+    /// Máximo de frames de una racha: 15 si comparte byte con un cambio.
+    pub const DEMO_RUN_SHARED: u8 = 0x0F;
+    pub const DEMO_RUN_FULL: u8 = 0xFF;
+    /// Bit 3 del número de botón: es del mando 2.
+    pub const DEMO_P2_BIT: u8 = 8;
     /// Tabla de la ROM con las demos y flag de la ROM que pide borrarlas.
     pub const DEMO_TABLE: u32 = 0x0E_7C00;
     pub const DEMO_CLEAR_FLAG: u32 = 0x02_5118;
@@ -2456,6 +2471,69 @@ pub mod fort {
             (CRATE[4], 0x28, 0x00, None, 0x2E_D940, None),
             (CRATE[4], 0x98, 0x00, None, 0x2E_D954, None),
         ],
+    ];
+    /// Casamatas: gráfico y estado inicial por variante (`STATE`: fila de
+    /// guiones en el nibble alto, bit 0 = se desmorona), vida, atributos,
+    /// tabla de guiones (3 por fila), umbrales de vida de cada estado y
+    /// el siguiente, sonidos, puntos, celdas que borra, explosión, humo,
+    /// el trozo que cae y la marca que pone éste al acabar.
+    pub const PILLBOX_INITS: [(u16, u8); 6] = [(0xE3, 0x00), (0xE4, 0x30), (0xE3, 0x60), (0xE3, 0x01), (0xE4, 0x31), (0xE3, 0x61)];
+    pub const PILLBOX_ENTRIES: [u32; 6] = [0x08_686A, 0x08_687E, 0x08_6892, 0x08_68A6, 0x08_68BA, 0x08_68CE];
+    pub const PILLBOX_HP: u16 = 0x28;
+    pub const PILLBOX_ATTR: u16 = 0x8000;
+    pub const SLOT: u32 = 0x44;
+    pub const PILLBOX_SCRIPTS: u32 = 0x2E_B2C0;
+    pub const PILLBOX_RUN: u32 = 0x08_6944;
+    pub const PILLBOX_DAMAGED1: u32 = 0x08_69A4;
+    pub const PILLBOX_DAMAGED1_RUN: u32 = 0x08_69D0;
+    pub const PILLBOX_DAMAGED2: u32 = 0x08_6A30;
+    pub const PILLBOX_DAMAGED2_RUN: u32 = 0x08_6A5C;
+    pub const PILLBOX_CRITICAL: u32 = 0x08_6ABC;
+    pub const PILLBOX_CRITICAL_RUN: u32 = 0x08_6AC2;
+    pub const PILLBOX_COLLAPSE: u32 = 0x08_6BA4;
+    pub const PILLBOX_COLLAPSE_RUN: u32 = 0x08_6BBA;
+    pub const PILLBOX_FRAGMENT: u32 = 0x08_6C62;
+    pub const PILLBOX_FRAGMENT_RUN: u32 = 0x08_6C9C;
+    pub const PILLBOX_THRESHOLDS: [i16; 3] = [0x1E, 0x1A, 0x0D];
+    pub const PILLBOX_NEXT: [u32; 3] = [PILLBOX_DAMAGED1, PILLBOX_DAMAGED2, PILLBOX_CRITICAL];
+    pub const PILLBOX_SND_HIT: u16 = 0x108D;
+    pub const PILLBOX_SND_DOWN: u16 = 0x102F;
+    pub const PILLBOX_SND_COLLAPSE: u16 = 0x102C;
+    pub const PILLBOX_POINTS: u32 = 0x100;
+    pub const PILLBOX_CELLS: u32 = 0x2E_DD48;
+    pub const PILLBOX_BOOM: u32 = 0x07_8066;
+    pub const PILLBOX_BOOM_DY: u16 = 0x10;
+    pub const PILLBOX_SMOKE: u32 = 0x2E_D05C;
+    pub const PILLBOX_COLLAPSES: u8 = 1;
+    pub const PILLBOX_FALLEN: u8 = 0x0F;
+    pub const NO_WATCH: u32 = 0xFFFF_FFFF;
+    pub const FRAGMENT_GFX: u16 = 0x6C;
+    pub const FRAGMENT_DY: u16 = 8;
+    pub const FRAGMENT_SCRIPT: u32 = 0x2E_B2E4;
+    /// Ruina del fuerte pintada en la capa al caer, por variante
+    /// (`VARIANT`), y los trozos sueltos de ruina que pintan otras piezas
+    /// (uno por rutina, de `$088B3E` en adelante).
+    pub const WRECK_BLITS: [&[u32]; 5] = [
+        &[0x2E_DAA8, 0x2E_DABC, 0x2E_DAD0, 0x2E_DAE4],
+        &[0x2E_DAF8, 0x2E_DB0C, 0x2E_DB20],
+        &[0x2E_DB34, 0x2E_DB48, 0x2E_DB5C, 0x2E_DB70],
+        &[0x2E_DB84, 0x2E_DB98, 0x2E_DBAC],
+        &[0x2E_DBC0, 0x2E_DBD4, 0x2E_DBE8, 0x2E_DBFC],
+    ];
+    pub const PIECE_BLITS: [u32; 75] = [
+        0x2E_D1FC, 0x2E_D210, 0x2E_D224, 0x2E_D238, 0x2E_D24C, 0x2E_D260,
+        0x2E_D274, 0x2E_D288, 0x2E_D29C, 0x2E_D2B0, 0x2E_D2C4, 0x2E_D2D8,
+        0x2E_D2EC, 0x2E_D300, 0x2E_D314, 0x2E_D328, 0x2E_D33C, 0x2E_D350,
+        0x2E_D364, 0x2E_D378, 0x2E_D38C, 0x2E_D3A0, 0x2E_D3B4, 0x2E_D3C8,
+        0x2E_D3DC, 0x2E_D3F0, 0x2E_D404, 0x2E_D418, 0x2E_D42C, 0x2E_D440,
+        0x2E_D454, 0x2E_D468, 0x2E_D47C, 0x2E_D490, 0x2E_D4A4, 0x2E_D4B8,
+        0x2E_D4CC, 0x2E_D4E0, 0x2E_D4F4, 0x2E_D508, 0x2E_D51C, 0x2E_D530,
+        0x2E_D544, 0x2E_D558, 0x2E_D56C, 0x2E_D580, 0x2E_D594, 0x2E_D5A8,
+        0x2E_D5BC, 0x2E_D5D0, 0x2E_D5E4, 0x2E_D5F8, 0x2E_D60C, 0x2E_D620,
+        0x2E_D634, 0x2E_D648, 0x2E_D65C, 0x2E_D670, 0x2E_D684, 0x2E_D698,
+        0x2E_D6AC, 0x2E_D6C0, 0x2E_D6D4, 0x2E_D6E8, 0x2E_D6FC, 0x2E_D710,
+        0x2E_D724, 0x2E_DC9C, 0x2E_DC10, 0x2E_DC24, 0x2E_DC38, 0x2E_DC4C,
+        0x2E_DC60, 0x2E_DC74, 0x2E_DC88,
     ];
 }
 
