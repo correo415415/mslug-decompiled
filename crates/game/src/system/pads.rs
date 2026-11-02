@@ -2,10 +2,15 @@
 //!
 //! En cada frame se copian los mandos que ha leído la BIOS a los mandos de
 //! trabajo, calculando los botones recién pulsados y la repetición
-//! automática (para los menús). Con una demo grabada en marcha, la lectura
-//! la hace la rutina de demo original (aún sin portar).
+//! automática (para los menús). Con una demo en marcha los botones salen
+//! de la demo (o se graban en ella).
+//!
+//! La demo es una lista de bytes: cada uno es una racha (frames sin
+//! cambios); el byte de un cambio lleva en los 4 bits altos el botón que
+//! cambia (0–7 mando 1, 8–15 mando 2) y en los bajos su racha (hasta 15).
 //!
 //! Original: `Input_ReadFrame_05CC1A`, `Input_Poll_LiveMode_025066`,
+//! `Input_ReplayFlag_025118` (`$02511A`), `InputRec_*` (`$025282`…`$025432`),
 //! `Pause_Poll_013c3c`, `Pause_Active_013cae`.
 
 use crate::layout::{bios_ram, pads as P, pause as Z};
@@ -45,15 +50,145 @@ pub fn read_live(m: &mut impl Memory) {
     update_pad(m, P::WORK[1], p2);
 }
 
+/// Mandos del frame con demo: graba o reproduce un frame y actualiza los
+/// mandos de trabajo con sus botones; con la demo acabada, a cero.
+/// Original: `$02511A`.
+pub fn read_demo(m: &mut impl Memory) {
+    let mut held = [0u8; 2];
+    if m.read_u8(P::DEMO_MODE) == P::DEMO_PLAYING {
+        if m.read_u8(P::DEMO_CLEAR_FLAG) != 0 {
+            record_frame(m);
+        } else {
+            playback_frame(m);
+        }
+        for k in 0..2 {
+            held[k] = m.read_u8(P::DEMO_HELD[k]);
+        }
+    }
+    for k in 0..2 {
+        update_pad(m, P::WORK[k], held[k]);
+    }
+}
+
+/// Cierra la racha actual en el búfer `buf`. Original: `InputRec_FlushRun_025366`.
+pub fn flush_run(m: &mut impl Memory, buf: u32) {
+    let pos = m.read_u16(P::DEMO_POS);
+    if u32::from(pos) >= P::DEMO_BUFFER_LEN {
+        return;
+    }
+    let run = m.read_u8(P::DEMO_RUN);
+    m.write_u8(buf + u32::from(pos), run);
+    m.write_u8(P::DEMO_RUN, 0);
+    m.write_u16(P::DEMO_POS, pos + 1);
+}
+
+/// Apunta que ha cambiado el botón `bit` (0–15): cierra la racha y guarda
+/// el botón en los 4 bits altos del byte del último cambio.
+/// Original: `InputRec_StoreBitToggle_025390`.
+pub fn store_toggle(m: &mut impl Memory, buf: u32, bit: u8) {
+    flush_run(m, buf);
+    let at = m.read_u16(P::DEMO_TOGGLE_POS);
+    if u32::from(at) >= P::DEMO_BUFFER_LEN {
+        return;
+    }
+    let a = buf + u32::from(at);
+    let v = (bit << 4) | (m.read_u8(a) & 0x0F);
+    m.write_u8(a, v);
+    let pos = m.read_u16(P::DEMO_POS);
+    m.write_u16(P::DEMO_TOGGLE_POS, pos);
+}
+
+/// Graba un frame: los cambios de botones respecto al anterior.
+/// Original: `InputRec_RecordFrame_025282`.
+pub fn record_frame(m: &mut impl Memory) {
+    let buf = m.read_u32(P::DEMO_PTR);
+    let limit = if m.read_u16(P::DEMO_TOGGLE_POS) == m.read_u16(P::DEMO_POS) {
+        P::DEMO_RUN_SHARED
+    } else {
+        P::DEMO_RUN_FULL
+    };
+    if limit <= m.read_u8(P::DEMO_RUN) {
+        flush_run(m, buf);
+    }
+    let mut changed = 0u16;
+    for (k, bios) in [P::BIOS_P1, P::BIOS_P2].into_iter().enumerate() {
+        let now = m.read_u8(bios);
+        let before = m.read_u8(P::DEMO_HELD[k]);
+        m.write_u8(P::DEMO_HELD[k], now);
+        changed |= u16::from(now ^ before) << (8 * k);
+    }
+    for bit in (0..16u8).rev() {
+        if changed & (1 << bit) != 0 {
+            store_toggle(m, buf, bit);
+        }
+    }
+    let run = m.read_u8(P::DEMO_RUN).wrapping_add(1);
+    m.write_u8(P::DEMO_RUN, run);
+    if u32::from(m.read_u16(P::DEMO_POS)) >= P::DEMO_BUFFER_LEN {
+        for a in P::DEMO_HELD {
+            m.write_u8(a, 0);
+        }
+        m.write_u8(P::DEMO_MODE, P::DEMO_DONE);
+    }
+}
+
+/// Siguiente cambio de botón de la demo si toca en este frame (la racha
+/// guardada coincide con los frames contados). Al pasar del búfer, la demo
+/// se acaba. Original: `InputRec_ReadNextRun_0253be` (C = hay cambio, en `d0`).
+pub fn read_next_run(m: &mut impl Memory, buf: u32) -> Option<u8> {
+    let mut pos = m.read_u16(P::DEMO_POS);
+    if u32::from(pos) >= P::DEMO_BUFFER_LEN {
+        m.write_u8(P::DEMO_MODE, P::DEMO_DONE);
+        return None;
+    }
+    let mut run = m.read_u8(buf + u32::from(pos));
+    let mut full = P::DEMO_RUN_FULL;
+    if pos == m.read_u16(P::DEMO_TOGGLE_POS) {
+        full = P::DEMO_RUN_SHARED;
+        run &= full;
+    }
+    if run != m.read_u8(P::DEMO_RUN) {
+        m.write_u16(P::DEMO_POS, pos);
+        return None;
+    }
+    m.write_u8(P::DEMO_RUN, 0);
+    pos += 1;
+    if run == full {
+        // Racha llena: sigue otra salvo que venga un 0.
+        if m.read_u8(buf + u32::from(pos)) != 0 {
+            m.write_u16(P::DEMO_POS, pos);
+            return None;
+        }
+        pos += 1;
+    }
+    m.write_u16(P::DEMO_POS, pos);
+    let at = m.read_u16(P::DEMO_TOGGLE_POS);
+    m.write_u16(P::DEMO_TOGGLE_POS, pos);
+    Some(m.read_u8(buf + u32::from(at)) >> 4)
+}
+
+/// Reproduce un frame: aplica todos los cambios que tocan y cuenta el
+/// frame. Original: `InputRec_PlaybackFrame_02531e`.
+pub fn playback_frame(m: &mut impl Memory) {
+    loop {
+        let buf = m.read_u32(P::DEMO_PTR);
+        let Some(b) = read_next_run(m, buf) else { break };
+        let b = b & 0x0F;
+        let k = usize::from(b & P::DEMO_P2_BIT != 0);
+        let v = m.read_u8(P::DEMO_HELD[k]) ^ (1 << (b & 7));
+        m.write_u8(P::DEMO_HELD[k], v);
+    }
+    let run = m.read_u8(P::DEMO_RUN).wrapping_add(1);
+    m.write_u8(P::DEMO_RUN, run);
+}
+
 /// Mandos del frame: lectura, copia a los mandos de cada jugador, botones
 /// de inicio y mandos "en juego". Original: `$05CC1A`.
 pub fn read_frame(m: &mut impl Machine) {
     if m.read_u8(P::DEMO_MODE) == 0 {
         read_live(m);
     } else {
-        let mut r = m.regs();
-        m.call_original(P::DEMO_READ, &mut r);
-        m.set_regs(r);
+        read_demo(m);
     }
     for (work, live) in P::WORK.into_iter().zip(crate::layout::input::PAD_LIVE) {
         super::copy(m, work, live, 6);
