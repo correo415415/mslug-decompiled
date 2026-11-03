@@ -175,7 +175,7 @@ fn target_nearest(m: &mut impl Machine, t: u32) {
 
 /// Sondeo del suelo dejando los registros como el original (`$027EBA`).
 /// Devuelve si está en el aire.
-fn probe(m: &mut impl Machine, t: u32) -> bool {
+pub(crate) fn probe(m: &mut impl Machine, t: u32) -> bool {
     let mut r = m.regs();
     let f = collision::probe_floor(m, t, (r.d[3] as u16, r.d[4] as u16));
     r.a[1] = f.hit.unwrap_or(f.record);
@@ -185,7 +185,7 @@ fn probe(m: &mut impl Machine, t: u32) -> bool {
     f.in_air
 }
 
-fn move_ground(m: &mut impl Machine, t: u32) {
+pub(crate) fn move_ground(m: &mut impl Machine, t: u32) {
     let mut r = m.regs();
     r.a[5] = C::SCRATCH_BASE;
     m.set_regs(r);

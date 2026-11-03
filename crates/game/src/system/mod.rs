@@ -50,6 +50,7 @@ pub mod pads;
 pub mod pickup;
 pub mod platforms;
 pub mod pow;
+pub mod mob;
 pub mod prisoner;
 pub mod player;
 pub mod player_air;
