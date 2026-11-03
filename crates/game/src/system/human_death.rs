@@ -43,6 +43,11 @@ fn blood_gfx(m: &mut impl Memory, pair: (u16, u16)) -> u16 {
 /// (`$013600` + `$00236E`).
 pub fn set_gfx(m: &mut impl Machine, t: u32, gfx: u16) {
     video::release_task_entries(m, t);
+    alloc_regs(m, t, gfx);
+}
+
+/// `$00236E` (toma los gráficos `gfx`) dejando `d3`/`d4` como el original.
+pub fn alloc_regs(m: &mut impl Machine, t: u32, gfx: u16) {
     let before = m.read_u16(t + T::PAL_SLOT_COUNT);
     let read = m.read_u16(L::FREE_READ);
     anim::alloc_entry(m, t, gfx);
