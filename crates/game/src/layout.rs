@@ -2430,6 +2430,13 @@ pub mod fort {
     pub const FULL_SIZE: u8 = 0xFF;
     pub const CRATE_RUN: u32 = 0x08_6D58;
     pub const CRATE_BURST: u32 = 0x08_6DB4;
+    /// Al reventar: puntos, sonido, guion por variante (`NO_ANIM` = ninguno),
+    /// bucle y explosión que deja al acabar el guion.
+    pub const CRATE_POINTS: u32 = 0x100;
+    pub const CRATE_SND_BURST: u16 = 0x1039;
+    pub const CRATE_BURST_SCRIPTS: u32 = 0x2E_B6BA;
+    pub const CRATE_BURST_RUN: u32 = 0x08_6DF2;
+    pub const CRATE_BOOM: u32 = 0x07_808A;
     pub const PULSE_HITBOXES: u32 = 0x2E_C712;
     pub const PULSE_MASK: u16 = 3;
     pub const PULSE_HITBOX: u32 = 0x84;
@@ -2615,6 +2622,36 @@ pub mod grunt {
     pub const HOP_DOWN_RUN: u32 = 0x08_DBA6;
     pub const HOP_UP: u32 = 0x08_DBE2;
     pub const HOP_UP_RUN: u32 = 0x08_DC0E;
+    /// Soldado que espera y elige al azar (plantillas `Grunt_Rand_*` y la
+    /// del que está de pie): posición inicial, animaciones, distancia al
+    /// jugador que le hace saltar, tabla de estados al azar y estados.
+    pub const RAND_START: (u16, u16) = (0x40, 0x150);
+    pub const A_STAND: u32 = 0x2F_3C58;
+    pub const A_STAND2: u32 = 0x2F_3C64;
+    pub const A_WALK: u32 = 0x2F_3C10;
+    pub const NEAR_X: u16 = 0x60;
+    pub const RAND_STATES: u32 = 0x2F_3712;
+    pub const WALK_VEL: u16 = 0x80;
+    /// `+$99`/`+$98` del que está de pie.
+    pub const STANDING_PARAMS: (u8, u8) = (8, 1);
+    pub const RAND_STAND: u32 = 0x08_DC94;
+    pub const RAND_STAND_LOOP: u32 = 0x08_DCA6;
+    pub const RAND_STAND2_LOOP: u32 = 0x08_DD0C;
+    pub const RAND_WALK_LOOP: u32 = 0x08_DD5E;
+    pub const STANDING_WAIT: u32 = 0x08_DE8C;
+    pub const STANDING_LOOP: u32 = 0x08_DE9E;
+    /// Salto al ser alcanzado: baja 4 píxeles, vuela 30 + 0..15 frames con
+    /// ángulo $10 + 0..31 y velocidad $200 + 0..255; luego cae dando saltos.
+    pub const HIT_DROP: u16 = 4;
+    pub const HIT_FRAMES: (u16, u16) = (0x1E, 0xF);
+    pub const HIT_ANGLE: (u16, u16) = (0x10, 0x1F);
+    pub const HIT_SPEED: (u16, u16) = (0x200, 0xFF);
+    pub const ANGLE: u32 = 0x34;
+    pub const SPEED: u32 = 0x36;
+    pub const HIT: u32 = 0x08_DD7E;
+    pub const HIT_ANGLE_STATE: u32 = 0x08_DDB0;
+    pub const HIT_LAUNCH: u32 = 0x08_DDDA;
+    pub const HIT_FLY: u32 = 0x08_DE2A;
 }
 
 /// Bichos sencillos de las escenas (`system::critters`): el que sube y
@@ -2782,6 +2819,40 @@ pub mod props {
     pub const FIX_TILE_GFX: [u16; 2] = [0xC2, 0xC1];
     pub const FIX_TILE_LEN: u16 = 0xFFFF;
     pub const FIX_TILE_MODE: u8 = 1;
+    /// Objetos decorativos (plantillas 114–118): celdas estampadas, gráfico,
+    /// sprite fijo por plantilla, bucle y márgenes para darse de baja.
+    pub const ITEM_PROP_CELLS: [u32; 5] = [0x2C_25FA, 0x2C_2606, 0x2C_2622, 0x2C_2614, 0x2C_2630];
+    pub const ITEM_PROP_SPRITES: [u32; 5] = [0x25_07FA, 0x25_086E, 0x25_0838, 0x25_084A, 0x25_085C];
+    pub const ITEM_PROP_GFX: u16 = 0xE;
+    pub const SPRITE: u32 = 0x3C;
+    pub const ITEM_PROP_LOOP: u32 = 0x06_06EE;
+    pub const ITEM_PROP_MARGINS: u32 = 0x06_06FE;
+    /// Obstáculo de la plantilla 95 (dos variantes según `+$70`): gráfico
+    /// según el parámetro `+$98` (0..2), guion, celdas estampadas (al
+    /// aparecer y al registrarse), vida, atributo, guiones al recibir un
+    /// golpe y al romperse (según el lado del impacto), sonido al acabar y
+    /// estados.
+    pub const OBST95_ALT: u32 = 0x70;
+    pub const OBST95_PARAM: u32 = 0x98;
+    pub const OBST95_GFX: [u16; 3] = [0x11, 0x130, 0x131];
+    pub const OBST95_SCRIPT: u32 = 0x2C_29BC;
+    pub const OBST95_CELLS: [u32; 2] = [0x2C_28BC, 0x2C_28FC];
+    pub const OBST95_REG_CELLS: [u32; 2] = [0x2C_293C, 0x2C_297C];
+    pub const OBST95_HP: u16 = 0x64;
+    pub const OBST95_ATTR: u16 = 0x8000;
+    pub const OBST95_PRIORITY: u16 = 0xC;
+    pub const X: u32 = 0x22;
+    pub const ATTR_KEEP: u16 = 0xFFE3;
+    pub const HP: u32 = 0x66;
+    pub const IMPACT_X: u32 = 0x54;
+    pub const ATTACK_KIND: u32 = 0x58;
+    /// Un ataque de este tipo lo rompe de golpe.
+    pub const OBST95_BREAKER: u8 = 4;
+    pub const OBST95_S_HIT: u32 = 0x2C_29CE;
+    pub const OBST95_S_WRECK: [u32; 2] = [0x2C_2A14, 0x2C_2ACA];
+    pub const OBST95_SND_WRECK: u16 = 0x109F;
+    pub const OBST95_IDLE: u32 = 0x06_0BF6;
+    pub const OBST95_WRECK_LOOP: u32 = 0x06_0C40;
 }
 
 /// Contacto entre cajas de entidades (`$028998` / `$028A96` / `$028B14`).
@@ -8616,4 +8687,88 @@ pub mod prisoner {
     pub const ROPE_BROKEN_A: u32 = 0x04_8DDC;
     pub const ROPE_BROKEN_B: u32 = 0x04_8DEC;
     pub const ROPE_BROKEN_LOOP: u32 = 0x04_8E06;
+}
+
+/// Figurantes de las escenas (plantillas 195–222): gente que está de pie,
+/// sentada o que corre hacia la izquierda y se para; sólo animan, siguen a
+/// la escena o andan por el suelo y desaparecen al salir de la pantalla.
+/// Original: `asm/frontend/hiscore_memcard_options_09773c.s` ($098F40–$09979A).
+pub mod mob {
+    pub const X: u32 = 0x22;
+    pub const VEL_Y: u32 = 0x2A;
+    pub const ATTR: u32 = 0x38;
+    /// Atributo del sprite (de frente o de espaldas) y prioridad (4).
+    pub const ATTR_BACK: u16 = 0x8000;
+    pub const ATTR_FRONT: u16 = 0x0000;
+    pub const ATTR_KEEP: u16 = 0xFFE3;
+    pub const PRIORITY: u16 = 0x4;
+    /// `+$12` bit 1: se limpia al terminar el alta.
+    pub const FLAGS_12: u32 = 0x12;
+    pub const SPAWNING: u8 = 1 << 1;
+    /// `+$13` bit 3: golpe recibido (el sentado lo descarta cada frame).
+    pub const FLAGS_13: u32 = 0x13;
+    pub const HIT: u8 = 1 << 3;
+    pub const HP: u32 = 0x66;
+    /// `+$21`: el que corre ya se ha parado una vez.
+    pub const STOPPED: u32 = 0x21;
+    /// `+$70`: variante (índice en las tablas de animaciones).
+    pub const VARIANT: u32 = 0x70;
+    pub const TIMER: u32 = 0x74;
+    /// Velocidad vertical al empezar a caer.
+    pub const FALL_VEL: u16 = 0xFFE0;
+    /// Gráficos de las tres (o cinco) variantes de cada plantilla.
+    pub const GFX: [u16; 3] = [0x126, 0x127, 0x128];
+    pub const GFX_ONE: u16 = 0x125;
+    pub const GFX_RUNNER2: u16 = 0x127;
+    pub const GFX_LOOP: [u16; 5] = [0x126, 0x127, 0x128, 0x129, 0x129];
+    /// Animaciones por variante (`$FFFFFFFF` = no cambia) del que está de
+    /// pie y del que aparece.
+    pub const STAND_ANIMS: u32 = 0x2F_55AE;
+    pub const APPEAR_ANIMS: u32 = 0x2F_55B6;
+    pub const NO_ANIM: u32 = 0xFFFF_FFFF;
+    /// Márgenes de pantalla para darse de baja.
+    pub const MARGINS: u32 = 0x2F_61AC;
+    /// Animaciones fijas.
+    pub const A_SIT: u32 = 0x2F_5ED8;
+    pub const A_SIT_HOP: u32 = 0x2F_5EF8;
+    pub const A_LOOP208: u32 = 0x2F_5F18;
+    pub const A_WALKER: u32 = 0x2F_5F38;
+    pub const A_WALKER210: u32 = 0x2F_5F80;
+    pub const A_WALKER211: u32 = 0x2F_5FC8;
+    pub const A_RUN: u32 = 0x2F_6010;
+    pub const A_RUN_STOP: u32 = 0x2F_6022;
+    pub const A_RUN2: u32 = 0x2F_6048;
+    pub const A_RUN2_WAIT: u32 = 0x2F_6068;
+    pub const A_LOOP222: [u32; 5] = [0x2F_607A, 0x2F_607A, 0x2F_607A, 0x2F_608C, 0x2F_609E];
+    /// El sentado espera 60 frames antes de mirar si le tocan y salta 40.
+    pub const SIT_WAIT: u16 = 0x3C;
+    pub const HOP_FRAMES: u16 = 0x28;
+    /// X a la que se para el que corre.
+    pub const RUN_STOP_X: i16 = 0xB0;
+    /// Estados.
+    pub const STAND: u32 = 0x09_9004;
+    pub const STAND_LOOP: u32 = 0x09_9036;
+    pub const FALL: u32 = 0x09_9070;
+    pub const FALL_LOOP: u32 = 0x09_9082;
+    pub const APPEAR: u32 = 0x09_9180;
+    pub const APPEAR_LOOP: u32 = 0x09_91A6;
+    pub const SIT: u32 = 0x09_921A;
+    pub const SIT_LOOP: u32 = 0x09_9238;
+    pub const SIT_HOP: u32 = 0x09_9288;
+    pub const SIT_HOP_LOOP: u32 = 0x09_92A0;
+    pub const WALKER_RESET: u32 = 0x09_936C;
+    pub const WALKER: u32 = 0x09_93A2;
+    pub const WALKER_LOOP: u32 = 0x09_93C0;
+    pub const WALKER_FALL: u32 = 0x09_93FA;
+    pub const WALKER_FALL_LOOP: u32 = 0x09_940C;
+    pub const RUN: u32 = 0x09_953E;
+    pub const RUN_LOOP: u32 = 0x09_9556;
+    pub const RUN_STOP: u32 = 0x09_9590;
+    pub const RUN_STOP_LOOP: u32 = 0x09_95A2;
+    pub const RUN2: u32 = 0x09_9610;
+    pub const RUN2_LOOP: u32 = 0x09_9628;
+    pub const RUN2_WAIT: u32 = 0x09_9670;
+    pub const RUN2_WAIT_LOOP: u32 = 0x09_9682;
+    pub const LOOP: u32 = 0x09_976A;
+    pub const GONE: u32 = 0x09_9794;
 }

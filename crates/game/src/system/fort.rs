@@ -438,6 +438,42 @@ pub fn crate_run(m: &mut impl Machine) -> Flow {
     Flow::Return
 }
 
+/// La caja revienta: puntos para quien la rompió, sonido y guion de
+/// reventar según la variante. Original: `Crate_Burst_086db4`.
+pub fn crate_burst(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    score::award_attacker(m, t, L::CRATE_POINTS);
+    sound::play(m, L::CRATE_SND_BURST);
+    let v = u32::from(m.read_u8(t + L::STATE));
+    let s = m.read_u32(L::CRATE_BURST_SCRIPTS + v * 4);
+    if s != L::NO_ANIM {
+        anim::start(m, t, s);
+    }
+    m.write_u32(t + T::HANDLER, L::CRATE_BURST_RUN);
+    crate_burst_run(m)
+}
+
+/// Al acabar el guion: sonido, explosión, la ruina pintada en la capa y
+/// humo; luego (o si el fuerte ha caído) se da de baja.
+/// Original: `Crate_Burst_086db4__L086df2`.
+pub fn crate_burst_run(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    if parent_gone(m, t) {
+        return tasks::finish(m);
+    }
+    platforms::move_with_scene(m, t);
+    if !anim::step(m, t) {
+        return Flow::Return;
+    }
+    sound::play(m, L::PILLBOX_SND_DOWN);
+    let c = tasks::spawn(m, L::CRATE_BOOM, t);
+    place_child(m, t, c);
+    let cmd = m.read_u32(t + L::BLIT);
+    layer::blit(m, cmd);
+    spawner::install(m, t, L::PILLBOX_SMOKE);
+    tasks::finish(m)
+}
+
 // ---------------------------------------------------------------------
 // Casamatas del fuerte: cuatro estados de daño (cada uno con su guion),
 // pasan el daño al fuerte y, al morir, o revientan del todo o (las de

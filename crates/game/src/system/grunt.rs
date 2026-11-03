@@ -1,13 +1,17 @@
 //! Soldados rasos del ejército rebelde (los «grunts» de las escenas): la
 //! física común (posición en 8.8, orientación y velocidad desde los
 //! parámetros de aparición, espera a que el scroll llegue, baja al salir
-//! de la vista) y el soldado que salta arriba y abajo (plantilla 162).
+//! de la vista), el soldado que salta arriba y abajo (plantilla 162), el
+//! que espera y elige al azar entre quedarse, mirar o andar, y el salto
+//! que dan al ser alcanzados.
 //!
 //! Original: `asm/enemies/soldiers/grunts_capsule_08d184.s`
-//! (`Pos_Integrate*_08d2b0…08d34e`, `Grunt_Tmpl162_08db50`, `Grunt_Hop*`) y
+//! (`Pos_Integrate*_08d2b0…08d34e`, `Grunt_Tmpl162_08db50`, `Grunt_Hop*`,
+//! `Grunt_Rand_*`, `Grunt_Hit_*`, `Grunt_Tmpl_Standing_08de64`) y
 //! los ayudantes `$08EFB0…$08F108`.
 
-use super::{anim, items, platforms, rng, tasks};
+use super::{anim, human_death, items, motion, platforms, rng, tasks, trig};
+use crate::layout::collision as C;
 use crate::layout::{grunt as L, task as T};
 use crate::mem::{Flow, Machine, Memory};
 
@@ -216,6 +220,231 @@ pub fn hop_up(m: &mut impl Machine) -> Flow {
 /// Original: `$08DC0E`.
 pub fn hop_up_run(m: &mut impl Machine) -> Flow {
     hop_run(m, |y| y < L::HOP_TOP, L::HOP_DOWN)
+}
+
+// ---------------------------------------------------------------------------
+// El que espera y elige al azar, y el salto al ser alcanzado.
+// ---------------------------------------------------------------------------
+
+fn set_handler(m: &mut impl Memory, t: u32, h: u32) {
+    m.write_u32(t + T::HANDLER, h);
+}
+
+/// Sigue a la escena (`$02783A`, deja `a5` en la zona de trabajo).
+fn scene(m: &mut impl Machine, t: u32) {
+    platforms::move_with_scene(m, t);
+    let mut r = m.regs();
+    r.a[5] = crate::layout::platforms::SCRATCH_BASE;
+    m.set_regs(r);
+}
+
+/// Paso con colisión desde la posición de `d3`/`d4` (`$027CEE`).
+fn move_probe(m: &mut impl Machine, t: u32) {
+    let mut r = m.regs();
+    r.a[5] = C::SCRATCH_BASE;
+    m.set_regs(r);
+    let at = (r.d[3] as u16, r.d[4] as u16);
+    motion::on_entity_pos(m, t, |m| motion::move_e_probe(m, t, at));
+}
+
+/// Elige al azar el siguiente estado (quedarse, mirar o andar).
+/// Original: `Grunt_PickRand_2f3712_08dec2`.
+fn pick_random(m: &mut impl Machine, t: u32) {
+    let (r, _) = rng::masked(m, 3);
+    tasks::goto_by_table(m, t, L::RAND_STATES, r, None);
+}
+
+/// Aparece en una posición fija y espera a que llegue el scroll.
+/// Original: `Grunt_Rand_Idle_08dc4a`.
+pub fn rand_idle(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    m.write_u16(t + L::POS[0], L::RAND_START.0);
+    m.write_u16(t + L::POS[1], L::RAND_START.1);
+    m.write_u16(t + L::SUB[0], 0);
+    rand_idle_placed(m)
+}
+
+/// Como [`rand_idle`] pero ya colocado por su registro de aparición (las
+/// plantillas entran a mitad de la rutina). Original: `Grunt_Rand_Idle_08dc4a+$10`.
+pub fn rand_idle_placed(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    set_attr(m, t);
+    facing_from_param(m, t);
+    set_trigger(m, t);
+    human_death::alloc_regs(m, t, L::HOPPER_GFX);
+    anim::start(m, t, L::A_STAND);
+    move_probe(m, t);
+    anim::step(m, t);
+    set_handler(m, t, L::RAND_STAND);
+    cull_sub(m)
+}
+
+/// Quieto; al acabar la animación, si el jugador está cerca (o, con
+/// retardo, si el scroll ha llegado) salta y si no elige otro estado.
+/// Original: `Grunt_Rand_Stand_08dc94`.
+pub fn rand_stand(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    anim::start(m, t, L::A_STAND);
+    set_handler(m, t, L::RAND_STAND_LOOP);
+    rand_stand_loop(m)
+}
+
+/// Original: `Grunt_Rand_Stand_08dc94__L08dca6`.
+pub fn rand_stand_loop(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    scene(m, t);
+    if anim::step(m, t) {
+        let jump = if m.read_u8(t + L::PARAM_B) == 0 {
+            player_near_x(m, t, L::NEAR_X)
+        } else {
+            triggered(m, t)
+        };
+        if jump {
+            set_handler(m, t, L::HIT);
+        } else {
+            pick_random(m, t);
+        }
+    }
+    cull_sub(m)
+}
+
+/// Mira a un lado y elige otro estado. Original: `Grunt_Rand_Stand2_08dcfa`.
+pub fn rand_stand2(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    anim::start(m, t, L::A_STAND2);
+    set_handler(m, t, L::RAND_STAND2_LOOP);
+    rand_stand2_loop(m)
+}
+
+/// Original: `Grunt_Rand_Stand2_08dcfa__L08dd0c`.
+pub fn rand_stand2_loop(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    scene(m, t);
+    if anim::step(m, t) {
+        pick_random(m, t);
+    }
+    cull_sub(m)
+}
+
+/// Anda un ciclo de animación hacia un lado al azar.
+/// Original: `Grunt_Rand_Walk_08dd26`.
+pub fn rand_walk(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    let (r, _) = rng::masked(m, 1);
+    m.write_u8(t + L::PARAM_A, r as u8);
+    let v = if r == 0 { L::WALK_VEL.wrapping_neg() } else { L::WALK_VEL };
+    m.write_u16(t + L::VEL[0], v);
+    facing_from_param(m, t);
+    anim::start(m, t, L::A_WALK);
+    set_handler(m, t, L::RAND_WALK_LOOP);
+    rand_walk_loop(m)
+}
+
+/// Original: `Grunt_Rand_Walk_08dd26__L08dd5e`.
+pub fn rand_walk_loop(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    scene(m, t);
+    integrate(m, t);
+    if anim::step(m, t) {
+        set_handler(m, t, L::RAND_STAND);
+    }
+    cull_sub(m)
+}
+
+/// Plantilla del que está de pie: salta en cuanto el jugador se acerca.
+/// Original: `Grunt_Tmpl_Standing_08de64`.
+pub fn standing(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    m.write_u8(t + L::PARAM_B, L::STANDING_PARAMS.0);
+    m.write_u8(t + L::PARAM_A, L::STANDING_PARAMS.1);
+    set_attr(m, t);
+    facing_from_param(m, t);
+    vel_x_from_param(m, t);
+    human_death::alloc_regs(m, t, L::HOPPER_GFX);
+    set_handler(m, t, L::STANDING_WAIT);
+    standing_wait(m)
+}
+
+/// Original: `Grunt_Tmpl_Standing_08de64__L08de8c`.
+pub fn standing_wait(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    anim::start(m, t, L::A_STAND);
+    set_handler(m, t, L::STANDING_LOOP);
+    standing_loop(m)
+}
+
+/// Original: `Grunt_Tmpl_Standing_08de64__L08de9e`.
+pub fn standing_loop(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    scene(m, t);
+    anim::step(m, t);
+    if player_near_x(m, t, L::NEAR_X) {
+        set_handler(m, t, L::HIT);
+    }
+    cull_sub(m)
+}
+
+/// Alcanzado: baja un poco y decide cuánto volará. Original: `Grunt_Hit_08dd7e`.
+pub fn hit(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    let y = m.read_u16(t + L::POS[1]).wrapping_add(L::HIT_DROP);
+    m.write_u16(t + L::POS[1], y);
+    m.write_u16(t + L::TIMER, L::HIT_FRAMES.0);
+    let (r, _) = rng::masked(m, L::HIT_FRAMES.1);
+    let n = m.read_u16(t + L::TIMER).wrapping_add(r);
+    m.write_u16(t + L::TIMER, n);
+    scene(m, t);
+    anim::step(m, t);
+    set_handler(m, t, L::HIT_ANGLE_STATE);
+    cull_sub(m)
+}
+
+/// Ángulo de salida al azar. Original: `Grunt_Hit_Angle_08ddb0`.
+pub fn hit_angle(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    let (r, _) = rng::masked(m, L::HIT_ANGLE.1);
+    m.write_u16(t + L::ANGLE, r.wrapping_add(L::HIT_ANGLE.0));
+    scene(m, t);
+    anim::step(m, t);
+    set_handler(m, t, L::HIT_LAUNCH);
+    cull_sub(m)
+}
+
+/// Sale despedido con velocidad al azar. Original: `Grunt_Hit_Launch_08ddda`.
+pub fn hit_launch(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    let (r, _) = rng::masked(m, L::HIT_SPEED.1);
+    let speed = L::HIT_SPEED.0.wrapping_add(r);
+    m.write_u16(t + L::SPEED, speed);
+    let angle = m.read_u16(t + L::ANGLE);
+    let (vx, vy) = trig::polar(m, angle, speed as i16);
+    m.write_u16(t + L::VEL[0], vx as u16);
+    m.write_u16(t + L::VEL[1], vy as u16);
+    m.write_u8(t + L::FACING, 1);
+    anim::start(m, t, L::HOP_DOWN_ANIM);
+    scene(m, t);
+    anim::step(m, t);
+    set_handler(m, t, L::HIT_FLY);
+    cull_sub(m)
+}
+
+/// Vuela; al acabarse el tiempo pasa a caer dando saltos.
+/// Original: `Grunt_Hit_Fly_08de2a`.
+pub fn hit_fly(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    scene(m, t);
+    integrate(m, t);
+    anim::step(m, t);
+    let n = m.read_u16(t + L::TIMER).wrapping_sub(1);
+    m.write_u16(t + L::TIMER, n);
+    if n == 0 {
+        m.write_u16(t + L::ATTR, L::ATTR_HOPPER);
+        let v = m.read_u16(t + L::SPEED);
+        m.write_u16(t + L::VEL[0], v);
+        m.write_u16(t + L::VEL[1], 0);
+        set_handler(m, t, L::HOP_DOWN);
+    }
+    cull_sub(m)
 }
 
 #[cfg(test)]
