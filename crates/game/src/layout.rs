@@ -4414,6 +4414,32 @@ pub mod player_fire {
     pub const ANGLE_DIAGONAL: u8 = 0x17;
     pub const STATUS: u32 = 0x8C;
     pub const ARM_BUSY: u8 = 1 << 2;
+    /// Armas pesadas (ametralladora, escopeta, lanzacohetes): sonido y
+    /// plantilla de cada una; los proyectiles cuelgan de `HEAVY_PARENT`.
+    pub const HEAVY_PARENT: u32 = 0x10_08A0;
+    pub const HEAVY_SOUND: [u16; 3] = [0x10F6, 0x10F3, 0x10F5];
+    pub const HEAVY_SHOT: [u32; 3] = [0x09_C4D4, 0x09_C25E, 0x09_BEC2];
+    /// Del jugador: ráfaga que le queda a la ametralladora.
+    pub const HMG_BURST: u32 = 0x85;
+    /// Del proyectil: dirección (0 adelante, 1 arriba, 2 abajo o atrás,
+    /// 3 diagonal) y sentido (`$FF` = a la izquierda).
+    pub const HEAVY_DIR: u32 = 0x98;
+    pub const HEAVY_SIDE: u32 = 0x99;
+    pub const SIDE_LEFT: u8 = 0xFF;
+    /// El cohete sale `ROCKET_DX` por delante (o por detrás).
+    pub const ROCKET_DX: u16 = 0x10;
+    /// Casquillo del lanzacohetes: tarea (de lado o hacia arriba),
+    /// guiones, gráficos, atributos y bucle.
+    pub const CASING: u32 = 0x03_D4EA;
+    pub const CASING_UP: u32 = 0x03_D4F8;
+    pub const CASING_SCRIPT: u32 = 0x03_D54A;
+    pub const CASING_UP_SCRIPT: u32 = 0x03_D5B0;
+    pub const CASING_GFX: u16 = 0x17C;
+    pub const CASING_ATTR: u16 = 0xD000;
+    pub const CASING_ATTR_MASK: u16 = 0xFFE3;
+    pub const CASING_ATTR_BITS: u16 = 0x10;
+    pub const CASING_DEPTH: u16 = 0x200;
+    pub const CASING_RUN: u32 = 0x03_D532;
 }
 
 /// Seno y coseno (`system::trig`): tablas de palabras en 1/256, con el

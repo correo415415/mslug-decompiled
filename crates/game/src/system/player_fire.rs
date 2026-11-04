@@ -3,13 +3,15 @@
 //!
 //! Original: `PlayerFire_Pistol_Spawn_03c710` y sus direcciones
 //! (`PlayerFire_Pistol_Fwd_03c776` … `PlayerFire_Pistol_DownB_03c854`,
-//! `asm/player/fire_shells_03c62a.s`) y las granadas
+//! `asm/player/fire_shells_03c62a.s`), las armas pesadas
+//! (`PlayerFire_HMG_*`, `PlayerFire_Shotgun_*`, `PlayerFire_Rocket_*`) con
+//! los casquillos del lanzacohetes (`ShellCasing_Rocket_03d4ea`/`B_03d4f8`) y las granadas
 //! (`Player_ThrowGrenadeBack_033256`, `Player_ThrowGrenade_0332bc`,
 //! `asm/player/core_032aa8.s`).
 
-use super::{anim, sound, tasks, turret};
+use super::{anim, platforms, sound, tasks, turret};
 use crate::layout::player_fire as L;
-use crate::mem::{Machine, Memory};
+use crate::mem::{Flow, Machine, Memory};
 
 /// Dirección de una bala respecto a quien dispara.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -181,4 +183,138 @@ pub fn grenade(m: &mut impl Memory, t: u32, back: bool) -> Option<(u32, u32, u8)
     let st = m.read_u8(t + L::STATUS) | L::ARM_BUSY;
     m.write_u8(t + L::STATUS, st);
     Some((g, after, facing))
+}
+
+/// Arma pesada.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum Gun {
+    /// Ametralladora.
+    Hmg,
+    Shotgun,
+    /// Lanzacohetes.
+    Rocket,
+}
+
+/// Dirección de un disparo de arma pesada.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum HeavyAim {
+    Forward,
+    /// Hacia delante, agachado (sale más bajo).
+    ForwardLow,
+    Up,
+    Down,
+    /// Diagonal hacia abajo (sale más bajo).
+    Diagonal,
+    /// Hacia atrás (sólo el lanzacohetes).
+    Back,
+}
+
+/// Proyectil de arma pesada desde `t`: si al jugador le queda munición,
+/// gasta una (la ametralladora, también de su ráfaga), suena y lo crea en
+/// la posición del jugador (la escopeta y el cohete, más alto). `None`
+/// sin munición (el original abandona también la rutina que la llamó).
+/// Original: `PlayerFire_HMG_Spawn_03c872`, `PlayerFire_Shotgun_Spawn_03c9c4`
+/// y `PlayerFire_Rocket_Spawn_03cb16` (con `Slot1008A0_Alloc4AE_05eaa4` y
+/// `Slot1008A0_Alloc6FE_05eab6`).
+pub fn heavy_spawn(m: &mut impl Memory, t: u32, gun: Gun) -> Option<u32> {
+    let p = shooter_player(m, t);
+    let ammo = m.read_u16(p + L::AMMO);
+    if ammo == 0 {
+        return None;
+    }
+    m.write_u16(p + L::AMMO, ammo - 1);
+    if gun == Gun::Hmg {
+        let n = m.read_u8(p + L::HMG_BURST);
+        if n != 0 {
+            m.write_u8(p + L::HMG_BURST, n - 1);
+        }
+    }
+    let k = gun as usize;
+    sound::play(m, L::HEAVY_SOUND[k]);
+    let b = match gun {
+        Gun::Rocket => tasks::spawn_last(m, L::HEAVY_SHOT[k], L::HEAVY_PARENT).0,
+        _ => tasks::spawn(m, L::HEAVY_SHOT[k], L::HEAVY_PARENT),
+    };
+    for f in [L::X, L::Y] {
+        let v = m.read_u16(p + f);
+        m.write_u16(b + f, v);
+    }
+    turret::copy_pilot(m, t, b);
+    if gun != Gun::Hmg {
+        let y = m.read_u16(b + L::Y).wrapping_add(L::PISTOL_HEIGHT);
+        m.write_u16(b + L::Y, y);
+    }
+    Some(b)
+}
+
+fn shift(m: &mut impl Memory, t: u32, off: u32, d: u16) {
+    let v = m.read_u16(t + off).wrapping_add(d);
+    m.write_u16(t + off, v);
+}
+
+/// Disparo de arma pesada de `t` en la dirección `aim`. El lanzacohetes
+/// suelta antes un casquillo (salvo en las diagonales). Devuelve el
+/// proyectil con su dirección y sentido (lo que deja el original en `d1`
+/// y `d0`), o `None` sin munición.
+/// Original: `PlayerFire_HMG_Fwd_03c8de` … `PlayerFire_Rocket_DiagB_03cca4`.
+pub fn heavy(m: &mut impl Memory, t: u32, gun: Gun, aim: HeavyAim) -> Option<(u32, u8, u8)> {
+    if gun == Gun::Rocket && aim != HeavyAim::Diagonal && aim != HeavyAim::Down {
+        let routine = if aim == HeavyAim::Up { L::CASING_UP } else { L::CASING };
+        let c = tasks::spawn(m, routine, t);
+        anim::copy_sprite_pos(m, t, c);
+        if aim == HeavyAim::Back {
+            let f = m.read_u8(t + L::FACING) ^ L::FACING_LEFT;
+            m.write_u8(c + L::FACING, f);
+        }
+        if aim == HeavyAim::ForwardLow {
+            shift(m, c, L::Y, L::LOW_DROP.wrapping_neg());
+        }
+    }
+    let b = heavy_spawn(m, t, gun)?;
+    if matches!(aim, HeavyAim::ForwardLow | HeavyAim::Diagonal) {
+        shift(m, b, L::Y, L::LOW_DROP.wrapping_neg());
+    }
+    let left = m.read_u8(t + L::FACING) & L::FACING_LEFT != 0;
+    if gun == Gun::Rocket {
+        let ahead = if left { L::ROCKET_DX.wrapping_neg() } else { L::ROCKET_DX };
+        match aim {
+            HeavyAim::Forward => shift(m, b, L::X, ahead),
+            HeavyAim::Back => shift(m, b, L::X, ahead.wrapping_neg()),
+            _ => {}
+        }
+    }
+    let dir = match aim {
+        HeavyAim::Forward | HeavyAim::ForwardLow => 0,
+        HeavyAim::Up => 1,
+        HeavyAim::Down | HeavyAim::Back => 2,
+        HeavyAim::Diagonal => 3,
+    };
+    let side = if aim != HeavyAim::Up && left { L::SIDE_LEFT } else { 0 };
+    m.write_u8(b + L::HEAVY_DIR, dir);
+    m.write_u8(b + L::HEAVY_SIDE, side);
+    Some((b, dir, side))
+}
+
+/// Casquillo del lanzacohetes (`up` = el que sale hacia arriba).
+/// Original: `ShellCasing_Rocket_03d4ea` y `ShellCasing_RocketB_03d4f8`.
+pub fn casing(m: &mut impl Machine, up: bool) -> Flow {
+    let t = m.task_register();
+    anim::start(m, t, if up { L::CASING_UP_SCRIPT } else { L::CASING_SCRIPT });
+    anim::alloc_entry(m, t, L::CASING_GFX);
+    anim::set_attr(m, t, L::CASING_ATTR);
+    let a = (m.read_u16(t + L::ATTR) & L::CASING_ATTR_MASK) | L::CASING_ATTR_BITS;
+    m.write_u16(t + L::ATTR, a.wrapping_add(L::CASING_DEPTH));
+    m.write_u32(t + crate::layout::task::HANDLER, L::CASING_RUN);
+    casing_run(m)
+}
+
+/// Se mueve con la escena hasta que acaba su guion.
+/// Original: `ShellCasing_RocketB_03d4f8` (desde `$03D532`).
+pub fn casing_run(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    platforms::move_with_scene(m, t);
+    if anim::step(m, t) {
+        return tasks::finish(m);
+    }
+    Flow::Return
 }

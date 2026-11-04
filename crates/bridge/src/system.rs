@@ -451,6 +451,25 @@ fn flame_pair(m: &mut CpuMachine, entry: u32, a: u8) -> Flow {
     flame(m, entry + 0x2E, f(a + 2))
 }
 
+/// Disparo de arma pesada: a0 = proyectil y a2 = jugador, d0/d1 =
+/// sentido y dirección. Sin munición el original saca a a0 la vuelta a la
+/// variante (`ret`) y vuelve de ella.
+fn heavy(m: &mut CpuMachine, gun: player_fire::Gun, aim: player_fire::HeavyAim, ret: u32) -> Flow {
+    let t = m.cpu.a[6];
+    match player_fire::heavy(m, t, gun, aim) {
+        Some((b, dir, side)) => {
+            fire_regs(m, t, b);
+            m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_FF00) | u32::from(side);
+            m.cpu.d[1] = (m.cpu.d[1] & 0xFFFF_FF00) | u32::from(dir);
+        }
+        None => {
+            m.cpu.a[0] = ret;
+            m.cpu.a[2] = player_fire::shooter_player(m, t);
+        }
+    }
+    Flow::Return
+}
+
 fn pistol(m: &mut CpuMachine, aim: player_fire::Aim) -> Flow {
     let t = m.cpu.a[6];
     let b = player_fire::pistol(m, t, aim);
@@ -2529,6 +2548,27 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
     SystemPort { entry: 0x03_C7FC, original: "PlayerFire_Pistol_FwdLow_03c7fc", rust: "system::player_fire::pistol", run: |m| pistol(m, player_fire::Aim::ForwardLow) },
     SystemPort { entry: 0x03_C836, original: "PlayerFire_Pistol_Down_03c836", rust: "system::player_fire::pistol", run: |m| pistol(m, player_fire::Aim::Down) },
     SystemPort { entry: 0x03_C854, original: "PlayerFire_Pistol_DownB_03c854", rust: "system::player_fire::pistol", run: |m| pistol(m, player_fire::Aim::Down) },
+    SystemPort { entry: 0x03_C8DE, original: "PlayerFire_HMG_Fwd_03c8de", rust: "system::player_fire::heavy", run: |m| heavy(m, player_fire::Gun::Hmg, player_fire::HeavyAim::Forward, 0x03C8E2) },
+    SystemPort { entry: 0x03_C904, original: "PlayerFire_HMG_Up_03c904", rust: "system::player_fire::heavy", run: |m| heavy(m, player_fire::Gun::Hmg, player_fire::HeavyAim::Up, 0x03C908) },
+    SystemPort { entry: 0x03_C91A, original: "PlayerFire_HMG_Down_03c91a", rust: "system::player_fire::heavy", run: |m| heavy(m, player_fire::Gun::Hmg, player_fire::HeavyAim::Down, 0x03C91E) },
+    SystemPort { entry: 0x03_C942, original: "PlayerFire_HMG_FwdB_03c942", rust: "system::player_fire::heavy", run: |m| heavy(m, player_fire::Gun::Hmg, player_fire::HeavyAim::Forward, 0x03C946) },
+    SystemPort { entry: 0x03_C968, original: "PlayerFire_HMG_Diag_03c968", rust: "system::player_fire::heavy", run: |m| heavy(m, player_fire::Gun::Hmg, player_fire::HeavyAim::Diagonal, 0x03C96C) },
+    SystemPort { entry: 0x03_C996, original: "PlayerFire_HMG_DiagB_03c996", rust: "system::player_fire::heavy", run: |m| heavy(m, player_fire::Gun::Hmg, player_fire::HeavyAim::Diagonal, 0x03C99A) },
+    SystemPort { entry: 0x03_CA26, original: "PlayerFire_Shotgun_Fwd_03ca26", rust: "system::player_fire::heavy", run: |m| heavy(m, player_fire::Gun::Shotgun, player_fire::HeavyAim::Forward, 0x03CA2A) },
+    SystemPort { entry: 0x03_CA4E, original: "PlayerFire_Shotgun_Up_03ca4e", rust: "system::player_fire::heavy", run: |m| heavy(m, player_fire::Gun::Shotgun, player_fire::HeavyAim::Up, 0x03CA52) },
+    SystemPort { entry: 0x03_CA64, original: "PlayerFire_Shotgun_Down_03ca64", rust: "system::player_fire::heavy", run: |m| heavy(m, player_fire::Gun::Shotgun, player_fire::HeavyAim::Down, 0x03CA68) },
+    SystemPort { entry: 0x03_CA8C, original: "PlayerFire_Shotgun_FwdLow_03ca8c", rust: "system::player_fire::heavy", run: |m| heavy(m, player_fire::Gun::Shotgun, player_fire::HeavyAim::ForwardLow, 0x03CA90) },
+    SystemPort { entry: 0x03_CABA, original: "PlayerFire_Shotgun_Diag_03caba", rust: "system::player_fire::heavy", run: |m| heavy(m, player_fire::Gun::Shotgun, player_fire::HeavyAim::Diagonal, 0x03CABE) },
+    SystemPort { entry: 0x03_CAE8, original: "PlayerFire_Shotgun_DiagB_03cae8", rust: "system::player_fire::heavy", run: |m| heavy(m, player_fire::Gun::Shotgun, player_fire::HeavyAim::Diagonal, 0x03CAEC) },
+    SystemPort { entry: 0x03_CB78, original: "PlayerFire_Rocket_Fwd_03cb78", rust: "system::player_fire::heavy", run: |m| heavy(m, player_fire::Gun::Rocket, player_fire::HeavyAim::Forward, 0x03CB8C) },
+    SystemPort { entry: 0x03_CBBC, original: "PlayerFire_Rocket_Up_03cbbc", rust: "system::player_fire::heavy", run: |m| heavy(m, player_fire::Gun::Rocket, player_fire::HeavyAim::Up, 0x03CBD0) },
+    SystemPort { entry: 0x03_CBE2, original: "PlayerFire_Rocket_Back_03cbe2", rust: "system::player_fire::heavy", run: |m| heavy(m, player_fire::Gun::Rocket, player_fire::HeavyAim::Back, 0x03CC02) },
+    SystemPort { entry: 0x03_CC32, original: "PlayerFire_Rocket_FwdLow_03cc32", rust: "system::player_fire::heavy", run: |m| heavy(m, player_fire::Gun::Rocket, player_fire::HeavyAim::ForwardLow, 0x03CC4C) },
+    SystemPort { entry: 0x03_CC76, original: "PlayerFire_Rocket_Diag_03cc76", rust: "system::player_fire::heavy", run: |m| heavy(m, player_fire::Gun::Rocket, player_fire::HeavyAim::Diagonal, 0x03CC7A) },
+    SystemPort { entry: 0x03_CCA4, original: "PlayerFire_Rocket_DiagB_03cca4", rust: "system::player_fire::heavy", run: |m| heavy(m, player_fire::Gun::Rocket, player_fire::HeavyAim::Diagonal, 0x03CCA8) },
+    SystemPort { entry: 0x03_D4EA, original: "ShellCasing_Rocket_03d4ea", rust: "system::player_fire::casing", run: |m| player_fire::casing(m, false) },
+    SystemPort { entry: 0x03_D4F8, original: "ShellCasing_RocketB_03d4f8", rust: "system::player_fire::casing", run: |m| player_fire::casing(m, true) },
+    SystemPort { entry: 0x03_D532, original: "ShellCasing_RocketB_03d4f8+$3A", rust: "system::player_fire::casing_run", run: |m| player_fire::casing_run(m) },
     SystemPort { entry: 0x03_5ABA, original: "Player_TurnRight_035aba", rust: "system::player_ground::turn", run: |m| player_ground::turn(m, false) },
     SystemPort { entry: 0x03_5B54, original: "Player_TurnRight_035aba__L035b54", rust: "system::player_ground::turn_loop", run: |m| player_ground::turn_loop(m, false) },
     SystemPort { entry: 0x03_5BF8, original: "Player_TurnLeft_035bf8", rust: "system::player_ground::turn", run: |m| player_ground::turn(m, true) },
