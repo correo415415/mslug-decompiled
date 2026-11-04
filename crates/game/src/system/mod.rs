@@ -53,6 +53,8 @@ pub mod pow;
 pub mod mob;
 pub mod shield;
 pub mod breakable;
+pub mod armored_car;
+pub mod rescue_squad;
 pub mod prisoner;
 pub mod player;
 pub mod player_air;

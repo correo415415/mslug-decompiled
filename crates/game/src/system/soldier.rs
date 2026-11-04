@@ -1820,3 +1820,172 @@ pub fn spawn_recover_loop(m: &mut impl Machine) -> Flow {
     }
     tail(m, t, Some(L::AFTER_DESPAWN_SPAWN_RECOVER))
 }
+
+// --- Saltos sobre el Slug o el jugador (`helpers_056acc.s`) -------------
+
+/// Velocidad X hacia donde mira, Y y aceleración Y; sin aceleración X.
+fn launch(m: &mut impl Machine, t: u32, (vx, vy, ay): (u16, u16, u16)) {
+    let v = super::player_death::set_vx_facing(m, t, vx);
+    let mut r = m.regs();
+    r.d[0] = (r.d[0] & 0xFFFF_0000) | u32::from(v);
+    m.set_regs(r);
+    m.write_u16(t + L::VEL_X, v);
+    m.write_u16(t + L::VEL_Y, vy);
+    m.write_u16(t + L::ACC_Y, ay);
+    m.write_u16(t + L::ACC_X, 0);
+}
+
+/// Paso con colisión «E» (`$027D50`); `true` si ha tocado suelo.
+fn move_e(m: &mut impl Machine, t: u32) -> bool {
+    let mut r = m.regs();
+    let at = (r.d[3] as u16, r.d[4] as u16);
+    r.a[5] = crate::layout::collision::SCRATCH_BASE;
+    m.set_regs(r);
+    motion::on_entity_pos(m, t, |m| motion::move_e(m, t, at))
+}
+
+/// Soldado que entra saltando: si el objetivo va a pie salta hacia él;
+/// si va en el Slug, busca un ancla libre. Original: `Soldier_Leap_057880`.
+pub fn leap(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    init_common(m, t);
+    for k in [0, 1, 2] {
+        publish(m, t, Trait::Anchor(k));
+    }
+    anim::start(m, t, L::ANIM_HOP);
+    launch(m, t, L::HOP_VEL);
+    m.write_u16(t + L::VEL_Y, 0);
+    think(m, t);
+    if player_on_foot(m, t) {
+        anim::start(m, t, L::ANIM_HOP_ON_FOOT);
+        set_handler(m, t, L::LEAP_PLAYER_LOOP);
+        return leap_player_loop(m);
+    }
+    leap_arm(m, t)
+}
+
+/// Salta hacia un ancla del Slug. Original: `Soldier_Leap_057880__L0578dc`.
+pub fn leap_slug(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    anim::start(m, t, L::ANIM_LEAP_SLUG);
+    launch(m, t, L::LEAP_SLUG_VEL);
+    leap_arm(m, t)
+}
+
+/// Prepara los ataques según el objetivo y pasa al bucle del salto.
+fn leap_arm(m: &mut impl Machine, t: u32) -> Flow {
+    let target = m.read_u32(t + L::TARGET);
+    if target != 0 {
+        let a = L::LEAP_ATTACKS[usize::from(target != L::PLAYERS[0])];
+        m.write_u32(t + L::ATTACKS, a);
+        let mut r = m.regs();
+        r.a[0] = a;
+        m.set_regs(r);
+        slug::clear_flags13(m, t);
+    }
+    set_handler(m, t, L::LEAP_LOOP);
+    leap_loop(m)
+}
+
+/// En el aire; al bajar sobre el objetivo con un ancla libre, se agarra.
+/// Original: `Soldier_Leap_057880+$C4`.
+pub fn leap_loop(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    if move_e(m, t) {
+        set_handler(m, t, L::LAND);
+    }
+    anim::step(m, t);
+    if let Some(k) = pick_anchor(m, t) {
+        let mut r = m.regs();
+        r.d[0] = (r.d[0] & 0xFFFF_0000) | u32::from(k);
+        m.set_regs(r);
+        if (m.read_u16(t + L::VEL_Y) as i16) < 0 {
+            hits::run_attack_list(m, t);
+            if m.read_u8(t + L::FLAGS2) & L::ATTACK_HIT != 0 {
+                let target = m.read_u32(t + L::TARGET);
+                let mut r = m.regs();
+                r.a[0] = target;
+                m.set_regs(r);
+                let y = m.read_u16(target + L::Y).wrapping_add(L::GRAB_DY);
+                if (y.wrapping_sub(m.read_u16(t + L::Y)) as i16) < 0 {
+                    set_handler(m, t, L::LEAP_GRAB);
+                }
+            }
+        }
+    }
+    tail(m, t, None)
+}
+
+/// Salta sobre el jugador (a pie) con el impulso que marca `+$9D`.
+/// Original: `Soldier_Leap_057880__L05799e`.
+pub fn leap_player(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    anim::start(m, t, L::ANIM_LEAP_PLAYER);
+    let k = match m.read_u8(t + L::LEAP_KIND) {
+        0xFF => 0,
+        1 => 1,
+        2 => 2,
+        _ => 3,
+    };
+    launch(m, t, L::LEAP_PLAYER_VEL[k]);
+    slug::clear_flags13(m, t);
+    set_handler(m, t, L::LEAP_PLAYER_LOOP);
+    leap_player_loop(m)
+}
+
+/// Original: `Soldier_Leap_057880+$1E0`.
+pub fn leap_player_loop(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    if move_e(m, t) {
+        set_handler(m, t, L::LEAP_LAND_HARD);
+    }
+    anim::step(m, t);
+    if (m.read_u16(t + L::VEL_Y) as i16) < 0 {
+        hits::run_attack_list(m, t);
+    }
+    if m.read_u8(t + L::FLAGS2) & L::ATTACK_HIT != 0 {
+        set_handler(m, t, L::LEAP_LAND);
+    }
+    tail(m, t, None)
+}
+
+/// Ha dado al jugador: rebota y cae. Original: `Soldier_LeapLand_057a9e`.
+pub fn leap_land(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    anim::start(m, t, L::ANIM_LEAP_LAND);
+    slug::clear_flags13(m, t);
+    set_handler(m, t, L::LEAP_LAND_LOOP);
+    leap_land_loop(m)
+}
+
+/// Original: `Soldier_LeapLand_057a9e+$18`.
+pub fn leap_land_loop(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    let landed = move_e(m, t);
+    m.write_u8(t + L::GROUNDED, if landed { 0xFF } else { 0 });
+    anim::step(m, t);
+    let d1 = m.regs().d[1] as u8;
+    let (o, a, d1) = hits::run_attack_list_sound(m, t, d1);
+    let mut r = m.regs();
+    r.d[7] = o as i32 as u32;
+    r.a[0] = a;
+    r.d[1] = (r.d[1] & 0xFFFF_FF00) | u32::from(d1);
+    m.set_regs(r);
+    if m.read_u8(t + L::GROUNDED) != 0 {
+        set_handler(m, t, L::LEAP_LAND_HARD);
+    }
+    tail(m, t, None)
+}
+
+/// Soldado que entra de un salto y huye por el borde.
+/// Original: `Soldier_SpawnJumpIn_05783e`.
+pub fn spawn_jump_in(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    init_common(m, t);
+    publish(m, t, Trait::Random);
+    anim::start(m, t, L::ANIM_JUMP_IN);
+    launch(m, t, L::HOP_VEL);
+    m.write_u16(t + L::VEL_Y, 0);
+    set_handler(m, t, L::EDGE_FLEE_LOOP);
+    edge_flee_loop(m)
+}

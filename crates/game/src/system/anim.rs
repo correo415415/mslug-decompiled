@@ -35,13 +35,29 @@ pub fn set_attr(m: &mut impl Memory, t: u32, attr: u16) {
 
 /// Original: `Entity_ApplyFadeShade_028108`.
 pub fn apply_depth(m: &mut impl Memory, t: u32) {
+    let y = m.read_u16(t + A::Y);
+    depth_from(m, t, y);
+}
+
+/// Profundidad según la Y de pantalla `y` (si los atributos están en el
+/// rango de profundidad).
+fn depth_from(m: &mut impl Memory, t: u32, y: u16) {
     let attr = m.read_u16(t + A::ATTR);
     if attr.wrapping_sub(A::DEPTH_ATTR_FIRST) >= A::DEPTH_ATTR_SPAN {
         return;
     }
-    let y = m.read_u16(t + A::Y) & 0xFF;
-    let depth = (0xFF - y) << 5;
+    let depth = (0xFF - (y & 0xFF)) << 5;
     m.write_u16(t + A::ATTR, (attr & A::DEPTH_KEEP) | depth);
+}
+
+/// Atributos del sprite con la profundidad de un punto fijo del mundo
+/// (Y `world_y`) en vez de la de la tarea.
+/// Original: `Entity_SetField38FromTile_02813c`.
+pub fn set_attr_at(m: &mut impl Memory, t: u32, attr: u16, world_y: u16) {
+    let attr = attr & A::ATTR_AT_MASK;
+    let (_, y) = world_to_screen(m, 0, world_y);
+    m.write_u16(t + A::ATTR, attr);
+    depth_from(m, t, y);
 }
 
 /// La tarea `to` se pone donde está `from` (posición, atributos, giro).
