@@ -8772,3 +8772,185 @@ pub mod mob {
     pub const LOOP: u32 = 0x09_976A;
     pub const GONE: u32 = 0x09_9794;
 }
+
+/// Soldado del escudo (plantillas $6C y $6D) y su escudo.
+/// Original: `ShieldSoldier_*`, `ShieldSoldierB_*`, `Shield_*` ($0670D2–$068248).
+pub mod shield {
+    pub const ALIVE: u32 = 0x20;
+    pub const FLAGS_13: u32 = 0x13;
+    /// `+$13` bit 3: golpe recibido; bit 1: el trozo ya ha dado.
+    pub const HIT: u8 = 1 << 3;
+    pub const SPENT: u8 = 1 << 1;
+    pub const TIMER_1C: u32 = 0x1C;
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    pub const POS_BYTES: [u32; 2] = [0x26, 0x27];
+    pub const VEL_X: u32 = 0x28;
+    pub const VEL_Y: u32 = 0x2A;
+    pub const ACC_X: u32 = 0x2C;
+    pub const ACC_Y: u32 = 0x2E;
+    pub const ATTR: u32 = 0x38;
+    pub const FACING: u32 = 0x3A;
+    pub const HITBOX: u32 = 0x48;
+    pub const NO_HITBOX: u32 = 0xFFFF_FFFF;
+    pub const ATTACK_CLASS: u32 = 0x58;
+    pub const HIT_FLAGS: u32 = 0x5A;
+    pub const HITBOX2: u32 = 0x60;
+    pub const HP: u32 = 0x66;
+    pub const FLAGS_6B: u32 = 0x6B;
+    pub const FLAGS_6B_DEBRIS: u8 = 1 << 4;
+    pub const BLINK: u32 = 0x70;
+    pub const TIMER: u32 = 0x72;
+    pub const RANGE: u32 = 0x74;
+    pub const GUARD: u32 = 0x76;
+    /// `+$80`: postura que dejan los guiones del soldado (el escudo la copia).
+    pub const POSE: u32 = 0x80;
+    /// `+$81` ≠ 0: los golpes al escudo no pasan al soldado.
+    pub const SHIELD_IMMUNE: u32 = 0x81;
+    pub const COUNT: u32 = 0x82;
+    pub const AIR: u32 = 0x83;
+    pub const DROPPED: u32 = 0x84;
+    pub const SHIELD: u32 = 0x90;
+    pub const ATTACKS: u32 = 0x94;
+    pub const MODE: u32 = 0x98;
+    pub const RUN: u32 = 0x99;
+    pub const KIND: u32 = 0x9A;
+
+    pub const INACTIVE: [u32; 3] = [0xFFFF_FFFF, 0x00_052A, 0x00_0400];
+    pub const FRAME_COUNTER: u32 = 0x10_6F28;
+
+    // Estados del soldado: [plantilla $6C, plantilla $6D].
+    pub const MAIN: [u32; 2] = [0x06_70FE, 0x06_76C6];
+    pub const MAIN_LOOP: [u32; 2] = [0x06_7110, 0x06_76D8];
+    pub const GUARD_ST: [u32; 2] = [0x06_71DC, 0x06_7780];
+    pub const GUARD_LOOP: [u32; 2] = [0x06_71F2, 0x06_7796];
+    pub const FALL: [u32; 2] = [0x06_7220, 0x06_7AAE];
+    pub const FALL_LOOP: [u32; 2] = [0x06_7232, 0x06_7AC0];
+    pub const RUN_ST: [u32; 2] = [0x06_7254, 0x06_77C4];
+    pub const RUN_LOOP: [u32; 2] = [0x06_7272, 0x06_77E2];
+    pub const LAND: [u32; 2] = [0x06_72E0, 0x06_7846];
+    pub const LAND_LOOP: [u32; 2] = [0x06_72F8, 0x06_785E];
+    pub const CROUCH: [u32; 2] = [0x06_7394, 0x06_7886];
+    pub const CROUCH_LOOP: [u32; 2] = [0x06_73B6, 0x06_78A8];
+    pub const HOLD: [u32; 2] = [0x06_73E4, 0x06_78D6];
+    pub const HOLD_LOOP: [u32; 2] = [0x06_7406, 0x06_78F8];
+    pub const RISE: [u32; 2] = [0x06_7452, 0x06_7944];
+    pub const RISE_LOOP: [u32; 2] = [0x06_7474, 0x06_7966];
+    pub const AIM: [u32; 2] = [0x06_74A2, 0x06_7994];
+    pub const AIM_LOOP: [u32; 2] = [0x06_74C4, 0x06_79B6];
+    pub const ATTACK: [u32; 2] = [0x06_74F2, 0x06_79E4];
+    pub const ATTACK_LOOP: [u32; 2] = [0x06_7514, 0x06_7A06];
+    pub const RECOVER: [u32; 2] = [0x06_756C, 0x06_7A5E];
+    pub const RECOVER_LOOP: [u32; 2] = [0x06_758E, 0x06_7A80];
+    pub const HURT_A: [u32; 2] = [0x06_75BC, 0x06_7AE2];
+    pub const HURT_B: [u32; 2] = [0x06_75D2, 0x06_7AF8];
+    pub const TAIL: [u32; 2] = [0x06_75E4, 0x06_7B0A];
+    pub const BACK: u32 = 0x06_731E;
+    pub const BACK_LOOP: u32 = 0x06_7338;
+    pub const LOST: u32 = 0x06_7656;
+    pub const LOST_LOOP: u32 = 0x06_766C;
+    pub const FLEE: u32 = 0x06_768C;
+    pub const GONE: u32 = 0x06_7B7C;
+    /// Muerte del tipo ≠ 0.
+    pub const DEAD_HANDLER: u32 = 0x04_ABC0;
+
+    // Estados del escudo y sus trozos.
+    pub const FREE: u32 = 0x06_7B84;
+    pub const SHIELD_INIT: u32 = 0x06_7B92;
+    pub const SHIELD_LOOP: u32 = 0x06_7BEC;
+    pub const FLY: u32 = 0x06_7C7C;
+    pub const FLY_LOOP: u32 = 0x06_7CBA;
+    pub const BOUNCE: u32 = 0x06_7CE8;
+    pub const BOUNCE_LOOP: u32 = 0x06_7D1A;
+    pub const BLINK_ST: u32 = 0x06_7D32;
+    pub const BLINK_LOOP: u32 = 0x06_7D3E;
+    pub const DEBRIS: u32 = 0x06_7D6E;
+    pub const DEBRIS_LOOP: u32 = 0x06_7DD6;
+    pub const SMOKE: u32 = 0x06_7E1A;
+    pub const SMOKE_LOOP: u32 = 0x06_7E4C;
+    pub const FREE2: u32 = 0x06_7E7A;
+
+    // Guiones.
+    pub const S_MAIN: u32 = 0x2C_7D1E;
+    pub const S_GUARD: u32 = 0x2C_7EE6;
+    pub const S_FALL: u32 = 0x2C_7F54;
+    pub const S_RUN: u32 = 0x2C_7DA4;
+    pub const S_LAND: u32 = 0x2C_7E2A;
+    pub const S_BACK: u32 = 0x2C_7E92;
+    pub const S_CROUCH: u32 = 0x2C_7FB0;
+    pub const S_HOLD: u32 = 0x2C_802A;
+    pub const S_RISE: u32 = 0x2C_806E;
+    pub const S_AIM: u32 = 0x2C_80E4;
+    pub const S_ATTACK: u32 = 0x2C_8146;
+    pub const S_RECOVER: u32 = 0x2C_82A0;
+    pub const S_HURT_A: u32 = 0x2C_834C;
+    pub const S_HURT_B: u32 = 0x2C_82EC;
+    pub const S_LOST: u32 = 0x29_BFC4;
+    pub const S_FLY: u32 = 0x2C_836C;
+    pub const S_DEBRIS: u32 = 0x2C_83F2;
+    pub const S_SMOKE: u32 = 0x2C_8428;
+    /// Guiones del escudo según la postura del soldado (`$FFFFFFFF` = igual).
+    pub const SHIELD_POSES: u32 = 0x2C_7CFE;
+    pub const NO_SCRIPT: u32 = 0xFFFF_FFFF;
+
+    // Tablas por dificultad.
+    pub const D_RANGE: u32 = 0x2B_F6DE;
+    pub const D_CROUCH: u32 = 0x2B_F822;
+    pub const D_HOLD: u32 = 0x2B_F926;
+    pub const D_RISE: u32 = 0x2B_F8A4;
+    pub const D_AIM: u32 = 0x2B_F9A8;
+    pub const D_ATTACK: u32 = 0x2B_FAAC;
+    pub const D_RECOVER: u32 = 0x2B_FA2A;
+    pub const D_RUN: u32 = 0x2B_F61C;
+    pub const D_SHIELD_HP: u32 = 0x2B_F59A;
+    pub const D_DEBRIS_VX: u32 = 0x2B_F7A0;
+
+    // Cajas de detección y márgenes.
+    pub const BOX_LOW: u32 = 0x2C_7CCE;
+    pub const BOX_HIGH: u32 = 0x2C_7CD6;
+    pub const BOX_FAR: u32 = 0x2C_7CEE;
+    pub const BOX_NEAR: u32 = 0x2C_7CF6;
+    pub const MARGINS: u32 = 0x2C_7CE6;
+    pub const HIT_SOUNDS: u32 = 0x05_E766;
+    pub const HITBOX_STAND: u32 = 0x2C_79E2;
+    pub const HITBOX_RUN: u32 = 0x2C_7A8A;
+    pub const HITBOX2_INIT: u32 = 0x2C_7C82;
+    pub const ATTACKS_INIT: u32 = 0x2C_7D74;
+    pub const RUN_ATTACKS: u32 = 0x2C_7D64;
+    pub const SHIELD_HITBOX: u32 = 0x2C_7A36;
+
+    // Valores.
+    pub const RANGE_HIGH: u16 = 0x36;
+    pub const TURN_X: i16 = 0x100;
+    pub const ZONE: (i16, i16) = (0x18, 0x128);
+    pub const EDGE: (i16, i16) = (0x20, 0x120);
+    pub const GUARD_MAX: i16 = 0xF;
+    pub const AIR_FRAMES: i8 = 3;
+    pub const FAR_SLACK: u16 = 0x10;
+    pub const EDGE_SLACK: u16 = 8;
+    pub const GFX: [u16; 2] = [0x38, 0x1C7];
+    pub const TIMER_1C_INIT: [u16; 2] = [0x1A, 0x1F];
+    pub const ATTR_SOLDIER: u16 = 0x8000;
+    pub const ATTR_KEEP: u16 = 0xFFE3;
+    pub const PRIO_SOLDIER: u16 = 0x18;
+    pub const PRIO_PIECE: u16 = 0x14;
+    pub const ITEM_FIELD: u16 = 0x9B;
+    pub const DROP_DY: u16 = 4;
+    pub const DROP_B_DY: u16 = 0x10;
+    pub const DROP_B_VY: u16 = 0x800;
+    pub const FLY_DX: u16 = 0xFFF8;
+    pub const FLY_DY: u16 = 0x12;
+    pub const SHIELD_VX: u16 = 0xCC;
+    pub const FLY_VY: u16 = 0x438;
+    pub const FLY_AY: u16 = 0xFFDC;
+    pub const BOUNCE_VY: u16 = 0x65E;
+    pub const BOUNCE_AY: u16 = 0xFF5D;
+    pub const BLINK_FRAMES: u16 = 0x1E;
+    pub const ATTR_DEBRIS: u16 = 0xD000;
+    pub const ATTR_SMOKE: u16 = 0x2000;
+    pub const GFX_DEBRIS: [u16; 3] = [0x157, 0x158, 0x159];
+    pub const GFX_SMOKE: u16 = 0x17A;
+    pub const SND_BREAK: u16 = 0x10FF;
+    pub const BREAK_DY: u16 = 0x1C;
+    pub const BREAK_DX: u16 = 0xFFE2;
+}
