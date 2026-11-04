@@ -52,6 +52,7 @@ pub mod platforms;
 pub mod pow;
 pub mod mob;
 pub mod shield;
+pub mod breakable;
 pub mod prisoner;
 pub mod player;
 pub mod player_air;

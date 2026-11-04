@@ -11,7 +11,7 @@
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
 use mslug_game::system::soldier::Trait;
-use mslug_game::system::{shield, aim_turret, attract, barrel, smoke, tower, tower_soldier, player_death, frag, continue_count, dropped_weapon, sign, enemy46, melee_guard, nest, fortress, anim, enemy_grenade, hut, scenery, thrown, autopilot, banner, boot, bullet, burst, charger, collision, contact, critters, debris, events, food, fort, frame, game_over, go_arrow, grenade, ground_fx, grunt, hiscore, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, memcard, mission, msg_select, motion, pads, pickup, platforms, player, pow, mob, prisoner, player_air, player_arm, player_fire, player_ground, player_hud, player_ride, palette, props, parachute, rank, render, rng, scene, score, script, scroll, slope, slug, slug_arm, slug_drive, slug_fire, slug_hit, human_death, slug_attack, slug_death, spawner, slug_shell, explosion, slug_hunker, slug_idle, slug_jump, soldier, sound, sprite, tasks, title, trig, turret, video, wheels};
+use mslug_game::system::{breakable, shield, aim_turret, attract, barrel, smoke, tower, tower_soldier, player_death, frag, continue_count, dropped_weapon, sign, enemy46, melee_guard, nest, fortress, anim, enemy_grenade, hut, scenery, thrown, autopilot, banner, boot, bullet, burst, charger, collision, contact, critters, debris, events, food, fort, frame, game_over, go_arrow, grenade, ground_fx, grunt, hiscore, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, memcard, mission, msg_select, motion, pads, pickup, platforms, player, pow, mob, prisoner, player_air, player_arm, player_fire, player_ground, player_hud, player_ride, palette, props, parachute, rank, render, rng, scene, score, script, scroll, slope, slug, slug_arm, slug_drive, slug_fire, slug_hit, human_death, slug_attack, slug_death, spawner, slug_shell, explosion, slug_hunker, slug_idle, slug_jump, soldier, sound, sprite, tasks, title, trig, turret, video, wheels};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use mslug_game::input::{Buttons, Edge};
 use neogeo_hw::cpu::m68k::exec::write_sr;
@@ -4186,6 +4186,37 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
     SystemPort { entry: 0x06_7E4C, original: "Shield_Smoke_067e1a+$32", rust: "system::shield::smoke_loop", run: |m| shield::smoke_loop(m) },
     SystemPort { entry: 0x06_7E7A, original: "Shield_Free_067e7a", rust: "system::shield::free", run: |m| shield::free(m) },
     SystemPort { entry: 0x06_8206, original: "Shield_Break_068206", rust: "system::shield::shield_break", run: |m| shield::shield_break(m) },
+    // --- objetos que se rompen (plantillas $1F, $22, $23, $24) y sus esquirlas
+    SystemPort { entry: 0x05_FD78, original: "Breakable_Tmpl1F_05fd78", rust: "system::breakable::init", run: |m| breakable::init(m, 0) },
+    SystemPort { entry: 0x05_FD88, original: "Breakable_Tmpl1F_05fd78+$10", rust: "system::breakable::init", run: |m| breakable::init(m, 1) },
+    SystemPort { entry: 0x05_FD98, original: "Breakable_Tmpl1F_05fd78+$20", rust: "system::breakable::init", run: |m| breakable::init(m, 2) },
+    SystemPort { entry: 0x05_FDF0, original: "Breakable_Init_05fdb6+$3A", rust: "system::breakable::init_loop", run: |m| breakable::init_loop(m) },
+    SystemPort { entry: 0x05_FE26, original: "Breakable_Idle_05fe26", rust: "system::breakable::idle", run: |m| breakable::idle(m) },
+    SystemPort { entry: 0x05_FE48, original: "Breakable_Idle_05fe26+$22", rust: "system::breakable::idle_loop", run: |m| breakable::idle_loop(m) },
+    SystemPort { entry: 0x05_FEC0, original: "Breakable_Turn_05fec0", rust: "system::breakable::turn", run: |m| breakable::turn(m) },
+    SystemPort { entry: 0x05_FEE6, original: "Breakable_Turn_05fec0+$26", rust: "system::breakable::turn_loop", run: |m| breakable::turn_loop(m) },
+    SystemPort { entry: 0x05_FF1C, original: "Breakable_Destroyed_05ff1c", rust: "system::breakable::react", run: |m| breakable::react(m, 0) },
+    SystemPort { entry: 0x05_FF2E, original: "Breakable_Destroyed_05ff1c+$12", rust: "system::breakable::react_loop", run: |m| breakable::react_loop(m) },
+    SystemPort { entry: 0x05_FF64, original: "Breakable_Tmpl22_05ff64", rust: "system::breakable::init_near", run: |m| breakable::init_near(m, 0) },
+    SystemPort { entry: 0x05_FF76, original: "Breakable22_Init_05ff76", rust: "system::breakable::start_near", run: |m| breakable::start_near(m, 0) },
+    SystemPort { entry: 0x05_FFBC, original: "Breakable22_Init_05ff76+$46", rust: "system::breakable::near_loop", run: |m| breakable::near_loop(m, 0) },
+    SystemPort { entry: 0x06_0008, original: "Breakable22_Destroyed_060008", rust: "system::breakable::react", run: |m| breakable::react(m, 1) },
+    SystemPort { entry: 0x06_001A, original: "Breakable22_Destroyed_060008+$12", rust: "system::breakable::react_loop", run: |m| breakable::react_loop(m) },
+    SystemPort { entry: 0x06_0050, original: "Breakable_Tmpl23_060050", rust: "system::breakable::init_near", run: |m| breakable::init_near(m, 1) },
+    SystemPort { entry: 0x06_0062, original: "Breakable23_Init_060062", rust: "system::breakable::start_near", run: |m| breakable::start_near(m, 1) },
+    SystemPort { entry: 0x06_00A8, original: "Breakable23_Init_060062+$46", rust: "system::breakable::near_loop", run: |m| breakable::near_loop(m, 1) },
+    SystemPort { entry: 0x06_00F4, original: "Breakable23_Destroyed_0600f4", rust: "system::breakable::react", run: |m| breakable::react(m, 2) },
+    SystemPort { entry: 0x06_0106, original: "Breakable23_Destroyed_0600f4+$12", rust: "system::breakable::react_loop", run: |m| breakable::react_loop(m) },
+    SystemPort { entry: 0x06_013C, original: "Breakable_Tmpl24_06013c", rust: "system::breakable::init_24", run: |m| breakable::init_24(m, 0) },
+    SystemPort { entry: 0x06_014C, original: "Breakable_Tmpl24_06013c+$10", rust: "system::breakable::init_24", run: |m| breakable::init_24(m, 1) },
+    SystemPort { entry: 0x06_015C, original: "Breakable_Tmpl24_06013c+$20", rust: "system::breakable::init_24", run: |m| breakable::init_24(m, 2) },
+    SystemPort { entry: 0x06_016C, original: "Breakable_Tmpl24_06013c+$30", rust: "system::breakable::init_24", run: |m| breakable::init_24(m, 3) },
+    SystemPort { entry: 0x06_01C4, original: "Breakable24_Init_06018a+$3A", rust: "system::breakable::near_loop", run: |m| breakable::near_loop(m, 2) },
+    SystemPort { entry: 0x06_0210, original: "Breakable_SpawnPiece_060210", rust: "system::breakable::shatter", run: |m| breakable::shatter(m) },
+    SystemPort { entry: 0x06_0242, original: "Breakable_SpawnPiece_060210+$32", rust: "system::breakable::shatter_loop", run: |m| breakable::shatter_loop(m) },
+    SystemPort { entry: 0x06_025E, original: "Breakable_Shard_06025e", rust: "system::breakable::shard", run: |m| breakable::shard(m) },
+    SystemPort { entry: 0x06_02BE, original: "Breakable_Shard_06025e+$60", rust: "system::breakable::shard_loop", run: |m| breakable::shard_loop(m) },
+    SystemPort { entry: 0x06_034C, original: "Breakable_SpawnShards_06034c", rust: "system::breakable::spawn_shard", run: |m| breakable::spawn_shard(m) },
     SystemPort { entry: 0x05_8FA2, original: "Soldier_SpawnVariantTbl_058f1e ($058FA2)", rust: "system::soldier::spawn_variant(3)", run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; soldier::spawn_variant(m, 3) } },
     SystemPort { entry: 0x05_8FC2, original: "Soldier_SpawnVariantTbl_058f1e ($058FC2)", rust: "system::soldier::spawn_variant(4)", run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; soldier::spawn_variant(m, 4) } },
     SystemPort { entry: 0x05_8FE2, original: "Soldier_SpawnVariantTbl_058f1e ($058FE2)", rust: "system::soldier::spawn_variant(5)", run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; soldier::spawn_variant(m, 5) } },

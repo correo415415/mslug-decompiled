@@ -2304,6 +2304,8 @@ pub mod hits {
     pub const SCORES: [u32; 2] = [0x10_6E94, 0x10_6E9C];
     pub const DAMAGE_POINTS: u32 = 0x05_188C;
     pub const SCORE_SCRATCH: u32 = 0x10_81B6;
+    /// `+$12` bit 1: no da puntos por su propia clase de ataque (`$0519BE`).
+    pub const NO_OWN_POINTS: u8 = 1 << 1;
     /// Pantalla {izq, der, abajo, arriba} y márgenes por defecto.
     pub const SCREEN: (u16, u16, u16, u16) = (0, 0x140, 0x100, 0x1F0);
     pub const DEFAULT_MARGINS: u32 = 0x02_8926;
@@ -8953,4 +8955,82 @@ pub mod shield {
     pub const SND_BREAK: u16 = 0x10FF;
     pub const BREAK_DY: u16 = 0x1C;
     pub const BREAK_DX: u16 = 0xFFE2;
+}
+
+/// Objetos que se rompen (plantillas $1F, $22, $23 y $24): miran al
+/// jugador, reaccionan si se acerca y, al recibir un golpe, dan puntos y
+/// se deshacen en trozos. Original: `Breakable_*` ($05FD78–$060398).
+pub mod breakable {
+    pub const SHRINK: [u32; 2] = [0x32, 0x33];
+    pub const FULL: u8 = 0xFF;
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    pub const VEL_X: u32 = 0x28;
+    pub const VEL_Y: u32 = 0x2A;
+    pub const ACC_X: u32 = 0x2C;
+    pub const ACC_Y: u32 = 0x2E;
+    pub const ANGLE: u32 = 0x30;
+    pub const ATTR: u32 = 0x38;
+    pub const FACING: u32 = 0x3A;
+    pub const ATTACKS: u32 = 0x4C;
+    pub const HP: u32 = 0x66;
+    /// `+$70`: cuenta atrás del que mira (o fase de color de los trozos).
+    pub const TIMER: u32 = 0x70;
+    pub const NO_TIMER: u16 = 0xFF;
+    pub const PARAM: u32 = 0x98;
+    /// `+$99`: trozos que quedan por soltar.
+    pub const PIECES: u32 = 0x99;
+    pub const FLAGS_13: u32 = 0x13;
+    pub const SPENT: u8 = 1 << 1;
+    /// Color de los trozos (`+$14`), que rota entre `+$16`, `+$18`, `+$1A`.
+    pub const COLOR: u32 = 0x14;
+    pub const COLORS: u32 = 0x16;
+    pub const COLOR_COUNT: u16 = 3;
+
+    pub const GFX: u16 = 0xE;
+    pub const ATTR_INIT: u16 = 0x8000;
+    /// No arranca hasta que su X baja de esta.
+    pub const START_X: i16 = 0x140;
+    pub const NEAR: i16 = 0x20;
+
+    pub const S_1F: [u32; 3] = [0x2C_175E, 0x2C_17AC, 0x2C_1886];
+    pub const S_24: [u32; 4] = [0x2C_1D98, 0x2C_1DF8, 0x2C_1E58, 0x2C_1F28];
+    pub const S_IDLE: u32 = 0x2C_196E;
+    pub const S_TURN: u32 = 0x2C_19CE;
+    /// Guiones de las reacciones (plantillas $1F, $22, $23).
+    pub const S_REACT: [u32; 3] = [0x2C_1B86, 0x2C_1B2A, 0x2C_1D88];
+    /// Guiones del alta de las plantillas $22 y $23 (la $24 no cambia).
+    pub const S_NEAR: [Option<u32>; 3] = [Some(0x2C_1B02), Some(0x2C_1D44), None];
+    pub const S_SHARD: u32 = 0x2C_72C0;
+    pub const BREAK_SCRIPTS: u32 = 0x2C_20B8;
+    pub const NO_SCRIPT: u32 = 0xFFFF_FFFF;
+    pub const PIECE_HANDLERS: u32 = 0x2C_21D0;
+    pub const D_IDLE: u32 = 0x2B_79A0;
+    pub const MARGINS: u32 = 0x2C_21BC;
+    pub const SHARD_MARGINS: u32 = 0x2C_21C6;
+    pub const SHARD_ATTACKS: u32 = 0x2C_2168;
+
+    pub const SHARD_GFX: [u16; 3] = [0x15D, 0x164, 0x165];
+    pub const ATTR_SHARD: u16 = 0xD000;
+    pub const SHARD_DY: u16 = 0x18;
+    pub const SHARD_VY: u16 = 0x400;
+    pub const SHARD_AY: u16 = 0xFFE0;
+    pub const ATTR_BOOM: u16 = 0x4000;
+
+    // Estados.
+    pub const INIT_LOOP: u32 = 0x05_FDF0;
+    pub const IDLE: u32 = 0x05_FE26;
+    pub const IDLE_LOOP: u32 = 0x05_FE48;
+    pub const TURN: u32 = 0x05_FEC0;
+    pub const TURN_LOOP: u32 = 0x05_FEE6;
+    pub const REACT: [u32; 3] = [0x05_FF1C, 0x06_0008, 0x06_00F4];
+    pub const REACT_LOOP: [u32; 3] = [0x05_FF2E, 0x06_001A, 0x06_0106];
+    pub const NEAR_LOOP: [u32; 3] = [0x05_FFBC, 0x06_00A8, 0x06_01C4];
+    /// A dónde pasa cada plantilla cuando el jugador se acerca.
+    pub const NEAR_NEXT: [u32; 3] = [0x06_0008, 0x06_00F4, 0x05_FE26];
+    pub const BREAK: u32 = 0x06_0210;
+    pub const BREAK_LOOP: u32 = 0x06_0242;
+    pub const SHARD: u32 = 0x06_025E;
+    pub const SHARD_LOOP: u32 = 0x06_02BE;
+    pub const BOOM: u32 = 0x07_7EDA;
 }

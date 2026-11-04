@@ -255,6 +255,22 @@ pub fn award_damage_points(m: &mut impl Memory, t: u32, v: u32) {
     add_score(m, score, points);
 }
 
+/// Puntos por romper un objeto según la clase del ataque que le ha dado,
+/// para el último jugador que le golpeó (`+$6E`), salvo que el objeto no
+/// dé puntos (`+$12` bit 1). Original: `$0519BE`.
+pub fn award_own_points(m: &mut impl Memory, t: u32) {
+    if m.read_u8(t + T::FLAGS) & L::NO_OWN_POINTS != 0 {
+        return;
+    }
+    let player = m.read_u8(t + L::LAST_PLAYER);
+    if player & 0x80 != 0 {
+        return;
+    }
+    let class = m.read_u8(t + L::ATTACK_CLASS);
+    let score = L::SCORES[usize::from(player != 0)];
+    add_score(m, score, L::DAMAGE_POINTS + u32::from(class & 0x1F) * 4);
+}
+
 /// Suma a la puntuación `score` (8 dígitos, uno por byte) los puntos BCD
 /// de `points` (4 bytes), con tope 99 999 999.
 /// Original: `$051862` + `$051A10` + `$051828`.
