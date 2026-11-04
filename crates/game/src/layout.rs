@@ -2439,6 +2439,61 @@ pub mod fort {
     pub const CRATE_BURST_SCRIPTS: u32 = 0x2E_B6BA;
     pub const CRATE_BURST_RUN: u32 = 0x08_6DF2;
     pub const CRATE_BOOM: u32 = 0x07_808A;
+    // Objetos rompibles del fuerte (A, B, C) y el letrero.
+    // Original: `Prop_Breakable_A_08716a` … `Prop_Signboard_0872fa`.
+    pub const PROP_MARGIN: u16 = 0x20;
+    pub const PROP_HITBOX: u32 = 0x2E_C726;
+    pub const PROP_RUN: [u32; 3] = [0x08_718A, 0x08_721A, 0x08_72A0];
+    /// Sonido al romperse (sólo el A).
+    pub const PROP_SND_BREAK: u16 = 0x10A6;
+    pub const PROP_SMOKE: u32 = 0x2E_D0AE;
+    /// Órdenes de dibujo del destrozo de cada uno.
+    pub const PROP_WRECK: [&[u32]; 3] = [&[0x2E_D878, 0x2E_D864], &[0x2E_D968, 0x2E_D97C], &[0x2E_DA6C]];
+    pub const SIGN_SCRIPT: u32 = 0x2E_BFE6;
+    pub const SIGN_HIT_SCRIPT: u32 = 0x2E_BFFC;
+    pub const SIGN_SND_HIT: u16 = 0x10A9;
+    pub const SIGN_HP: u16 = 0x7FFF;
+    pub const SIGN_RUN: u32 = 0x08_731C;
+    /// Muro de 13 cajas: rutina de cada pieza y desplazamiento desde el
+    /// punto de aparición.
+    pub const WALL_PIECES: [(u32, u16, u16); 13] = [
+        (0x08_74BA, 0xFFF0, 0x40),
+        (0x08_74EA, 0x10, 0xA0),
+        (0x08_751C, 0x50, 0xA0),
+        (0x08_754E, 0x80, 0xA0),
+        (0x08_7580, 0x10, 0x80),
+        (0x08_75B0, 0x60, 0x80),
+        (0x08_75E0, 0x50, 0x50),
+        (0x08_7610, 0, 0),
+        (0x08_7640, 0x20, 0),
+        (0x08_7670, 0x40, 0),
+        (0x08_76A0, 0x60, 0),
+        (0x08_76D0, 0x80, 0),
+        (0x08_7700, 0xA0, 0),
+    ];
+    /// Por pieza: ruina que pinta, lista de la oleada que suelta (o
+    /// ninguna), caja de golpe y humo.
+    pub const WALL_DATA: [(u32, u32, u32, u32); 13] = [
+        (0x2E_D990, NO_LIST, 0x2E_C822, 0x2E_CFDE),
+        (0x2E_D9A4, 0x0E_DFE2, 0x2E_C876, 0x2E_CFF0),
+        (0x2E_D9B8, 0x0E_E002, 0x2E_C822, 0x2E_CFDE),
+        (0x2E_D9CC, 0x0E_E022, 0x2E_C822, 0x2E_CFDE),
+        (0x2E_DA80, NO_LIST, 0x2E_C8CA, 0x2E_D002),
+        (0x2E_DA94, NO_LIST, 0x2E_C8CA, 0x2E_D002),
+        (0x2E_D9E0, NO_LIST, 0x2E_C91E, 0x2E_D014),
+        (0x2E_D9F4, NO_LIST, 0x2E_C972, 0x2E_D026),
+        (0x2E_DA08, NO_LIST, 0x2E_C9C6, 0x2E_D038),
+        (0x2E_DA1C, NO_LIST, 0x2E_C9C6, 0x2E_D038),
+        (0x2E_DA30, NO_LIST, 0x2E_C9C6, 0x2E_D038),
+        (0x2E_DA44, NO_LIST, 0x2E_C9C6, 0x2E_D038),
+        (0x2E_DA58, NO_LIST, 0x2E_C9C6, 0x2E_D038),
+    ];
+    pub const NO_LIST: u32 = 0xFFFF_FFFF;
+    pub const WALL_SMOKE: u32 = 0x88;
+    pub const WALL_MARGIN: u16 = 0x30;
+    pub const WALL_HP: u16 = 0x14;
+    pub const WALL_RUN: u32 = 0x08_7748;
+    pub const WALL_SND_BREAK: u16 = 0x1027;
     pub const PULSE_HITBOXES: u32 = 0x2E_C712;
     pub const PULSE_MASK: u16 = 3;
     pub const PULSE_HITBOX: u32 = 0x84;
@@ -3534,6 +3589,8 @@ pub mod anim {
     pub const DEPTH_ATTR_FIRST: u16 = 0x4000;
     pub const DEPTH_ATTR_SPAN: u16 = 0x7FFF;
     pub const DEPTH_KEEP: u16 = 0xE01F;
+    /// `$02813C` limpia los bits 2–4 de los atributos que recibe.
+    pub const ATTR_AT_MASK: u16 = 0xFFE3;
     /// Ranuras de sprite por tarea, y entradas de la zona del juego en
     /// las que se busca una que ya tenga los mismos gráficos.
     pub const MAX_ENTRIES: u16 = 3;
@@ -6764,6 +6821,33 @@ pub mod soldier {
     pub const SURRENDER_FLEE: u32 = 0x05_89F8;
     pub const SURRENDER_FLEE_LOOP: u32 = 0x05_8A20;
     pub const EDGE_FLEE_LOOP: u32 = 0x05_8A82;
+    // Saltos sobre el Slug o el jugador (`Soldier_Leap_057880`,
+    // `Soldier_SpawnJumpIn_05783e`, `Soldier_LeapLand_057a9e`).
+    pub const LEAP_LOOP: u32 = 0x05_7944;
+    pub const LEAP_PLAYER_LOOP: u32 = 0x05_7A60;
+    pub const LEAP_LAND: u32 = 0x05_7A9E;
+    pub const LEAP_LAND_LOOP: u32 = 0x05_7AB6;
+    pub const LEAP_GRAB: u32 = 0x05_7B06;
+    pub const LEAP_LAND_HARD: u32 = 0x05_8454;
+    pub const ANIM_HOP: u32 = 0x2B_69AA;
+    pub const ANIM_HOP_ON_FOOT: u32 = 0x2B_6FEE;
+    pub const ANIM_JUMP_IN: u32 = 0x2B_69D8;
+    pub const ANIM_LEAP_SLUG: u32 = 0x2B_6922;
+    pub const ANIM_LEAP_PLAYER: u32 = 0x2B_6F40;
+    pub const ANIM_LEAP_LAND: u32 = 0x2B_6FBA;
+    /// Ataques del salto según el objetivo (jugador 1 o 2).
+    pub const LEAP_ATTACKS: [u32; 2] = [0x2B_71DC, 0x2B_7230];
+    /// Velocidad X (hacia donde mira), Y y aceleración Y de cada salto.
+    pub const HOP_VEL: (u16, u16, u16) = (0xFE67, 0x190, 0xFFD8);
+    pub const LEAP_SLUG_VEL: (u16, u16, u16) = (0xFDDE, 0x663, 0xFF93);
+    /// Salto al jugador según `+$9D` ($FF, 1, 2 y el resto).
+    pub const LEAP_KIND: u32 = 0x9D;
+    pub const LEAP_PLAYER_VEL: [(u16, u16, u16); 4] =
+        [(0xFDDE, 0x438, 0xFFB8), (0xFE67, 0x7F8, 0xFF9A), (0xFEDC, 0x7FC, 0xFFB7), (0xFD56, 0x7F8, 0xFF56)];
+    /// `+$13` bit 1: el ataque ha dado.
+    pub const ATTACK_HIT: u8 = 1 << 1;
+    /// El agarre exige estar por debajo de la Y del objetivo + 16.
+    pub const GRAB_DY: u16 = 0x10;
     pub const HOP_FLEE: u32 = 0x05_8AA8;
     pub const HOP_FLEE_LOOP: u32 = 0x05_8AD2;
     pub const TAUNT: u32 = 0x05_8E08;
@@ -9034,3 +9118,122 @@ pub mod breakable {
     pub const SHARD_LOOP: u32 = 0x06_02BE;
     pub const BOOM: u32 = 0x07_7EDA;
 }
+
+pub mod armored_car {
+    /// Blindado de la escena 4: gráficos, margen, guion y torreta.
+    pub const GFX: u16 = 0xE5;
+    pub const MARGIN: u16 = 0xF0;
+    pub const SCRIPT: u32 = 0x2E_C180;
+    pub const TURRET: u32 = 0x08_7AA0;
+    pub const WAIT: u32 = 0x08_7828;
+    /// Entra en combate al pasar a la izquierda de esta X.
+    pub const ENGAGE_X: i16 = 0x100;
+    /// Flag de la misión que activa la prueba de llegada al borde (se
+    /// apaga mientras el blindado está en escena).
+    pub const EDGE_ENABLE: u32 = 0x10_E39A;
+    /// Vida: tabla por dificultad más una base.
+    pub const HP_TABLE: u32 = 0x2C_0628;
+    pub const HP_BASE: u16 = 0x2E4;
+    /// Caja con la que chocan los jugadores.
+    pub const CONTACT_BOX: u32 = 0x60;
+    pub const CONTACT: u32 = 0x2E_DE46;
+    pub const RUN: u32 = 0x08_7876;
+    /// Estados de daño: vida a la que se pasa, humo, guion y bucle.
+    pub const DAMAGED1_HP: i16 = 0x29A;
+    pub const DAMAGED1_SMOKE: u32 = 0x2E_D0C0;
+    pub const DAMAGED1: u32 = 0x08_78D8;
+    pub const DAMAGED1_SCRIPT: u32 = 0x2E_C19A;
+    pub const DAMAGED1_RUN: u32 = 0x08_78F4;
+    pub const DAMAGED2_HP: i16 = 0xF6;
+    pub const DAMAGED2_SMOKE: u32 = 0x2E_D0D2;
+    pub const DAMAGED2: u32 = 0x08_7956;
+    pub const DAMAGED2_SCRIPT: u32 = 0x2E_C1AE;
+    pub const DAMAGED2_RUN: u32 = 0x08_7972;
+    pub const SND_DAMAGED: u16 = 0x102B;
+    /// Al reventar: sonido, humos, la ruina pintada en la capa (dos filas),
+    /// la caja de la explosión y los restos.
+    pub const SND_BLAST: u16 = 0x1038;
+    pub const BLAST_SMOKE: [u32; 2] = [0x2E_D0E4, 0x2E_CFCC];
+    pub const WRECK_CELLS: [u32; 2] = [0x2E_DD56, 0x2E_DD68];
+    pub const BLAST_BOX: u32 = 0x08_7A62;
+    pub const WRECK: u32 = 0x08_7A18;
+    pub const WRECK_POINTS: u32 = 0x5000;
+    pub const WRECK_SCRIPT: u32 = 0x2E_C1C2;
+    pub const WRECK_RUN: u32 = 0x08_7A3E;
+    /// Caja de la explosión: dura 17 frames con su lista de ataques.
+    pub const TIMER: u32 = 0x72;
+    pub const BLAST_FRAMES: u16 = 0x10;
+    pub const BLAST_RUN: u32 = 0x08_7A6E;
+    pub const ATTACKS: u32 = 0x4C;
+    pub const BLAST_ATTACKS: u32 = 0x2E_CC34;
+    /// Torreta: atributos y profundidad fija, guion según el estado del
+    /// blindado (`VARIANT` de la madre; 3 = se va).
+    pub const TURRET_ATTR: u16 = 0x8000;
+    pub const TURRET_Y: u16 = 0x80;
+    pub const TURRET_RUN: u32 = 0x08_7AD0;
+    pub const TURRET_SCRIPTS: u32 = 0x2E_C21A;
+    pub const TURRET_GONE: u8 = 3;
+}
+
+pub mod rescue_squad {
+    /// Blanco rompible: tipo (+$98), veces que echa humo (+$99) y vida
+    /// (+$9A); guarda su humo en +$70 y sus márgenes de vista en +$74.
+    pub const KIND: u32 = 0x98;
+    pub const COUNT: u32 = 0x99;
+    pub const HP_BYTE: u32 = 0x9A;
+    pub const SMOKE: u32 = 0x70;
+    pub const MARGINS: u32 = 0x74;
+    /// Por tipo: caja de golpe, humo y márgenes.
+    pub const TARGETS: [(u32, u32, u32); 3] = [
+        (0x2E_92AA, 0x2E_9C12, 0x2E_9838),
+        (0x2E_92FE, 0x2E_9C24, 0x2E_9842),
+        (0x2E_9352, 0x2E_9C36, 0x2E_984C),
+    ];
+    pub const TARGET_SCRIPT: u32 = 0x2E_6BF0;
+    pub const TARGET_RUN: u32 = 0x08_4E5A;
+    /// Señuelo: guion, vida infinita y márgenes.
+    pub const DECOY_SCRIPT: u32 = 0x2E_7812;
+    pub const DECOY_HP: u16 = 0x7FFF;
+    pub const DECOY_MARGINS: u32 = 0x2E_9856;
+    pub const DECOY_RUN: u32 = 0x08_4EF0;
+    /// Transporte volador: gráficos, atributos y estados del vuelo.
+    pub const FLYER_GFX: u16 = 0x1B1;
+    pub const FLYER_ATTR: u16 = 0x2000;
+    pub const TIMER: u32 = 0x72;
+    pub const ATTR: u32 = 0x38;
+    pub const VEL_Y: u32 = 0x2A;
+    /// Alturas (en unidades de 16) a las que da la vuelta: `+$98` si sube
+    /// (velocidad positiva) y `+$99` si baja; la velocidad sale de `+$9A`.
+    pub const TURN_UP: u32 = 0x98;
+    pub const TURN_DOWN: u32 = 0x99;
+    pub const SPEED: u32 = 0x9A;
+    pub const CLIMB: u32 = 0x08_4F5E;
+    pub const CLIMB_RUN: u32 = 0x08_4F86;
+    pub const CLIMB_SCRIPT: u32 = 0x2E_7828;
+    pub const DESCEND: u32 = 0x08_4FCA;
+    pub const DESCEND_RUN: u32 = 0x08_501E;
+    pub const DESCEND_SCRIPT: u32 = 0x2E_7866;
+    pub const SND_FLAP: u16 = 0x1074;
+    pub const GLIDE: u32 = 0x08_5062;
+    pub const GLIDE_RUN: u32 = 0x08_5084;
+    pub const GLIDE_SCRIPT: u32 = 0x2E_78A4;
+    pub const SND_GLIDE: u16 = 0x1075;
+    pub const GLIDE_FRAMES: u16 = 0x0A;
+    pub const HOVER: u32 = 0x08_50C6;
+    pub const HOVER_RUN: u32 = 0x08_50DE;
+    pub const HOVER_FRAMES: u16 = 0x14;
+    pub const FLYER_MARGINS: u32 = 0x2E_9860;
+    /// Bamboleo: 1 de cada 32 frames, dos pasos de ±1 píxel.
+    pub const WOBBLE_MASK: u16 = 0x1F;
+    pub const WOBBLE_STEPS: u16 = 2;
+    pub const WOBBLE_VEL: u16 = 0x100;
+    /// Plataforma sobre la que se puede estar: desde X−$60, $C0 de ancho.
+    pub const DECK_DX: u16 = 0x60;
+    pub const DECK_W: u16 = 0xC0;
+    /// Al bajar con la cámara antes de `DROP_PROGRESS` suelta la carga.
+    pub const PROGRESS: u32 = 0x10_6F5C;
+    pub const DROP_PROGRESS: i16 = 0x108;
+    pub const CARGO: u32 = 0x08_512C;
+    pub const CARGO_RUN: u32 = 0x08_5134;
+}
+

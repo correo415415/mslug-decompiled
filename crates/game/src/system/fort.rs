@@ -474,6 +474,165 @@ pub fn crate_burst_run(m: &mut impl Machine) -> Flow {
     tasks::finish(m)
 }
 
+/// Golpe recibido: deja en d0 el lado del impacto, suena y limpia la
+/// marca. Devuelve si le han dado.
+pub(super) fn take_hit(m: &mut impl Machine, t: u32, sound_table: Option<u32>) -> bool {
+    let side = hit_side(m, t);
+    let mut r = m.regs();
+    r.d[0] = (r.d[0] & 0xFFFF_0000) | u32::from(side.unwrap_or(0));
+    m.set_regs(r);
+    if side.is_none() {
+        return false;
+    }
+    if let Some(table) = sound_table {
+        let mut r = m.regs();
+        r.a[0] = table;
+        m.set_regs(r);
+        hit_sound(m, t, table);
+    }
+    true
+}
+
+pub(super) fn clear_hit(m: &mut impl Memory, t: u32) {
+    let f = m.read_u8(t + L::FLAGS2);
+    m.write_u8(t + L::FLAGS2, f & !L::HIT);
+}
+
+/// Objeto rompible del fuerte `v` (A, B, C): aguanta golpes y, al morir,
+/// echa humo, dibuja su destrozo y se da de baja.
+/// Original: `Prop_Breakable_A_08716a` / `_B_0871fa` / `_C_087280`.
+pub fn prop(m: &mut impl Machine, v: usize) -> Flow {
+    let t = m.task_register();
+    let rec = m.read_u32(t + L::REC_PTR);
+    place_from_record(m, t, rec);
+    m.write_u16(t + L::MARGIN, L::PROP_MARGIN);
+    m.write_u32(t + L::HITBOX, L::PROP_HITBOX);
+    m.write_u32(t + T::HANDLER, L::PROP_RUN[v]);
+    prop_run(m, v)
+}
+
+pub fn prop_run(m: &mut impl Machine, v: usize) -> Flow {
+    let t = m.task_register();
+    platforms::move_with_scene(m, t);
+    if take_hit(m, t, Some(L::HIT_SOUNDS)) {
+        clear_hit(m, t);
+    }
+    if dead(m, t) {
+        if v == 0 {
+            sound::play(m, L::PROP_SND_BREAK);
+        }
+        spawner::install(m, t, L::PROP_SMOKE);
+        for &cmd in L::PROP_WRECK[v] {
+            let mut r = m.regs();
+            r.a[2] = cmd;
+            m.set_regs(r);
+            layer::blit(m, cmd);
+        }
+        return tasks::finish(m);
+    }
+    if off_left(m, t) {
+        return tasks::finish(m);
+    }
+    Flow::Return
+}
+
+/// Letrero: no se rompe, sólo se mueve al recibir un golpe.
+/// Original: `Prop_Signboard_0872fa`.
+pub fn sign(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    let rec = m.read_u32(t + L::REC_PTR);
+    place_from_record(m, t, rec);
+    m.write_u16(t + L::MARGIN, L::PROP_MARGIN);
+    anim::start(m, t, L::SIGN_SCRIPT);
+    m.write_u32(t + T::HANDLER, L::SIGN_RUN);
+    sign_run(m)
+}
+
+pub fn sign_run(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    platforms::move_with_scene(m, t);
+    anim::step(m, t);
+    if take_hit(m, t, None) {
+        sound::play(m, L::SIGN_SND_HIT);
+        anim::start(m, t, L::SIGN_HIT_SCRIPT);
+        clear_hit(m, t);
+    }
+    m.write_u16(t + L::HP, L::SIGN_HP);
+    if off_left(m, t) {
+        return tasks::finish(m);
+    }
+    Flow::Return
+}
+
+/// Muro de 13 cajas: crea las piezas en sus sitios y se da de baja.
+/// Original: `CrateWall_Spawn13_087366`.
+pub fn wall(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    let rec = m.read_u32(t + L::REC_PTR);
+    place_from_record(m, t, rec);
+    for &(routine, dx, dy) in L::WALL_PIECES.iter() {
+        let c = tasks::spawn(m, routine, t);
+        place_child(m, t, c);
+        let x = m.read_u16(c + L::X).wrapping_add(dx);
+        m.write_u16(c + L::X, x);
+        let y = m.read_u16(c + L::Y).wrapping_add(dy);
+        m.write_u16(c + L::Y, y);
+    }
+    tasks::finish(m)
+}
+
+/// Pieza `k` del muro: su ruina, la oleada que suelta, caja de golpe y
+/// humo. Original: `CrateWall_Piece00_0874ba` … `CrateWall_Piece12_087700`
+/// y `CrateWall_Piece_Common_087730`.
+pub fn wall_piece(m: &mut impl Machine, k: usize) -> Flow {
+    let t = m.task_register();
+    let (blit, list, hitbox, smoke) = L::WALL_DATA[k];
+    m.write_u32(t + L::BLIT, blit);
+    m.write_u32(t + L::WATCH, list);
+    m.write_u16(t + L::INDEX, k as u16);
+    m.write_u32(t + L::HITBOX, hitbox);
+    m.write_u32(t + L::WALL_SMOKE, smoke);
+    let mut r = m.regs();
+    r.a[0] = hitbox;
+    r.a[1] = L::WALL_RUN;
+    m.set_regs(r);
+    m.write_u16(t + L::MARGIN, L::WALL_MARGIN);
+    m.write_u16(t + L::HP, L::WALL_HP);
+    m.write_u32(t + L::PULSE_HITBOX, hitbox);
+    m.write_u32(t + T::HANDLER, L::WALL_RUN);
+    wall_piece_run(m)
+}
+
+/// Bucle de la pieza: suena con los golpes y, al romperse, pinta su
+/// ruina, echa humo y, si la tiene, suelta su oleada.
+/// Original: `CrateWall_Piece_Common_087730` (desde `$087748`).
+pub fn wall_piece_run(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    platforms::move_with_scene(m, t);
+    if take_hit(m, t, Some(L::HIT_SOUNDS)) {
+        clear_hit(m, t);
+    }
+    if dead(m, t) {
+        m.write_u32(t + L::HITBOX, L::NO_HITBOX);
+        sound::play(m, L::WALL_SND_BREAK);
+        let cmd = m.read_u32(t + L::BLIT);
+        layer::blit(m, cmd);
+        let smoke = m.read_u32(t + L::WALL_SMOKE);
+        spawner::install(m, t, smoke);
+        let list = m.read_u32(t + L::WATCH);
+        if list != L::NO_LIST {
+            m.write_u8(t + L::WATCH_FLAG_BYTE, 0);
+            events::spawn_watch(m, list, L::WATCH_FLAG);
+        }
+        return tasks::finish(m);
+    }
+    if off_left(m, t) {
+        return tasks::finish(m);
+    }
+    pulse_hitbox(m, t, false);
+    Flow::Return
+}
+
 // ---------------------------------------------------------------------
 // Casamatas del fuerte: cuatro estados de daño (cada uno con su guion),
 // pasan el daño al fuerte y, al morir, o revientan del todo o (las de
